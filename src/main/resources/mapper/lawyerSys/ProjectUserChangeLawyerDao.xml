@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cabbage.project.lawyerSys.dao.ProjectUserChangeLawyerDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cabbage.project.lawyerSys.entity.ProjectUserChangeLawyerEntity" id="projectUserChangeLawyerMap">
+        <result property="id" column="id"/>
+        <result property="project" column="project"/>
+        <result property="lawyer" column="lawyer"/>
+        <result property="creator" column="creator"/>
+        <result property="reason" column="reason"/>
+        <result property="createTime" column="create_time"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+
+</mapper>

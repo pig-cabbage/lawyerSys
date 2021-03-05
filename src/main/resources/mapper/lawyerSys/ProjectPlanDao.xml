@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cabbage.project.lawyerSys.dao.ProjectPlanDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cabbage.project.lawyerSys.entity.ProjectPlanEntity" id="projectPlanMap">
+        <result property="id" column="id"/>
+        <result property="project" column="project"/>
+        <result property="plan" column="plan"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="cost" column="cost"/>
+    </resultMap>
+
+    <select id="getProjectLatest" resultType="cabbage.project.lawyerSys.entity.ProjectPlanEntity">
+        SELECT * FROM `project_plan` WHERE `project` = #{projectId} ORDER BY `create_time` DESC LIMIT 0, 1
+    </select>
+
+
+</mapper>

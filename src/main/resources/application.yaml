@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: lawyerSys
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/lawyer_db?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+
+mybatis-plus:
+  mapper-location: classpath*:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+logging:
+  level:
+    cabbage.project.lawyersys: debug
+
+alibaba:
+  cloud:
+    access-key: LTAI4G1cdqZVf47jZoZX9Neo
+    secret-key: lTwgsikiClFt4uZHVONAECyBynOAYE
+    oss:
+      endpoint: oss-cn-guangzhou.aliyuncs.com
+      bucket: practice-mall
+
+weixin:
+  url: https://api.weixin.qq.com/sns/jscode2session
+  app-id: wx59b2e4a47f6d4136
+  app-secret: 30c1092b8a3746e5f83d6e6982a3eb86
+
+server:
+  port: 8080
