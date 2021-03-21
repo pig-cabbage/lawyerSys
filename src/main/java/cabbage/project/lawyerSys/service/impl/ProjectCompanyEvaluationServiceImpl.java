@@ -27,4 +27,9 @@ public class ProjectCompanyEvaluationServiceImpl extends ServiceImpl<ProjectComp
     return new PageUtils(page);
   }
 
+  @Override
+  public ProjectCompanyEvaluationEntity getInfo(Long projectId) {
+    return this.getOne(new QueryWrapper<ProjectCompanyEvaluationEntity>().eq("project", projectId));
+  }
+
 }

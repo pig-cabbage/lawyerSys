@@ -26,4 +26,9 @@ public class ProjectUserChangeLawyerServiceImpl extends ServiceImpl<ProjectUserC
     return new PageUtils(page);
   }
 
+  @Override
+  public ProjectUserChangeLawyerEntity getInfo(Long projectId) {
+    return this.baseMapper.getByProjectLatest(projectId);
+  }
+
 }

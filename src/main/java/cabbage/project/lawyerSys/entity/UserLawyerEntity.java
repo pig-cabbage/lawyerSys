@@ -51,7 +51,7 @@ public class UserLawyerEntity implements Serializable {
   /**
    *
    */
-  private Integer account;
+  private String account;
   /**
    *
    */
@@ -64,5 +64,9 @@ public class UserLawyerEntity implements Serializable {
    *
    */
   private String lawyerLicense;
+  /**
+   *
+   */
+  private Date certificationTime;
 
 }

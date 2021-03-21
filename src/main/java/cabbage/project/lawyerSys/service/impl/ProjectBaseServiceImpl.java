@@ -14,6 +14,7 @@ import cabbage.project.lawyerSys.valid.Assert;
 import cabbage.project.lawyerSys.vo.ChooseLawyerVo;
 import cabbage.project.lawyerSys.vo.DistributeLawyerVo;
 import cabbage.project.lawyerSys.vo.ProjectPlanVo;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -24,8 +25,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 
 @Service("projectBaseService")
@@ -67,15 +71,22 @@ public class ProjectBaseServiceImpl extends ServiceImpl<ProjectBaseDao, ProjectB
   private ProjectCompanyDemandService projectCompanyDemandService;
   @Autowired
   private ProjectCompanyEvaluationService projectCompanyEvaluationService;
+  @Autowired
+  private ProjectArchiveService projectArchiveService;
+  @Autowired
+  private StatisticalLawyerService statisticalLawyerService;
+  @Autowired
+  private ProjectComplaintService projectComplaintService;
 
   @Override
-  public PageUtils queryPage(Map<String, Object> params) {
-    IPage<ProjectBaseEntity> page = this.page(
-        new Query<ProjectBaseEntity>().getPage(params),
-        new QueryWrapper<ProjectBaseEntity>()
-    );
-
-    return new PageUtils(page);
+  public List<ProjectBaseEntity> query(Map<String, String> params) {
+    QueryWrapper<ProjectBaseEntity> wrapper = new QueryWrapper<>();
+    wrapper.in("status", JSONObject.parseArray(params.get("status"), Integer.class));
+    System.out.println(params.get("key"));
+    Assert.isNotBlank((String) params.get("key"), key -> {
+      wrapper.like("project_name", key);
+    });
+    return this.list(wrapper);
   }
 
   /**
@@ -128,7 +139,7 @@ public class ProjectBaseServiceImpl extends ServiceImpl<ProjectBaseDao, ProjectB
     BeanUtils.copyProperties(projectPlan, projectPlanEntity);
     projectPlanEntity.setProject(id);
     projectPlanEntity.setCreateTime(date);
-    projectPlanEntity.setCost(servicePlanService.calculateCost(projectPlanEntity.getPlan(), (projectPlanEntity.getEndTime().getTime() - projectPlanEntity.getStartTime().getTime()) / 30 * 24 * 60 * 60 * 1000));
+    projectPlanEntity.setCost(servicePlanService.calculateCost(projectPlanEntity.getPlan(), (projectPlanEntity.getEndTime().getTime() - projectPlanEntity.getStartTime().getTime()) / (30 * 24 * 60 * 60 * 1000)));
     projectPlanService.save(projectPlanEntity);
     updateStatus(project, ProjectConstant.ProjectStatusEnum.WAIT_TO_PAY);
     systemMessageService.addMessage(project.getCompany(), SystemConstant.SystemMessageEnum.WAIT_TO_PAY, String.valueOf(projectPlanEntity.getId()), date);
@@ -304,8 +315,8 @@ public class ProjectBaseServiceImpl extends ServiceImpl<ProjectBaseDao, ProjectB
   /**
    * 系统审核更换律师申请
    * 1、1️⃣审核不通过：修改项目状态， 发起方新增一条系统消息
-   * 2️⃣审核通过：（1）发起方为企业：律师新增一条系统消息和待办事项， 企业新增一条系统消息
-   * (2) 发起方为律师:律师新增一条系统消息， 企业新增一条系统消息和待办事项. 修改项目状态
+   * 2️⃣审核通过：（1）发起方为企业：律师新增一条系统消息和待办事项， 企业新增一条系统消息,修改项目状态
+   * (2) 发起方为律师:律师新增一条系统消息， 企业新增一条系统消息和待办事项. 修改项目状态，TODO 新增一条律师服务记录
    * 2、修改申请记录状态
    */
   @Override
@@ -354,7 +365,7 @@ public class ProjectBaseServiceImpl extends ServiceImpl<ProjectBaseDao, ProjectB
   /**
    * 律师处理用户更换律师申请
    * 1、新增一条操作记录
-   * 2、1️⃣同意申请：企业生成一条系统消息，企业生成一个待办事项， 修改项目状态
+   * 2、1️⃣同意申请：企业生成一条系统消息，企业生成一个待办事项， 修改项目状态 TODO 新增一条服务记录
    * 2️⃣提出申诉：企业生成一条系统消息，修改项目状态
    * 3、律师完成待办事项
    */
@@ -443,7 +454,6 @@ public class ProjectBaseServiceImpl extends ServiceImpl<ProjectBaseDao, ProjectB
     Assert.isNotNull(id);
     ProjectBaseEntity project = this.getById(id);
     Assert.isNotNull(project);
-    Assert.isNotNull(project);
     Assert.isTrueStatus(project, ProjectConstant.ProjectStatusEnum.SERVICING);
     Date date = new Date();
     project.setEndTime(projectPlanEntity.getEndTime());
@@ -455,6 +465,58 @@ public class ProjectBaseServiceImpl extends ServiceImpl<ProjectBaseDao, ProjectB
     systemMessageService.addMessage(project.getNowLawyer(), SystemConstant.SystemMessageEnum.RENEWAL, String.valueOf(projectPlanEntity.getId()), date);
   }
 
+  /**
+   * 归档项目
+   * 1、新增一条归档记录
+   * 2、新增一条律师服务记录
+   * 2、修改项目状态
+   */
+  @Override
+  @Transactional
+  public void archive(Long id, ProjectArchiveEntity projectArchiveEntity) {
+    Assert.isNotNull(id);
+    ProjectBaseEntity project = this.getById(id);
+    Assert.isNotNull(project);
+    Assert.isTrueStatus(project, ProjectConstant.ProjectStatusEnum.END_HAVE_EVALUATION);
+    Date date = new Date();
+    projectArchiveEntity.setProject(id);
+    projectArchiveEntity.setCreateTime(date);
+    projectArchiveService.save(projectArchiveEntity);
+    //TODO 新增一条律师服务记录
+    statisticalLawyerService.endServiceFinal(project, project.getNowLawyer());
+    updateStatus(project, ProjectConstant.ProjectStatusEnum.HAVE_DOCUMENT);
+
+  }
+
+  /**
+   * 系统处理申诉
+   * 1、新增一条处理记录
+   * 2、1️⃣驳回律师申诉申请：企业和律师都生成一条系统消息，企业生成一个待办事项， 修改项目状态
+   * 2️⃣驳回企业更换律师申请：企业和律师都生成一条系统消息，修改项目状态
+   */
+  @Override
+  @Transactional
+  public void dealComplaint(Long id, ProjectComplaintEntity projectComplaintEntity) {
+    Assert.isNotNull(id);
+    ProjectBaseEntity project = this.getById(id);
+    Assert.isNotNull(project);
+    Assert.isTrueStatus(project, ProjectConstant.ProjectStatusEnum.COMPLAINT_STAGE);
+    Date date = new Date();
+    projectComplaintEntity.setCreateTime(date);
+    projectComplaintService.save(projectComplaintEntity);
+    if (projectComplaintEntity.getResult() == 0) {
+      systemMessageService.addMessage(project.getCompany(), SystemConstant.SystemMessageEnum.DEAL_COMPLAINT_REFUSE_LAWYER_TO_COMAPNY, String.valueOf(projectComplaintEntity.getId()), date);
+      systemMessageService.addMessage(project.getNowLawyer(), SystemConstant.SystemMessageEnum.DEAL_COMPLAINT_REFUSE_LAWYER_TO_LAWYER, String.valueOf(projectComplaintEntity.getId()), date);
+      ProjectUserTodoItemEntity userTodoItemEntity = ProjectUserTodoItemEntity.builder().project(id).user(project.getCompany()).projectName(project.getProjectName()).item(SystemConstant.RE_CHOOSE_LAWYER_REFUSE_LAWYER).createTime(date).build();
+      projectUserTodoItemService.addItem(userTodoItemEntity, project.getCompany(), projectComplaintEntity.getId(), date);
+      updateStatus(project, ProjectConstant.ProjectStatusEnum.RE_CHOOSE_LAWYER);
+    } else {
+      systemMessageService.addMessage(project.getCompany(), SystemConstant.SystemMessageEnum.DEAL_COMPLAINT_REFUSE_COMPANY_TO_COMPANY, String.valueOf(projectComplaintEntity.getId()), date);
+      systemMessageService.addMessage(project.getNowLawyer(), SystemConstant.SystemMessageEnum.DEAL_COMPLAINT_REFUSE_COMPANY_TO_LAWYER, String.valueOf(projectComplaintEntity.getId()), date);
+      updateStatus(project, ProjectConstant.ProjectStatusEnum.SERVICING);
+    }
+
+  }
 
   //更新项目状态
   @Override
@@ -462,6 +524,8 @@ public class ProjectBaseServiceImpl extends ServiceImpl<ProjectBaseDao, ProjectB
     project.setStatus(status.getCode());
     this.updateById(project);
   }
+
+
 
 
 }

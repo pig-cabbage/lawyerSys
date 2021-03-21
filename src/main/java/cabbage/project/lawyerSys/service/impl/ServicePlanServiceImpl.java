@@ -7,11 +7,13 @@ import cabbage.project.lawyerSys.dao.ServicePlanDao;
 import cabbage.project.lawyerSys.entity.ServiceFileTemplateEntity;
 import cabbage.project.lawyerSys.entity.ServiceLevelEntity;
 import cabbage.project.lawyerSys.entity.ServicePlanEntity;
+import cabbage.project.lawyerSys.entity.UserCompanyEntity;
 import cabbage.project.lawyerSys.service.ServiceFileTemplateService;
 import cabbage.project.lawyerSys.service.ServiceLevelService;
 import cabbage.project.lawyerSys.service.ServicePlanService;
 import cabbage.project.lawyerSys.valid.Assert;
 import cabbage.project.lawyerSys.vo.ServiceFileTemplateVo;
+import cabbage.project.lawyerSys.vo.ServicePlanDetailVo;
 import cabbage.project.lawyerSys.vo.ServicePlanVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -50,25 +52,14 @@ public class ServicePlanServiceImpl extends ServiceImpl<ServicePlanDao, ServiceP
   @Override
   public void savePlan(ServicePlanVo servicePlanVo) {
     Assert.isNotNull(servicePlanVo);
+    System.out.println(servicePlanVo.getServiceLevel());
     ServicePlanEntity servicePlanEntity = new ServicePlanEntity();
     BeanUtils.copyProperties(servicePlanVo, servicePlanEntity);
+    System.out.println(servicePlanEntity.getServiceLevel());
     servicePlanEntity.setCreateTime(new Date());
     servicePlanEntity.setModifyTime(new Date());
     this.save(servicePlanEntity);
-    Assert.isNotEmpty(servicePlanVo.getFileList(), list -> {
-      list.stream().filter(entity -> entity.getParent().equals(-1L)).forEach(item -> {
-        ServiceFileTemplateEntity serviceFileTemplateEntity = new ServiceFileTemplateEntity();
-        BeanUtils.copyProperties(item, serviceFileTemplateEntity);
-        serviceFileTemplateEntity.setPlan(servicePlanEntity.getId());
-        serviceFileTemplateService.save(serviceFileTemplateEntity);
-        if (Boolean.FALSE.equals(item.getType())) {
-          List<ServiceFileTemplateVo> fileVos = list.stream().filter(entity1 -> entity1.getParent().equals(item.getUid())).collect(Collectors.toList());
-          Assert.isNotEmpty(fileVos, fileVos1 -> {
-            savePlanRecursive((List<ServiceFileTemplateVo>) fileVos1, servicePlanEntity.getId(), servicePlanVo.getFileList(), serviceFileTemplateEntity.getId());
-          });
-        }
-      });
-    });
+    serviceFileTemplateService.setPlan(servicePlanVo.getUserInfo(), servicePlanEntity.getId());
   }
 
   @Override
@@ -85,6 +76,47 @@ public class ServicePlanServiceImpl extends ServiceImpl<ServicePlanDao, ServiceP
     ServiceLevelEntity serviceLevelEntity = serviceLevelService.getById(servicePlanEntity.getServiceLevel());
     Assert.isNotNull(serviceLevelEntity);
     return serviceLevelEntity.getChargeStandard().multiply(new BigDecimal(months));
+  }
+
+  @Override
+  public List<ServicePlanEntity> search(Long level, Map<String, Object> params) {
+    QueryWrapper<ServicePlanEntity> wrapper = new QueryWrapper<>();
+    wrapper.eq("service_level", level);
+    Assert.isNotNull(params.get("status"), s -> {
+      wrapper.eq("status", s);
+    });
+    Assert.isNotBlank((String) params.get("key"), k -> {
+      wrapper.like("name", k);
+    });
+    if ("0".equals(params.get("sort"))) {
+      wrapper.orderByDesc("create_time");
+    } else {
+      wrapper.orderByAsc("create_time");
+    }
+    return this.list(wrapper);
+  }
+
+
+  /**
+   * @param id 1、删除实体
+   *           2、删除实体对应的文件模板
+   */
+  @Override
+  public void deletePlan(Long id) {
+    this.removeById(id);
+    serviceFileTemplateService.remove(new QueryWrapper<ServiceFileTemplateEntity>().eq("plan", id));
+  }
+
+  @Override
+  public ServicePlanDetailVo detail(Long id) {
+    ServicePlanEntity planEntity = this.getById(id);
+    ServiceLevelEntity levelEntity = serviceLevelService.getById(planEntity.getServiceLevel());
+    return ServicePlanDetailVo.builder()
+        .id(id)
+        .name(planEntity.getName())
+        .level(levelEntity.getLevel())
+        .chargeStandard(levelEntity.getChargeStandard())
+        .content(planEntity.getContent()).build();
   }
 
   public void savePlanRecursive(List<ServiceFileTemplateVo> fileVos, Long planId, List<ServiceFileTemplateVo> allList, Long parentId) {

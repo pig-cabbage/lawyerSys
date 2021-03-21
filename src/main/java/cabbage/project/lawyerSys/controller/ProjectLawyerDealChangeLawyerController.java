@@ -3,7 +3,9 @@ package cabbage.project.lawyerSys.controller;
 import cabbage.project.lawyerSys.common.utils.PageUtils;
 import cabbage.project.lawyerSys.common.utils.R;
 import cabbage.project.lawyerSys.entity.ProjectLawyerDealChangeLawyerEntity;
+import cabbage.project.lawyerSys.entity.ProjectUserChangeLawyerEntity;
 import cabbage.project.lawyerSys.service.ProjectLawyerDealChangeLawyerService;
+import cabbage.project.lawyerSys.service.ProjectUserChangeLawyerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +21,22 @@ import java.util.Map;
  * @date 2021-02-07 20:32:44
  */
 @RestController
-@RequestMapping("lawyersys/projectlawyercomplaint")
+@RequestMapping("/api/project/lawyerDealChangeApply")
 public class ProjectLawyerDealChangeLawyerController {
   @Autowired
   private ProjectLawyerDealChangeLawyerService projectLawyerDealChangeLawyerService;
+  @Autowired
+  private ProjectUserChangeLawyerService projectUserChangeLawyerService;
+
+  /**
+   * 根据项目id获取律师处理记录
+   */
+  @RequestMapping("/{projectId}/info")
+  public R getInfo(@PathVariable("projectId") Long projectId) {
+    ProjectUserChangeLawyerEntity projectUserChangeLawyerEntity = projectUserChangeLawyerService.getInfo(projectId);
+    ProjectLawyerDealChangeLawyerEntity projectLawyerComplaint = projectLawyerDealChangeLawyerService.getInfo(projectUserChangeLawyerEntity.getId());
+    return R.ok().put("projectUserChangeLawyer", projectUserChangeLawyerEntity).put("projectLawyerComplaint", projectLawyerComplaint);
+  }
 
   /**
    * 列表

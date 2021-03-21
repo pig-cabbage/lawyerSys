@@ -15,5 +15,5 @@ public class ServicePlanVo {
   private Long serviceLevel;
   private String name;
   private String content;
-  private List<ServiceFileTemplateVo> fileList;
+  private String userInfo;
 }

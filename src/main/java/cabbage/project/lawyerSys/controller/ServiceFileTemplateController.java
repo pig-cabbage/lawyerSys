@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -19,10 +20,20 @@ import java.util.Map;
  * @date 2021-02-07 20:32:44
  */
 @RestController
-@RequestMapping("lawyersys/servicefiletemplate")
+@RequestMapping("api/service/file/template")
 public class ServiceFileTemplateController {
   @Autowired
   private ServiceFileTemplateService serviceFileTemplateService;
+
+  /**
+   * 列表
+   */
+  @RequestMapping("/{id}/list")
+  public R getList(@PathVariable("id") Long id) {
+    List<ServiceFileTemplateEntity> result = serviceFileTemplateService.getList(id);
+
+    return R.ok().put("list", result);
+  }
 
   /**
    * 列表
@@ -51,8 +62,7 @@ public class ServiceFileTemplateController {
   @RequestMapping("/save")
   public R save(@RequestBody ServiceFileTemplateEntity serviceFileTemplate) {
     serviceFileTemplateService.save(serviceFileTemplate);
-
-    return R.ok();
+    return R.ok().put("entity", serviceFileTemplate);
   }
 
   /**

@@ -7,12 +7,11 @@
     <resultMap type="cabbage.project.lawyerSys.entity.UserAccountEntity" id="userAccountMap">
         <result property="id" column="id"/>
         <result property="certificationStatus" column="certification_status"/>
-        <result property="certificationTime" column="certification_time"/>
         <result property="role" column="role"/>
         <result property="createTime" column="create_time"/>
         <result property="unReadMessage" column="un_read_message"/>
     </resultMap>
-    <update id="addMessage" parameterType="java.lang.Long">
+    <update id="addMessage" parameterType="java.lang.String">
         UPDATE `user_account` SET `un_read_message` = `un_read_message` + 1 WHERE `id` = #{accountId}
     </update>
     <insert id="insertWithId" parameterType="cabbage.project.lawyerSys.entity.UserAccountEntity">

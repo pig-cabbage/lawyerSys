@@ -25,6 +25,16 @@ public class UserCompanyController {
     @Autowired
     private UserCompanyService userCompanyService;
 
+  /**
+   * 根据account获取企业用户信息
+   */
+  @RequestMapping("/info/account/{id}")
+  public R info(@PathVariable("id") String id) {
+    UserCompanyEntity userCompany = userCompanyService.getByAccount(id);
+
+    return R.ok().put("userCompany", userCompany);
+  }
+
 
     /**
      * 企业检索

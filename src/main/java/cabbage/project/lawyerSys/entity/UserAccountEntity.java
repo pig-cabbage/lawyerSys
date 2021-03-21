@@ -36,10 +36,6 @@ public class UserAccountEntity implements Serializable {
 	/**
 	 *
 	 */
-	private Date certificationTime;
-	/**
-	 *
-	 */
 	private Integer role;
 	/**
 	 *

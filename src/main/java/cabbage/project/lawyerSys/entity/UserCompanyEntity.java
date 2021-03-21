@@ -49,6 +49,10 @@ public class UserCompanyEntity implements Serializable {
 	/**
 	 *
 	 */
-	private Integer account;
+  private String account;
+  /**
+   *
+   */
+  private Date certificationTime;
 
 }

@@ -7,12 +7,15 @@ import cabbage.project.lawyerSys.service.ProjectBaseService;
 import cabbage.project.lawyerSys.vo.ChooseLawyerVo;
 import cabbage.project.lawyerSys.vo.DistributeLawyerVo;
 import cabbage.project.lawyerSys.vo.ProjectPlanVo;
+
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -26,6 +29,17 @@ import java.util.Map;
 public class ProjectBaseController {
   @Autowired
   private ProjectBaseService projectBaseService;
+
+//  /**
+//   * 获取指定状态下的项目
+//   */
+//  @RequestMapping("/status/list")
+//  public R getList(@RequestBody String status) {
+//    List<Integer> integers = JSONObject.parseObject(status).getJSONArray("status").toJavaList(Integer.class);
+//    List<ProjectBaseEntity> list =  projectBaseService.getByStatus(integers);
+//    return R.ok().put("list", list);
+//  }
+
 
   /**
    * 审核项目
@@ -127,6 +141,15 @@ public class ProjectBaseController {
   }
 
   /**
+   * 系统处理申诉
+   */
+  @PostMapping("/{id}/dealComplaint")
+  public R dealComplaint(@PathVariable("id") Long id, @RequestBody ProjectComplaintEntity projectComplaintEntity) {
+    projectBaseService.dealComplaint(id, projectComplaintEntity);
+    return R.ok();
+  }
+
+  /**
    * 企业对服务方案异议
    */
   @PostMapping("/{id}/objection")
@@ -153,15 +176,22 @@ public class ProjectBaseController {
     return R.ok();
   }
 
-
+  /**
+   * 归档项目
+   */
+  @PostMapping("/{id}/archive")
+  public R archive(@PathVariable("id") Long id, @RequestBody ProjectArchiveEntity projectArchiveEntity) {
+    projectBaseService.archive(id, projectArchiveEntity);
+    return R.ok();
+  }
   /**
    * 列表
    */
   @RequestMapping("/list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = projectBaseService.queryPage(params);
+  public R list(@RequestParam Map<String, String> params) {
+    List<ProjectBaseEntity> list = projectBaseService.query(params);
 
-    return R.ok().put("page", page);
+    return R.ok().put("list", list);
   }
 
 

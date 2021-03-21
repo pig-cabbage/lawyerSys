@@ -4,6 +4,7 @@ import cabbage.project.lawyerSys.common.utils.PageUtils;
 import cabbage.project.lawyerSys.entity.ServiceFileTemplateEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,5 +17,9 @@ import java.util.Map;
 public interface ServiceFileTemplateService extends IService<ServiceFileTemplateEntity> {
 
   PageUtils queryPage(Map<String, Object> params);
+
+  List<ServiceFileTemplateEntity> getList(Long id);
+
+  void setPlan(String userInfo, Long planId);
 }
 

@@ -12,6 +12,10 @@
         <result property="demandLawyer" column="demand_lawyer"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
+    <select id="getProjectLatest"
+            resultType="cabbage.project.lawyerSys.entity.ProjectCompanyDemandLawyerEntity">
+        SELECT * FROM `project_company_demand_lawyer` WHERE `project` = #{projectId} ORDER BY `create_time` DESC LIMIT 0, 1
+    </select>
 
 
 </mapper>

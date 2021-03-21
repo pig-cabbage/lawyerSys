@@ -14,5 +14,7 @@ import java.util.Map;
 public interface ProjectArchiveService extends IService<ProjectArchiveEntity> {
 
   PageUtils queryPage(Map<String, Object> params);
+
+  ProjectArchiveEntity getByProject(Long projectId);
 }
 

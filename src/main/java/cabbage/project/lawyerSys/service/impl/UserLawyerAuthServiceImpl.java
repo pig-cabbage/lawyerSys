@@ -38,14 +38,14 @@ public class UserLawyerAuthServiceImpl extends ServiceImpl<UserLawyerAuthDao, Us
   public PageUtils queryPage(Map<String, Object> params) {
     IPage<UserLawyerAuthEntity> page = this.page(
         new Query<UserLawyerAuthEntity>().getPage(params),
-        new QueryWrapper<UserLawyerAuthEntity>()
+        new QueryWrapper<UserLawyerAuthEntity>().eq("status", 0)
     );
 
     return new PageUtils(page);
   }
 
   /**
-   * @param lawyerAuthVo 企业申请认证
+   * @param lawyerAuthVo 律师申请认证
    *                     1、生成一条认证记录
    *                     2、修改企业用户认证状态
    *                     3、生成一条系统消息

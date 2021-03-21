@@ -50,7 +50,8 @@ public class AuthenHandler implements AuthenticationSuccessHandler, Authenticati
   public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
     httpServletResponse.setContentType("application/json;charset=UTF-8");
     httpServletResponse.getWriter().write(objectMapper.writeValueAsString(R.ok()
-        .put("data", objectMapper.writeValueAsString(authentication))));
+        .put("auth", objectMapper.writeValueAsString(authentication.getAuthorities()))
+        .put("userInfo", objectMapper.writeValueAsString(authentication.getPrincipal()))));
   }
 
 

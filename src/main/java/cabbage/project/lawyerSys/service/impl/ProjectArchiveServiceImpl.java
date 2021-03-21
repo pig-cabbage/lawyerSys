@@ -26,4 +26,9 @@ public class ProjectArchiveServiceImpl extends ServiceImpl<ProjectArchiveDao, Pr
     return new PageUtils(page);
   }
 
+  @Override
+  public ProjectArchiveEntity getByProject(Long projectId) {
+    return this.getOne(new QueryWrapper<ProjectArchiveEntity>().eq("project", projectId));
+  }
+
 }

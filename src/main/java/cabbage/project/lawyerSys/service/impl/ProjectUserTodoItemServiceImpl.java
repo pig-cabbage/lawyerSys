@@ -53,6 +53,7 @@ public class ProjectUserTodoItemServiceImpl extends ServiceImpl<ProjectUserTodoI
   @Override
   public void addItem(ProjectUserTodoItemEntity projectUserTodoItemEntity, String theOtherId, Long eventId, Date date) {
     ConstantTodoItemEntity constantTodoItemEntity = constantTodoItemService.getById(projectUserTodoItemEntity.getItem());
+    projectUserTodoItemEntity.setCreateTime(date);
     projectUserTodoItemEntity.setLatestTime(new Date(date.getTime() + constantTodoItemEntity.getDuration() * 24 * 60 * 60 * 1000));
     this.save(projectUserTodoItemEntity);
     AutoFinishTodoItemDTO finishTodoItemDTO = AutoFinishTodoItemDTO.builder().itemKey(projectUserTodoItemEntity.getItem()).projectId(projectUserTodoItemEntity.getProject()).userId(projectUserTodoItemEntity.getUser()).otherId(theOtherId).date(date).defaultValue(constantTodoItemEntity.getDefaultValue()).build();

@@ -19,10 +19,21 @@ import java.util.Map;
  * @date 2021-02-07 20:32:44
  */
 @RestController
-@RequestMapping("lawyersys/projectcompanyevaluation")
+@RequestMapping("api/project/companyEvaluate")
 public class ProjectCompanyEvaluationController {
   @Autowired
   private ProjectCompanyEvaluationService projectCompanyEvaluationService;
+
+  /**
+   * 获取某个特定项目对应的用户评价
+   */
+  @RequestMapping("/{projectId}/info")
+  public R getInfo(@PathVariable("projectId") Long projectId) {
+    ProjectCompanyEvaluationEntity projectCompanyEvaluation = projectCompanyEvaluationService.getInfo(projectId);
+
+    return R.ok().put("projectCompanyEvaluation", projectCompanyEvaluation);
+  }
+
 
   /**
    * 列表

@@ -3,6 +3,9 @@ package cabbage.project.lawyerSys.common.constant;
 //系统常量
 public class SystemConstant {
 
+  //Redis相关
+  public static final String WEBSOCKET_KEY_PREFIX = "SOCKET_";
+
   //待办事项主键
   public static final Long PAY_ITEM_KEY = 1L;
   public static final Long CHOOSE_LAWYER_KEY = 2L;
@@ -10,6 +13,13 @@ public class SystemConstant {
   public static final Long DETERMINE_AGREE_CHANGE_LAWYER = 4L;
   public static final Long RE_CHOOSE_LAWYER = 5L;
   public static final Long RE_CHOOSE_LAWYER_LAWYER_AGREE = 6L;
+  public static final Long RE_CHOOSE_LAWYER_REFUSE_LAWYER = 7L;
+
+  //更换律师至结束服务缓冲期 默认是3天
+  public static final Long CHANGE_LAWYER_GOV = 3L;
+
+  //承接项目至开始服务缓冲期 默认是3天
+  public static final Long UNDERTAKE_GOV = 3L;
 
 
   //认证结果消息
@@ -47,25 +57,29 @@ public class SystemConstant {
     WAIT_TO_DIS_LAWYER("待系统分配律师", "系统将尽快为您分配律师", "选择律师信息", "/api/project/demandLawyer/info/"),
     PAY_REMIND("再次提醒用户支付", "请尽快完成支付， 否则系统将终止此次交易！", "", ""),
     WAIT_TO_UNDER_TAKE("等待律师承接项目", "系统已为您分配好律师， 请等待律师决定是否承接项目", "分配信息", "/api/project/distributeLawyer/info/"),
-    LAWYER_DETERMINE_UNDER_TAKE("决定是否承接项目", "系统为您分配一个新的项目，请尽快决定是否承接项目", "查看详情", "api/project/info/"),
+    LAWYER_DETERMINE_UNDER_TAKE("决定是否承接项目", "系统为您分配一个新的项目，请尽快决定是否承接项目", "查看详情", "/api/project/info/"),
     UNDER_TAKE_REMIND("再次提醒律师承接项目", "请尽快决定是否承接项目， 否则系统将默认您拒绝承接项目", "", ""),
-    REFUSE_UNDER_TAKE("拒绝承接项目", "系统为您分配律师拒绝承接项目， 请前往待办事项重新选择律师", "拒绝理由", "api/project/lawyerCarry/info/"),
-    ACCEPT_UNDER_TAKE("接受委托", "系统为您分配的律师已接受委托， 律师将按照指定的开始日期开始服务", "律师信息", "api/user/lawyer/info/"),
-    CHANGE_LAWYER_APPLY("申请更换律师", "您负责的项目的企业方申请更换律师， 请做出处理", "查看详情", "api/project/changeLawyer/info/"),
-    CHANGE_LAWYER_AUDIT_FAIL("更换律师申请审核不通过", "您发起的更换律师申请审核不通过， 请点击查看审核意见", "审核意见", "api/project/changeLawyerAudit/info/"),
-    CHANGE_LAWYER_AUDIT_SUCCESS_COMPANY_TO_LAWYER("企业更换律师申请审核通过（给律师方消息）", "你负责的项目的企业方申请更换律师, 请进行处理", "查看详情", "api/project/changeLawyerAudit/info/"),
-    CHANGE_LAWYER_AUDIT_SUCCESS_COMPANY_TO_COMPANY("企业更换律师申请审核通过（给企业方消息）", "您发起的更换律师申请已审核通过， 请等待律师操作", "审核意见", "api/project/changeLawyerAudit/info/"),
-    CHANGE_LAWYER_AUDIT_SUCCESS_LAWYER_TO_LAWYER("律师更换律师申请审核通过（给律师方消息）", "您发起的更换律师申请已审核通过，系统已通知企业方, 在系统为企业重新分配律师之前，请继续为企业提供服务", "查看详情", "api/project/changeLawyerAudit/info/"),
-    CHANGE_LAWYER_AUDIT_SUCCESS_LAWYER_TO_COMPANY("律师更换律师申请审核通过（给企业方消息）", "您发起的咨询项目的律师方申请终止服务， 系统已审核通过， 请前往待办事项重新选择律师", "查看详情", "api/project/changeLawyerAudit/info/"),
+    REFUSE_UNDER_TAKE("拒绝承接项目", "系统为您分配律师拒绝承接项目， 请前往待办事项重新选择律师", "拒绝理由", "/api/project/lawyerCarry/info/"),
+    ACCEPT_UNDER_TAKE("接受委托", "系统为您分配的律师已接受委托， 律师将按照指定的开始日期开始服务", "律师信息", "/api/user/lawyer/info/"),
+    CHANGE_LAWYER_APPLY("申请更换律师", "您负责的项目的企业方申请更换律师， 请做出处理", "查看详情", "/api/project/changeLawyer/info/"),
+    CHANGE_LAWYER_AUDIT_FAIL("更换律师申请审核不通过", "您发起的更换律师申请审核不通过， 请点击查看审核意见", "审核意见", "/api/project/changeLawyerAudit/info/"),
+    CHANGE_LAWYER_AUDIT_SUCCESS_COMPANY_TO_LAWYER("企业更换律师申请审核通过（给律师方消息）", "你负责的项目的企业方申请更换律师, 请进行处理", "查看详情", "/api/project/changeLawyerAudit/info/"),
+    CHANGE_LAWYER_AUDIT_SUCCESS_COMPANY_TO_COMPANY("企业更换律师申请审核通过（给企业方消息）", "您发起的更换律师申请已审核通过， 请等待律师操作", "审核意见", "/api/project/changeLawyerAudit/info/"),
+    CHANGE_LAWYER_AUDIT_SUCCESS_LAWYER_TO_LAWYER("律师更换律师申请审核通过（给律师方消息）", "您发起的更换律师申请已审核通过，系统已通知企业方, 在系统为企业重新分配律师之前，请继续为企业提供服务", "查看详情", "/api/project/changeLawyerAudit/info/"),
+    CHANGE_LAWYER_AUDIT_SUCCESS_LAWYER_TO_COMPANY("律师更换律师申请审核通过（给企业方消息）", "您发起的咨询项目的律师方申请终止服务， 系统已审核通过， 请前往待办事项重新选择律师", "查看详情", "/api/project/changeLawyerAudit/info/"),
     LAWYER_AGREE_CHANGE_LAWYER("律师同意更换律师申请", "律师已经同意您的更换律师申请， 请尽快前往待办事项重新选择律师", "", ""),
-    LAWYER_COMPLAINT("律师提出申诉", "律师拒绝了您的更换律师申请并提出申诉， 系统会尽快进行处理", "查看详情", "api/project/lawyerComplaint/info/"),
-    COMPANY_EVALUATION("企业作出评价", "企业已对您的服务作出了评价，点击查看", "查看详情", "api/project/evaluation/info/"),
+    LAWYER_COMPLAINT("律师提出申诉", "律师拒绝了您的更换律师申请并提出申诉， 系统会尽快进行处理", "查看详情", "/api/project/lawyerComplaint/info/"),
+    COMPANY_EVALUATION("企业作出评价", "企业已对您的服务作出了评价，点击查看", "查看详情", "/api/project/evaluation/info/"),
     RENEWAL("企业续期", "您负责的项目的企业方续期项目成功， 服务时间会延长", "查看详情", "/api/project/system/plan/info/"),
     PAY_PAST_DUE("支付过期", "您错过了支付期限，请重新发起咨询服务请求", "", ""),
     CHOOSE_LAWYER_PAST_DUE("选择律师过期", "您错过了选择律师操作期限， 系统会为您推荐律师", "", ""),
     DETERMINE_UNDER_TAKE_PAST_DUE_TO_LAWYER("决定是否承接项目过期", "您错过了决定是否承接项目的期限, 系统自动执行拒绝操作", "项目详情", "/api/project/info"),
-    DETERMINE_UNDER_TAKE_PAST_DUE_TO_COMPANY("决定是否承接项目过期", "代理律师用户没有在规定时间内作出选择，系统默认律师用户拒绝承接项目", "律师详情", "api/user/lawyer/info/"),
-    DETERMINE_AGREE_CHANGE_LAWYER_PAST_DUE_TO_LAWYER("处理企业用户更换律师申请过期", "您没有在规定时间内决定是否同意企业用户的更换律师申请，系统默认执行同意操作", "申请详情", "api/project/changeLawyerAudit/info/");
+    DETERMINE_UNDER_TAKE_PAST_DUE_TO_COMPANY("决定是否承接项目过期", "代理律师用户没有在规定时间内作出选择，系统默认律师用户拒绝承接项目", "律师详情", "/api/user/lawyer/info/"),
+    DETERMINE_AGREE_CHANGE_LAWYER_PAST_DUE_TO_LAWYER("处理企业用户更换律师申请过期", "您没有在规定时间内决定是否同意企业用户的更换律师申请，系统默认执行同意操作", "申请详情", "/api/project/changeLawyerAudit/info/"),
+    DEAL_COMPLAINT_REFUSE_LAWYER_TO_COMAPNY("处理申诉", "系统驳回律师的申诉请求，请尽快前往待办事项重新选择律师", "处理详情", "/api/project/complaint/info/"),
+    DEAL_COMPLAINT_REFUSE_LAWYER_TO_LAWYER("处理申诉", "系统驳回律师的申诉请求，三天后您对企业的服务将终止", "处理详情", "/api/project/complaint/info"),
+    DEAL_COMPLAINT_REFUSE_COMPANY_TO_COMPANY("处理申诉", "系统驳回企业的更换律师请求，律师会继续为您提供服务", "处理详情", "/api/project/complaint/info"),
+    DEAL_COMPLAINT_REFUSE_COMPANY_TO_LAWYER("处理申诉", "系统驳回企业的更换律师请求, 请继续为企业提供服务", "处理详情", "/api/project/complaint/info");
 
     private final String brief;
     private final String detail;

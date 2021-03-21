@@ -27,4 +27,9 @@ public class ProjectCompanyDemandLawyerServiceImpl extends ServiceImpl<ProjectCo
     return new PageUtils(page);
   }
 
+  @Override
+  public ProjectCompanyDemandLawyerEntity getByProjectIdLatest(Long projectId) {
+    return this.baseMapper.getProjectLatest(projectId);
+  }
+
 }

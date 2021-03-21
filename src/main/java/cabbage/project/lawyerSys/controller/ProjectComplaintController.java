@@ -19,7 +19,7 @@ import java.util.Map;
  * @date 2021-02-07 20:32:44
  */
 @RestController
-@RequestMapping("lawyersys/projectcomplaint")
+@RequestMapping("api/project/complaint")
 public class ProjectComplaintController {
   @Autowired
   private ProjectComplaintService projectComplaintService;

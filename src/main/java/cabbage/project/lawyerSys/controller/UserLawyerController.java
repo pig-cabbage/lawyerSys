@@ -2,6 +2,7 @@ package cabbage.project.lawyerSys.controller;
 
 import cabbage.project.lawyerSys.common.utils.PageUtils;
 import cabbage.project.lawyerSys.common.utils.R;
+import cabbage.project.lawyerSys.entity.UserCompanyEntity;
 import cabbage.project.lawyerSys.entity.UserLawyerEntity;
 import cabbage.project.lawyerSys.service.UserLawyerService;
 import cabbage.project.lawyerSys.vo.LawyerAuthVo;
@@ -24,6 +25,16 @@ import java.util.Map;
 public class UserLawyerController {
   @Autowired
   private UserLawyerService userLawyerService;
+
+  /**
+   * 根据account获取律师用户信息
+   */
+  @RequestMapping("/info/account/{id}")
+  public R info(@PathVariable("id") String id) {
+    UserLawyerEntity userLawyer = userLawyerService.getByAccount(id);
+
+    return R.ok().put("userLawyer", userLawyer);
+  }
 
 
   /**

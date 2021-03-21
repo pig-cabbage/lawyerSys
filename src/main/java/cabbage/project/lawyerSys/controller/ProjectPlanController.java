@@ -25,6 +25,16 @@ public class ProjectPlanController {
   private ProjectPlanService projectPlanService;
 
   /**
+   * 获取特定项目最近的分配记录
+   */
+  @RequestMapping("/{projectId}/closestRecord")
+  public R getRecord(@PathVariable("projectId") Long projectId) {
+    ProjectPlanEntity projectPlan = projectPlanService.getByProjectIdLatest(projectId);
+
+    return R.ok().put("projectPlan", projectPlan);
+  }
+
+  /**
    * 列表
    */
   @RequestMapping("/list")

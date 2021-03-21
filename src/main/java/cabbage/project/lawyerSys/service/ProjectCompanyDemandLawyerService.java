@@ -16,5 +16,7 @@ import java.util.Map;
 public interface ProjectCompanyDemandLawyerService extends IService<ProjectCompanyDemandLawyerEntity> {
 
   PageUtils queryPage(Map<String, Object> params);
+
+  ProjectCompanyDemandLawyerEntity getByProjectIdLatest(Long projectId);
 }
 

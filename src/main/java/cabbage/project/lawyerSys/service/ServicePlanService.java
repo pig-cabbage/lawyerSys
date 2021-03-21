@@ -3,10 +3,12 @@ package cabbage.project.lawyerSys.service;
 import cabbage.project.lawyerSys.common.utils.PageUtils;
 import cabbage.project.lawyerSys.entity.ServicePlanEntity;
 import cabbage.project.lawyerSys.vo.ServiceFileTemplateVo;
+import cabbage.project.lawyerSys.vo.ServicePlanDetailVo;
 import cabbage.project.lawyerSys.vo.ServicePlanVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,5 +27,11 @@ public interface ServicePlanService extends IService<ServicePlanEntity> {
   void fileUpload(Long id, ServiceFileTemplateVo serviceFileTemplateVo);
 
   BigDecimal calculateCost(Long id, Long months);
+
+  List<ServicePlanEntity> search(Long level, Map<String, Object> params);
+
+  void deletePlan(Long id);
+
+  ServicePlanDetailVo detail(Long id);
 }
 

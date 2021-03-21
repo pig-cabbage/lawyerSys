@@ -13,6 +13,9 @@
         <result property="parent" column="parent"/>
         <result property="plan" column="plan"/>
     </resultMap>
+    <update id="setPlan">
+        UPDATE `service_file_template` SET `plan`=#{planId} WHERE `plan`=#{userInfo}
+    </update>
 
 
 </mapper>

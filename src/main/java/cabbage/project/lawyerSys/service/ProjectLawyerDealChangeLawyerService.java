@@ -16,5 +16,7 @@ import java.util.Map;
 public interface ProjectLawyerDealChangeLawyerService extends IService<ProjectLawyerDealChangeLawyerEntity> {
 
   PageUtils queryPage(Map<String, Object> params);
+
+  ProjectLawyerDealChangeLawyerEntity getInfo(Long projectId);
 }
 

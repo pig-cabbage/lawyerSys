@@ -37,13 +37,26 @@ public class UserCompanyServiceImpl extends ServiceImpl<UserCompanyDao, UserComp
   public PageUtils queryPage(Map<String, Object> params) {
     QueryWrapper<UserCompanyEntity> wrapper = new QueryWrapper<>();
     Assert.isNotBlank((String) params.get("key"), key -> {
-
+      wrapper.like("name", key);
     });
     IPage<UserCompanyEntity> page = this.page(
         new Query<UserCompanyEntity>().getPage(params),
         wrapper
     );
     return new PageUtils(page);
+  }
+
+  @Override
+  public void add(UserCompanyAuthEntity userCompanyAuthEntity, Date date) {
+    UserCompanyEntity userCompanyEntity = new UserCompanyEntity();
+    BeanUtils.copyProperties(userCompanyAuthEntity, userCompanyEntity);
+    userCompanyEntity.setCertificationTime(date);
+    this.save(userCompanyEntity);
+  }
+
+  @Override
+  public UserCompanyEntity getByAccount(String id) {
+    return this.getOne(new QueryWrapper<UserCompanyEntity>().eq("account", id));
   }
 
 

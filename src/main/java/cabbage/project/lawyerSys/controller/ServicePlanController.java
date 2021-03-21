@@ -5,12 +5,15 @@ import cabbage.project.lawyerSys.common.utils.R;
 import cabbage.project.lawyerSys.entity.ServicePlanEntity;
 import cabbage.project.lawyerSys.service.ServicePlanService;
 import cabbage.project.lawyerSys.vo.ServiceFileTemplateVo;
+import cabbage.project.lawyerSys.vo.ServicePlanDetailVo;
 import cabbage.project.lawyerSys.vo.ServicePlanVo;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -49,6 +52,15 @@ public class ServicePlanController {
   /**
    * 列表
    */
+  @RequestMapping("/{level}/search")
+  public R search(@PathVariable("level") Long level, @RequestParam Map<String, Object> params) {
+    List<ServicePlanEntity> entityList = servicePlanService.search(level, params);
+    return R.ok().put("list", entityList);
+  }
+
+  /**
+   * 列表
+   */
   @RequestMapping("/list")
   public R list(@RequestParam Map<String, Object> params) {
     PageUtils page = servicePlanService.queryPage(params);
@@ -58,13 +70,13 @@ public class ServicePlanController {
 
 
   /**
-   * 信息
+   * 信息,连同服务等级一起返回
    */
-  @RequestMapping("/info/{id}")
-  public R info(@PathVariable("id") Integer id) {
-    ServicePlanEntity servicePlan = servicePlanService.getById(id);
+  @RequestMapping("/detail/{id}")
+  public R info(@PathVariable("id") Long id) {
+    ServicePlanDetailVo servicePlanDetailVo = servicePlanService.detail(id);
 
-    return R.ok().put("servicePlan", servicePlan);
+    return R.ok().put("servicePlanDetail", servicePlanDetailVo);
   }
 
   /**
@@ -82,6 +94,7 @@ public class ServicePlanController {
    */
   @RequestMapping("/update")
   public R update(@RequestBody ServicePlanEntity servicePlan) {
+    servicePlan.setModifyTime(new Date());
     servicePlanService.updateById(servicePlan);
 
     return R.ok();
@@ -90,10 +103,9 @@ public class ServicePlanController {
   /**
    * 删除
    */
-  @RequestMapping("/delete")
-  public R delete(@RequestBody Integer[] ids) {
-    servicePlanService.removeByIds(Arrays.asList(ids));
-
+  @DeleteMapping("/delete")
+  public R delete(@RequestParam("id") Long id) {
+    servicePlanService.deletePlan(id);
     return R.ok();
   }
 

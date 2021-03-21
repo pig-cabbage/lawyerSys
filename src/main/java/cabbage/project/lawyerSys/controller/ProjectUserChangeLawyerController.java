@@ -25,6 +25,16 @@ public class ProjectUserChangeLawyerController {
   private ProjectUserChangeLawyerService projectUserChangeLawyerService;
 
   /**
+   * 获取项目的未处理更换律师申请
+   */
+  @RequestMapping("/{projectId}/info")
+  public R getInfo(@PathVariable("projectId") Long projectId) {
+    ProjectUserChangeLawyerEntity projectUserChangeLawyer = projectUserChangeLawyerService.getInfo(projectId);
+
+    return R.ok().put("projectUserChangeLawyer", projectUserChangeLawyer);
+  }
+
+  /**
    * 列表
    */
   @RequestMapping("/list")

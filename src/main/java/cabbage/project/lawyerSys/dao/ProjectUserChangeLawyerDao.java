@@ -3,6 +3,7 @@ package cabbage.project.lawyerSys.dao;
 import cabbage.project.lawyerSys.entity.ProjectUserChangeLawyerEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 用户更换律师记录表
@@ -14,4 +15,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ProjectUserChangeLawyerDao extends BaseMapper<ProjectUserChangeLawyerEntity> {
 
+  ProjectUserChangeLawyerEntity getByProjectLatest(@Param("projectId") Long projectId);
 }

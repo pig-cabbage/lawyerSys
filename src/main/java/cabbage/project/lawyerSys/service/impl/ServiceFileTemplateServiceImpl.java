@@ -5,11 +5,13 @@ import cabbage.project.lawyerSys.common.utils.Query;
 import cabbage.project.lawyerSys.dao.ServiceFileTemplateDao;
 import cabbage.project.lawyerSys.entity.ServiceFileTemplateEntity;
 import cabbage.project.lawyerSys.service.ServiceFileTemplateService;
+import cabbage.project.lawyerSys.valid.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -24,6 +26,17 @@ public class ServiceFileTemplateServiceImpl extends ServiceImpl<ServiceFileTempl
     );
 
     return new PageUtils(page);
+  }
+
+  @Override
+  public List<ServiceFileTemplateEntity> getList(Long id) {
+    Assert.isNotNull(id);
+    return this.list(new QueryWrapper<ServiceFileTemplateEntity>().eq("plan", id));
+  }
+
+  @Override
+  public void setPlan(String userInfo, Long planId) {
+    this.baseMapper.setPlan(userInfo, planId);
   }
 
 }

@@ -9,6 +9,7 @@ import cabbage.project.lawyerSys.vo.ProjectPlanVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,7 +19,7 @@ import java.util.Map;
  */
 public interface ProjectBaseService extends IService<ProjectBaseEntity> {
 
-  PageUtils queryPage(Map<String, Object> params);
+  List<ProjectBaseEntity> query(Map<String, String> params);
 
   void audit(Long id, ProjectAuditEntity audit);
 
@@ -49,5 +50,9 @@ public interface ProjectBaseService extends IService<ProjectBaseEntity> {
   void renewal(Long id, ProjectPlanEntity projectPlanEntity);
 
   void updateStatus(ProjectBaseEntity project, ProjectConstant.ProjectStatusEnum status);
+
+  void archive(Long id, ProjectArchiveEntity projectArchiveEntity);
+
+  void dealComplaint(Long id, ProjectComplaintEntity projectComplaintEntity);
 }
 

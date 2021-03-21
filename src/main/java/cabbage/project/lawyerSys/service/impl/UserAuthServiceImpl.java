@@ -37,6 +37,8 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthDao, UserAuthEntity
   @Autowired
   private UserCompanyService userCompanyService;
   @Autowired
+  private UserLawyerService userLawyerService;
+  @Autowired
   private SystemMessageService systemMessageService;
 
   @Override
@@ -51,9 +53,10 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthDao, UserAuthEntity
 
   /**
    * 1、数据库增加一条处理记录
-   * 2、修改申请处理状态
-   * 3、修改用户认证状态
-   * 3、系统消息新增一条消息
+   * 2、若认证通过，则新增一条企业用户记录
+   * 3、修改申请处理状态
+   * 4、修改用户认证状态
+   * 5、系统消息新增一条消息
    */
   @Transactional
   @Override
@@ -70,6 +73,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthDao, UserAuthEntity
     this.save(userAuthEntity);
     if (Integer.valueOf(1).equals(authProcessVo.getResult())) {
       userAccountService.updateStatus(userCompanyAuthEntity.getAccount(), UserConstant.CertificationStatusEnum.SUCCESS);
+      userCompanyService.add(userCompanyAuthEntity, date);
     } else {
       if (Integer.valueOf(0).equals(authProcessVo.getResult())) {
         userAccountService.updateStatus(userCompanyAuthEntity.getAccount(), UserConstant.CertificationStatusEnum.FAIL);
@@ -83,6 +87,13 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthDao, UserAuthEntity
     systemMessageService.addMessage(userCompanyAuthEntity.getAccount(), SystemConstant.SystemMessageEnum.PROCESS_CER, String.valueOf(userAuthEntity.getId()), date);
   }
 
+  /**
+   * 1、数据库增加一条处理记录
+   * 2、若认证通过，则新增一条律师用户记录
+   * 3、修改申请处理状态
+   * 4、修改用户认证状态
+   * 5、系统消息新增一条消息
+   */
   @Transactional
   @Override
   public void processLawyer(Long id, AuthProcessVo authProcessVo) {
@@ -98,6 +109,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthDao, UserAuthEntity
     this.save(userAuthEntity);
     if (Integer.valueOf(1).equals(authProcessVo.getResult())) {
       userAccountService.updateStatus(userLawyerAuthEntity.getAccount(), UserConstant.CertificationStatusEnum.SUCCESS);
+      userLawyerService.add(userLawyerAuthEntity, date, authProcessVo.getLowestLevel(), authProcessVo.getHighestLevel());
     } else {
       if (Integer.valueOf(0).equals(authProcessVo.getResult())) {
         userAccountService.updateStatus(userLawyerAuthEntity.getAccount(), UserConstant.CertificationStatusEnum.FAIL);

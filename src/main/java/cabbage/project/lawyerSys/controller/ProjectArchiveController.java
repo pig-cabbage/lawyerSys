@@ -17,10 +17,20 @@ import java.util.Map;
  * @date 2021-02-07 20:32:44
  */
 @RestController
-@RequestMapping("lawyersys/projectarchive")
+@RequestMapping("api/project/archive")
 public class ProjectArchiveController {
   @Autowired
   private ProjectArchiveService projectArchiveService;
+
+  /**
+   * 信息
+   */
+  @RequestMapping("/{projectId}/info")
+  public R getByProject(@PathVariable("projectId") Long projectId) {
+    ProjectArchiveEntity projectArchive = projectArchiveService.getByProject(projectId);
+
+    return R.ok().put("projectArchive", projectArchive);
+  }
 
   /**
    * 列表

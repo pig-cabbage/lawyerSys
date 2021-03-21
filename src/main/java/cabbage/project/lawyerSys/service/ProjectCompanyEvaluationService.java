@@ -16,5 +16,7 @@ import java.util.Map;
 public interface ProjectCompanyEvaluationService extends IService<ProjectCompanyEvaluationEntity> {
 
   PageUtils queryPage(Map<String, Object> params);
+
+  ProjectCompanyEvaluationEntity getInfo(Long projectId);
 }
 

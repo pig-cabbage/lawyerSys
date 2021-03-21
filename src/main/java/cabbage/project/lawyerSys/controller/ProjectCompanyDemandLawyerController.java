@@ -3,6 +3,7 @@ package cabbage.project.lawyerSys.controller;
 import cabbage.project.lawyerSys.common.utils.PageUtils;
 import cabbage.project.lawyerSys.common.utils.R;
 import cabbage.project.lawyerSys.entity.ProjectCompanyDemandLawyerEntity;
+import cabbage.project.lawyerSys.entity.ProjectPlanEntity;
 import cabbage.project.lawyerSys.service.ProjectCompanyDemandLawyerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,16 @@ import java.util.Map;
 public class ProjectCompanyDemandLawyerController {
   @Autowired
   private ProjectCompanyDemandLawyerService projectCompanyDemandLawyerService;
+
+  /**
+   * 获取特定项目最近的选择律师记录
+   */
+  @RequestMapping("/{projectId}/closestRecord")
+  public R getRecord(@PathVariable("projectId") Long projectId) {
+    ProjectCompanyDemandLawyerEntity projectCompanyDemandLawyerEntity = projectCompanyDemandLawyerService.getByProjectIdLatest(projectId);
+
+    return R.ok().put("projectCompanyDemandLawyer", projectCompanyDemandLawyerEntity);
+  }
 
   /**
    * 列表

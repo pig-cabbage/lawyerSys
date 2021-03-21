@@ -38,7 +38,7 @@ public class UserCompanyAuthServiceImpl extends ServiceImpl<UserCompanyAuthDao, 
   public PageUtils queryPage(Map<String, Object> params) {
     IPage<UserCompanyAuthEntity> page = this.page(
         new Query<UserCompanyAuthEntity>().getPage(params),
-        new QueryWrapper<UserCompanyAuthEntity>()
+        new QueryWrapper<UserCompanyAuthEntity>().eq("status", 0)
     );
 
     return new PageUtils(page);
