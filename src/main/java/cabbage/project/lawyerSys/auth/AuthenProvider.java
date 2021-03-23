@@ -60,17 +60,16 @@ public class AuthenProvider implements AuthenticationProvider {
       String s = EntityUtils.toString(entity);//转换成字符串
       WeixinAuthDTO weixinAuthDTO = JSONObject.parseObject(s, WeixinAuthDTO.class);
       UserAccountEntity account = userAccountService.getById(weixinAuthDTO.getOpenid());
-      if (account != null) {
-        if (1 == account.getCertificationStatus()) {
-          if (!form.getRole().equals(account.getRole())) {
-            throw new AuthenticationServiceException("登录身份不匹配", RunException.builder().code(ExceptionCode.LOGIN_ROLE_WRONG).build());
-          }
-          return new UsernamePasswordAuthenticationToken(account, weixinAuthDTO, Collections.singletonList(new SimpleGrantedAuthority(String.valueOf(account.getRole()))));
-        }
-        return new UsernamePasswordAuthenticationToken(account, weixinAuthDTO, null);
-      } else {
-        return new UsernamePasswordAuthenticationToken(userAccountService.addAccount(weixinAuthDTO.getOpenid(), form.getRole()), weixinAuthDTO, null);
-      }
+      return new UsernamePasswordAuthenticationToken(account, weixinAuthDTO, Collections.singletonList(new SimpleGrantedAuthority(String.valueOf(account.getRole()))));
+
+//      if (account != null) {
+//          if (!form.getRole().equals(account.getRole())) {
+//            throw new AuthenticationServiceException("登录身份不匹配", RunException.builder().code(ExceptionCode.LOGIN_ROLE_WRONG).build());
+//          }
+//          return new UsernamePasswordAuthenticationToken(account, weixinAuthDTO, Collections.singletonList(new SimpleGrantedAuthority(String.valueOf(account.getRole()))));
+//      } else {
+//        return new UsernamePasswordAuthenticationToken(userAccountService.addAccount(weixinAuthDTO.getOpenid(), form.getRole()), weixinAuthDTO, null);
+//      }
     } catch (IOException e) {
       throw new AuthenticationServiceException("请求微信数据失败", RunException.builder().code(ExceptionCode.GET_WEIXIN_AUTH_FAIL).build());
     }

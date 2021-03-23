@@ -11,15 +11,19 @@ import cabbage.project.lawyerSys.dto.AutoFinishTodoItemDTO;
 import cabbage.project.lawyerSys.entity.*;
 import cabbage.project.lawyerSys.service.*;
 import cabbage.project.lawyerSys.valid.Assert;
+import cabbage.project.lawyerSys.vo.TodoItemVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.quartz.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service("projectUserTodoItemService")
@@ -93,6 +97,20 @@ public class ProjectUserTodoItemServiceImpl extends ServiceImpl<ProjectUserTodoI
       item.setType(1);
       this.updateById(item);
     });
+  }
+
+  @Override
+  public List<TodoItemVo> getList(String userId) {
+    List<ProjectUserTodoItemEntity> itemEntities = this.list(new QueryWrapper<ProjectUserTodoItemEntity>().eq("user", userId).eq("status", 0));
+    List<TodoItemVo> collect = itemEntities.stream().map(item -> {
+      TodoItemVo itemVo = new TodoItemVo();
+      BeanUtils.copyProperties(item, itemVo);
+      ConstantTodoItemEntity constantItem = constantTodoItemService.getById(item.getItem());
+      itemVo.setItemName(constantItem.getName());
+      itemVo.setItemContent(constantItem.getContent());
+      return itemVo;
+    }).collect(Collectors.toList());
+    return collect;
   }
 
 }

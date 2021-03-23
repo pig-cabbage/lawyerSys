@@ -4,10 +4,13 @@ import cabbage.project.lawyerSys.common.utils.PageUtils;
 import cabbage.project.lawyerSys.common.utils.R;
 import cabbage.project.lawyerSys.entity.ProjectUserTodoItemEntity;
 import cabbage.project.lawyerSys.service.ProjectUserTodoItemService;
+import cabbage.project.lawyerSys.vo.TodoItemVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Path;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -19,10 +22,20 @@ import java.util.Map;
  * @date 2021-02-07 20:32:44
  */
 @RestController
-@RequestMapping("lawyersys/projectusertodoitem")
+@RequestMapping("api/todoItem")
 public class ProjectUserTodoItemController {
   @Autowired
   private ProjectUserTodoItemService projectUserTodoItemService;
+
+  /**
+   * 获取特定用户的待办事项
+   */
+  @RequestMapping("/list/{userId}")
+  public R list(@PathVariable("userId") String userId) {
+    List<TodoItemVo> list = projectUserTodoItemService.getList(userId);
+
+    return R.ok().put("list", list);
+  }
 
   /**
    * 列表

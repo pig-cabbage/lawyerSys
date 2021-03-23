@@ -3,6 +3,7 @@ package cabbage.project.lawyerSys.service;
 import cabbage.project.lawyerSys.common.utils.PageUtils;
 import cabbage.project.lawyerSys.entity.ProjectBaseEntity;
 import cabbage.project.lawyerSys.entity.ProjectUserTodoItemEntity;
+import cabbage.project.lawyerSys.vo.TodoItemVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.quartz.SchedulerException;
 
@@ -26,5 +27,7 @@ public interface ProjectUserTodoItemService extends IService<ProjectUserTodoItem
   void finishItemWithUser(Long id, Long itemKey, Date date);
 
   void finishItemWithSystem(Long id, Long itemKey, Date date);
+
+  List<TodoItemVo> getList(String userId);
 }
 
