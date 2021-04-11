@@ -1,0 +1,116 @@
+/* pages/userLawyerInfo/userLawyerInfo.wxss */
+.userInfo {
+  width: 80%;
+  display: flex;
+  height: 200rpx;
+  font-size : 40rpx;
+  line-height: 200rpx;
+  border:2px solid #ccc;
+  border-radius:20px;
+  position: fixed;
+  left: 10%;
+  box-shadow: 3px 3px 2px #ccc;
+  top: 8%;
+  z-index: 1;
+  background-color: #ffffff;
+}
+.back{
+  width: 500px;
+  height: 210rpx;
+  background-color: #1E90FF;
+  z-index: -1;
+  position: absolute;
+}
+
+.userinfo-avatar {
+  position: absolute;
+  width: 128rpx;
+  height: 128rpx;
+  top:32rpx;
+  left:5%;
+
+  border-radius: 50%;
+  margin : auto;
+}
+
+.userinfo-nickname {
+  margin-left: 180rpx ; 
+  color: #aaa;
+}
+
+.usermotto {
+  margin-top: 200px;
+}
+.nav-tabs {
+  width: 100%;
+  display: flex;
+  position: fixed;
+  bottom: 0;
+}
+
+.tab-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column-reverse;
+  background: #fcfcfc;
+  height: 120rpx;
+
+}
+
+.tab-text {
+  font-size: 24rpx;
+  line-height: 35rpx;
+  color: #5f5f5f;
+}
+.active1{
+  color : #1E90FF;
+}
+
+.default1{
+  color : #A7A7A7;
+}
+
+.iconPath {
+  width:54rpx;
+  height: 54rpx;
+}
+
+.tab-content {
+  flex: 1;
+}
+
+.default {
+  line-height: 75rpx;
+  text-align: center;
+  flex: 1;
+  /* border-bottom: 1px solid #eee; */
+  color: #eee;
+  font-weight: bold;
+  font-size: 28rpx;
+}
+
+.active {
+  line-height: 75rpx;
+  text-align: center;
+  color: black;
+  flex: 1;
+  /* border-bottom: 1px solid red; */
+  font-weight: bold;
+  font-size: 28rpx;
+}
+
+.show {
+  display: block;
+  flex: 1;
+}
+
+.hidden {
+  display: none;
+  flex: 1;
+}
+.info-list{
+  width: 500px;
+  position: fixed;
+  top: 360rpx;
+}

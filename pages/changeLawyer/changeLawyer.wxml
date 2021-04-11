@@ -1,0 +1,24 @@
+<!--pages/changeLawyer/changeLawyer.wxml-->
+<view class="page">
+    <mp-cells title="更换原因">
+      <mp-cell>
+        <mp-checkbox-group prop="checkbox" multi="{{true}}" bindchange="radioChange">
+        <mp-checkbox wx:for="{{reasonList}}" wx:key="value" value="{{item.name}}" label="{{item.name}}"  checked="{{item.checked}}"></mp-checkbox>
+      </mp-checkbox-group>
+      </mp-cell>
+    </mp-cells>
+    <view hidden="{{hidden}}">
+      <view  class="weui-cells__title">其他原因</view>
+                <view class="weui-cells weui-cells_after-title">
+                <view class="weui-cell">
+                <view class="weui-cell__bd">
+                    <textarea class="weui-textarea"  placeholder="请输入原因" style="height: 3.3em" data-field="address" bindinput="formInputChange" />
+                    <view class="weui-textarea-counter">{{reasonLength}}/140</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="weui-btn-area">
+            <button class="weui-btn" type="primary" bindtap="submitForm">确定</button>
+        </view>
+</view>

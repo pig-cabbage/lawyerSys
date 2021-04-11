@@ -1,0 +1,9 @@
+{
+  "navigationBarBackgroundColor": "#1E90FF",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "我的咨询",
+  "backgroundColor": "#f38033",
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+  }
+}

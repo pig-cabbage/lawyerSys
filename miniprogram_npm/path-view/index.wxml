@@ -1,0 +1,61 @@
+<!--components/path-view/path-view.wxml-->
+<view>
+  <block wx:if="{{pathMode === 'mode1'}}">
+    <view class="path">
+      <view class="btn"
+            bindtap="toPath">返回上级</view>
+      <view class="btn"
+            data-index="{{0}}"
+            bindtap="toPath">{{firstFloorTxt}}</view>
+      <view class="btn"
+            bindtap="toPath"
+            data-index="{{index+1}}"
+            wx:key="{{index}}"
+            wx:for="{{currentPath}}">{{item.text}}</view>
+    </view>
+  </block>
+  <block wx:elif="{{pathMode === 'mode2'}}">
+    <view class="path">
+      <view class="btn"
+            wx:if="{{currentPath.length !==0}}"
+            bindtap="toPath">返回上级</view>
+      <view class="btn"
+            bindtap="toPath"
+            data-index="{{index}}"
+            wx:key="{{index}}"
+            wx:for="{{currentPath}}">{{item.text}}</view>
+    </view>
+  </block>
+      <mp-cells wx:if="{{user == 'manager' || permit == 'private'}}"><mp-cell   link hover value="新建文件或目录"  bindtap="newValue">
+            </mp-cell></mp-cells>
+  <view class="list-view">
+    <view wx:for="{{outValue}}"
+          wx:key="{{index}}"
+          class="list-view-item"      
+          >
+      <view class="title"
+            space="ensp">{{item[contentKey]}} </view>
+      <view wx:if="{{item.children}}"
+            class="tip" bindtap="tapItem" data-text="{{item[contentKey]}}"
+          data-id="{{item[contentId]}}"
+          data-index="{{index}}">（进入下一级）</view>
+      <view wx:if="{{!item.children}}"
+            class="download" bindtap="download" data-value="{{item.url}}">下载</view>
+      <view class="btn" style="background: #fff;"
+            catchtap="tapBtn"
+            data-item="{{item}}"></view>
+    </view>
+  </view>
+</view>
+<modal title="新建文件/目录" hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
+    <view class="text_area">父目录：{{currentPath[currentPath.length - 1].text}}
+    </view>
+    <picker bindchange="bindPickerChange" value="{{type}}" range="{{array}}">
+    <view class="picker">
+      类型：{{array[type]}}
+    </view>
+</picker>
+<input hidden="{{modalHidden2}}" class="weui-input"  placeholder="请输入名称" bindinput="inputName"/>
+    <view hidden="{{modalHidden1}}" class="btn" 
+            bindtap="upload">上传文件</view>
+    </modal>

@@ -1,0 +1,44 @@
+<view class="page">
+    <view class="result_bd">
+        <mp-cells>
+            <mp-cell wx:for="{{bar}}" value="{{item.key}}" footer = "{{item.value}}">
+            </mp-cell>
+            <mp-cell wx:if="{{role==0}}" link hover value="营业执照"  url="../downloadFile/downloadFile?url={{businessLicense}}">
+            </mp-cell>
+            <mp-cell wx:if="{{role==1}}" link hover value="身份证正面"  url="../downloadFile/downloadFile?url={{positiveIdCard}}">
+            </mp-cell>
+            <mp-cell wx:if="{{role==1}}" link hover value="身份证反面"  url="../downloadFile/downloadFile?url={{negativeIdCard}}">
+            </mp-cell>
+            <mp-cell wx:if="{{role==1}}" link hover value="律师执照"   url="../downloadFile/downloadFile?url={{lawyerLicense}}">
+            </mp-cell>
+        </mp-cells>
+    </view>
+    <view class="process_bd">
+      <button style="width : 45%;" type="primary" data-result="1" bindtap="showAdvice">
+          认证通过
+      </button>
+      <button style="width : 45%;" type="warn" data-result="0" bindtap="showAdvice">
+          认证不通过
+      </button>
+    </view>
+    <modal title="认证意见" hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
+    <view class="text_area">
+      <textarea placeholder="请输入处理意见" auto-height="true"  bindinput="inputAdvice">
+</textarea>
+    </view>
+    </modal>
+    <modal title="可服务等级" hidden="{{modalHidden1}}" bindconfirm="modalConfirm1" bindcancel="modalCandel1">
+    <view class="picker_area">
+      <picker bindchange="bindLowPickerChange" value="{{pickerLowValue}}" range="{{array}}">
+    <view class="picker">
+      最低等级：{{array[pickerLowValue]}}
+    </view>
+  </picker>
+  <picker bindchange="bindHighPickerChange" value="{{pickerHighValue}}" range="{{array}}">
+    <view class="picker">
+      最高等级：{{array[pickerHighValue]}}
+    </view>
+  </picker>
+    </view>
+    </modal>
+</view>

@@ -1,0 +1,18 @@
+<!--pages/projectListIndex/projectList/index.wxml-->
+<view class="page">
+  <view class="search_bd">
+        <mp-searchbar   bindinput="bindinput" placeholder="请输入检索关键词" bindsearch="determine"></mp-searchbar>
+    </view>
+    <!-- <view class="weui-flex">
+        <view class="weui-flex__item"><view class="placeholder">weui</view></view>
+        <view class="weui-flex__item"><view class="placeholder">weui</view></view>
+    </view> -->
+    <view class="result_bd">
+        <mp-cells>
+            <mp-cell wx:for="{{resultList}}" link hover value="{{item.projectName}}" data-index="{{index}}" 
+           bindtap="goToInfo" >
+            </mp-cell>
+        </mp-cells>
+
+    </view>
+</view>

@@ -1,0 +1,6 @@
+<!--pages/demandDetail/demandDetail.wxml-->
+<view class="page">
+    <view wx:if="{{content != null}}" class="text_bd">
+      <textarea value="{{content}}" disabled="true" />
+    </view>
+</view>

@@ -1,0 +1,5 @@
+<view class="page-body">
+  <view class="btn-area">
+  <button wx:for="{{buttonText}}" class="btn1"  bindtap='changeTo' data-value="{{index}}">{{item}}</button>
+</view>
+</view>

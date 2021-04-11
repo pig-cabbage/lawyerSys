@@ -1,0 +1,36 @@
+<!--pages/chooseLawyer/chooseLawyer.wxml-->
+<view class="page">
+  <view class="nav_wrap">
+    <!--自己滚动区域的组件-->
+    <scroll-view class="nav" scroll-x >
+      <view bindtap="activeNav" data-index="{{index}}" 
+      class="nav_item {{index===currentIndexNav?'active':''}}" 
+      wx:for="{{tabs}}" wx:key="index" >{{item.title}}</view>
+    </scroll-view>
+  </view>
+  <view wx:if="{{currentIndexNav == 0}}" class="content">
+      <text>系统会根据您的咨询需求为您提供合适的律师，必要时会电话联系您，请您保持联系方式畅通。</text>
+    </view>
+  <view wx:if="{{currentIndexNav == 1}}">
+    <view class="search_bd">
+        <mp-searchbar bindinput="bindinput" bindsearch="determine"></mp-searchbar>
+    </view>
+    <view class="result_bd">
+      <mp-checkbox-group prop="checkbox" multi="{{true}}" bindchange="radioChange">
+        <mp-checkbox  wx:for="{{lawyerList}}" wx:key="value" label="{{item.name}}" value="{{item.id}}" checked="{{item.checked}}" url="lawyerInfo" account="{{item.account}}"></mp-checkbox>
+    </mp-checkbox-group>
+    </view>
+    <view  class="warn">
+      <view class="warn_text">
+        <text>建议您提前与您要指定的律师联系沟通，以免律师拒绝承接您的咨询项目</text>
+      </view>
+      
+    </view>
+  </view>
+  <view class="process_bd" >
+      <button style="width: 60%;"  type="primary" data-result="1" bindtap="chooseLawyer">
+          确定
+      </button>
+    </view>
+</view>
+

@@ -1,0 +1,8 @@
+/* pages/renew/renew.wxss */
+.process_bd{
+  display: flex;
+  width: 100%;
+  bottom: 130rpx;
+  position: fixed;
+  text-align: center;
+}

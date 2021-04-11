@@ -1,0 +1,25 @@
+<view class="page">
+    <view class="result_bd">
+        <mp-cells>
+            <mp-cell wx:for="{{bar}}" value="{{item.key}}" footer = "{{item.value}}">
+            </mp-cell>
+            <mp-cell wx:if="{{certificationStatus != null}}" value="认证状态" footer="{{certificationStatus}}">
+            </mp-cell>
+            <mp-cell wx:if="{{certificationTime != null}}" value="认证时间" footer="{{certificationTime}}">
+            </mp-cell>
+            <mp-cell link hover value="营业执照" bindtap="showPhoto">
+            </mp-cell>
+        </mp-cells>
+    </view>
+    <view wx:if="{{accountId.size == 0}}" class="delete_bd">
+      <button type="warn" bindtap="deleteUser">
+          删除用户
+      </button>
+    </view>
+    <modal title="营业执照" hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
+    <view>
+      <image class="image1" src="{{url1}}" mode='aspectFit'></image>
+    </view>
+    
+  </modal>
+</view>

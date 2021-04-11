@@ -1,0 +1,9 @@
+{"navigationBarBackgroundColor": "#1E90FF",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "文件模板",
+  "backgroundColor": "#f38033",
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+    "path-view": "path-view/index"
+  }
+  }

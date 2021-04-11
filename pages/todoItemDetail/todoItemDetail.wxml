@@ -1,0 +1,101 @@
+<!--pages/todoItemDetail/todoItemDetail.wxml-->
+<view class="page">
+    <view class="content_title" >事项内容</view>
+    <view class="content">
+      <text>{{content}}</text>
+    </view>
+    <view wx:if="{{id == 1}}">
+    <view  class = "payPlan">
+      <mp-cells>
+        <mp-cell link hover value="服务方案" url="../servicePlanInfo/servicePlanInfo?id={{planId}}"></mp-cell>
+        <mp-cell value="服务时间" footer="{{serviceTime}}"></mp-cell>
+        <mp-cell value="服务费用" footer="{{cost}}元"></mp-cell>
+      </mp-cells>
+    </view>
+    </view>
+    <view wx:if="{{id == 4}}">
+    <view  class = "payPlan">
+      <mp-cells title="原因">
+        <mp-cell value="{{reason}}" ></mp-cell>
+        <mp-cell link hover value="项目详情" url="../lawyerProjectDetail/lawyerProjectDetail?id={{project}}"></mp-cell>
+      </mp-cells>
+    </view>
+    </view>
+    <view wx:if="{{id == 3}}">
+    <view  class = "payPlan">
+      <mp-cells>
+        <mp-cell link hover value="企业详情" url="../companyInfo/companyInfo?id={{companyId}}"></mp-cell>
+        <mp-cell link hover value="咨询需求" url="../companyDemand/companyDemand?id={{demand}}"></mp-cell>
+        <mp-cell link hover value="服务方案" url="../servicePlanInfo/servicePlanInfo?id={{planId}}"></mp-cell>
+        <mp-cell value="服务时间" footer="{{serviceTime}}"></mp-cell>
+
+      </mp-cells>
+    </view>
+    </view>
+      <view class="warn">
+      <text>{{warn}}</text>
+      </view>
+    <view class="process_bd" wx:if="{{id == 1}}">
+      <button style="width:45%;" type="primary" data-result="1" bindtap="pay">
+          支付费用
+      </button>
+      <button style="width:45%;" type="warn" data-result="0" bindtap="objection">
+          提出异议
+      </button>
+    </view>
+    <view wx:if="{{id == 8}}" class="process_bd">
+      <button style="width:45%;" type="primary" data-result="1" bindtap="renew">
+          是
+      </button>
+      <button style="width:45%;" type="warn" data-result="0" bindtap="noRenew">
+          否
+      </button>
+    </view>
+    <view wx:if="{{id == 4}}" class="process_bd">
+      <button style="width:45%;" type="primary" data-result="1" bindtap="agreeApply">
+          同意
+      </button>
+      <button style="width:45%;" type="warn" data-result="0" bindtap="refuseApply">
+          申诉
+      </button>
+    </view>
+    <view wx:if="{{id == 3}}" class="process_bd">
+      <button style="width:45%;" type="primary" data-result="1" bindtap="undertake">
+          同意
+      </button>
+      <button style="width:45%;" type="warn" data-result="0" bindtap="refuseUndertake">
+          拒绝
+      </button>
+    </view>
+    <view wx:if="{{id !=8 && id != 1 && id != 4 && id != 3}}" class="process_bd">
+      <button style="width : 60%" type="primary" data-result="1" bindtap="chooseLawyer">
+          去选择律师
+      </button>
+    </view>
+</view>
+
+<modal title="扫码支付" hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel" >
+    <view>
+      <image class="image" src="../../images/pay_code.jpg" mode='aspectFit'></image>
+    </view>
+    <view>请扫码完成支付后点击“确定”按钮</view>
+  </modal>
+
+  <modal title="提出异议" hidden="{{modalHidden1}}" bindconfirm="modalConfirm1" bindcancel="modalCandel1">
+    <view class="text_area">
+      <textarea style="width:100%;" placeholder="请输入异议内容" auto-height="true"  bindinput="inputObjection">
+</textarea>
+    </view>
+    </modal>
+    <modal title="申诉理由" hidden="{{modalHidden2}}" bindconfirm="modalConfirm2" bindcancel="modalCandel2">
+    <view class="text_area">
+      <textarea style="width:100%;" placeholder="请输入申诉理由" auto-height="true"  bindinput="inputReason">
+</textarea>
+    </view>
+    </modal>
+    <modal title="拒绝理由" hidden="{{modalHidden3}}" bindconfirm="modalConfirm3" bindcancel="modalCandel3">
+    <view class="text_area">
+      <textarea style="width:100%;" placeholder="请输入申诉理由" auto-height="true"  bindinput="inputReason1">
+</textarea>
+    </view>
+    </modal>

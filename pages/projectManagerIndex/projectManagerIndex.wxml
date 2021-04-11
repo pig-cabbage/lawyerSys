@@ -1,0 +1,11 @@
+<!--pages/projectManagerIndex/projectManagerIndex.wxml-->
+<view class="page-body">
+<view class="result_bd">
+        <mp-cells>
+            <mp-cell wx:for="{{buttonText}}" link hover value="{{item}}" data-value="{{index}}" 
+           bindtap="changeTo" >
+            </mp-cell>
+        </mp-cells>
+
+    </view>
+</view>

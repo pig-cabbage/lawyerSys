@@ -1,0 +1,16 @@
+<!--pages/companyTodoItem/companyTodoItem.wxml-->
+<view class="page">
+    <view class="result_bd">
+      <view wx:for="{{resultList}}" class="card">
+        <view >
+          <text style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap;display:block">项目：{{item.projectName}}</text>
+        </view>
+        <view style="margin-top : 20rpx; display:flex; height : 30rpx; line-height: 30rpx;">
+          <view  style="font-size: 30rpx; width: 200rpx">{{item.itemName}}</view>
+          <view  style="font-size: 30rpx; width: 200rpx; text-align: center;">{{item.createTime}}</view>
+          <view  style = "margin-top : 20rpx; margin-left : 150rpx" ><image class="nav" src="../../icon/right.png" data-index="{{index}}" bindtap="gotoDetail" ></image>
+          </view>
+        </view>
+      </view>
+    </view>
+</view>

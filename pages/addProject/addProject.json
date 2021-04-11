@@ -1,0 +1,14 @@
+{"navigationBarBackgroundColor": "#1E90FF",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "发起咨询",
+  "backgroundColor": "#f38033",
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+    "mp-cells": "weui-miniprogram/cells/cells",
+    "mp-cell": "weui-miniprogram/cell/cell",
+    "path-view": "path-view/index",
+    "mp-checkbox-group": "weui-miniprogram/checkbox-group/checkbox-group",
+    "mp-checkbox": "weui-miniprogram/checkbox/checkbox"
+    
+  }
+  }

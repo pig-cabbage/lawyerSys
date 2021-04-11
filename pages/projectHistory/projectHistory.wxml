@@ -1,0 +1,26 @@
+<!--pages/projectHistory/projectHistory.wxml-->
+<view class="page">
+    <view class="result_bd">
+      <view wx:for="{{projectList}}" class="card">
+        <view >
+          <text style="overflow: hidden; text-overflow:ellipsis; white-space: nowrap;display:block">项目：{{item.projectName}}</text>
+        </view>
+        <view style=" line-height:50rpx; font-size:30rpx">
+          <view>发起时间：{{item.createTimeBrief}}</view>
+          <view style="display:flex;">
+            <view style="width : 80%">状态：{{item.statusChina}}</view>
+            <view  style = "margin-left : 80rpx" ><image class="nav" src="../../icon/right.png" data-index="{{index}}" bindtap="gotoDetail" ></image>
+          </view>
+          </view>
+          </view>
+        </view>
+      </view>
+</view>
+
+
+<view class="nav-tabs">
+  <view class="tab-list {{currentTab == idx ? 'active' : 'default' }}" wx:for="{{items}}" wx:key="prototype" wx:for-index="idx" wx:for-item="item" data-current="{{idx}}" bindtap="swichNav">
+    <text class="tab-text {{currentTab == idx ? 'active1' : 'default1' }}" wx:for-index="idx" data-current="{{idx}}" src="{{currentTab == idx ? item.selectedIconPath : item.iconPath }}">{{item.text}}</text>
+    <image class="iconPath" wx:for-index="idx" data-current="{{idx}}" src="{{currentTab == idx ? item.selectedIconPath : item.iconPath }}"></image>
+  </view>
+</view>

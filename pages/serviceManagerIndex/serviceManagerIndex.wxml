@@ -1,0 +1,27 @@
+<!--pages/serviceManagerIndex/serviceManagerIndex.wxml-->
+<view class="page">
+    <view class="result_bd">
+        <mp-cells>
+            <mp-cell wx:for="{{levelList}}" link hover value="{{item.level}}级服务列表" url="../servicePlanIndex/servicePlanIndex?id={{item.id}}&level={{item.level}}&chargeStandard={{item.chargeStandard}}">
+            </mp-cell>
+        </mp-cells>
+    </view>
+    <view class="add_bd">
+        <mp-cells>
+            <mp-cell  link hover value="新建服务等级" bindtap="addLevel">
+              <image slot="icon" src="../../icon/add.svg" style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;"></image>
+            </mp-cell>
+        </mp-cells>
+    </view>
+    <modal title="新建等级" hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
+      <picker bindchange="bindPickerChange" value="{{pickerLowValue}}" range="{{array}}">
+    <view class="picker">
+      服务等级：{{array[index]}}
+    </view>
+  </picker>
+  <view class="weui-flex">
+  <input class="weui-flex__item" placeholder="请输入收费标准" type="digit" bindinput="inputStandard"></input>
+  <text class="weui-flex__item">/月</text>
+</view>
+  </modal>
+</view>

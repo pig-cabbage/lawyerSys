@@ -1,0 +1,46 @@
+<!--pages/lawyerAuthApply/lawyerAuthApply.wxml-->
+<!--pages/authApply/authApply.wxml-->
+<view class="page">
+  <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+<view class="form">
+  <mp-form id="form" rules="{{rules}}" models="{{formData}}">
+    <mp-cells >
+                <mp-cell prop="name" title="姓名" ext-class="">
+                    <input bindinput="formInputChange" data-field="name" class="weui-input" value="{{formData.name}}" placeholder="其输入企业名称"/>
+                </mp-cell>
+                <mp-cell prop="phoneNumber" title="联系方式" ext-class="">
+                    <input bindinput="formInputChange" data-field="phoneNumber" class="weui-input" value="{{formData.phoneNumber}}" placeholder="请输入联系方式"/>
+                </mp-cell>
+                <mp-cell prop="sex" title="性别" ext-class="">
+                  <picker bindchange="bindSexPickerChange" value="{{pickerSexValue}}" range="{{sexList}}">
+                  <view class="picker">
+                    {{sexList[pickerSexValue]}}
+             </view>
+                    </picker>
+                </mp-cell>
+                <mp-cell prop="degree" title="学位" ext-class="">
+                  <picker bindchange="bindDegreePickerChange" value="{{pickerDegreeValue}}" range="{{degreeList}}">
+                  <view class="picker">
+                    {{degreeList[pickerDegreeValue]}}
+             </view>
+                    </picker>
+                </mp-cell>
+                <mp-cell prop="workTime" title="从业时长（单位：年）" ext-class="">
+                    <input bindinput="formInputChange" data-field="workTime" class="weui-input" value="{{formData.workTime}}" type="number"></input>
+                </mp-cell>
+    </mp-cells>
+          <mp-cells title="上传资料">
+            <mp-cell prop="positiveIdCard" data-field="positiveIdCard" link hover value="身份证正面" bindtap="chooseFile">
+                </mp-cell>
+            <mp-cell prop="negativeIdCard" data-field="negativeIdCard" link hover value="身份证反面" bindtap="chooseFile">
+                </mp-cell>
+            <mp-cell prop="lawyerLicense" data-field="lawyerLicense" link hover value="律师执照" bindtap="chooseFile">
+                </mp-cell>
+            </mp-cells>
+  </mp-form>
+  <view class="weui-btn-area">
+            <button class="weui-btn" type="primary" bindtap="submitForm">确定</button>
+        </view>
+</view>
+</view>
+

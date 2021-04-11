@@ -1,0 +1,6 @@
+<!--pages/downloadFile/downloadFile.wxml-->
+<view>
+  <image src = "{{imagePath}}">
+
+  </image>
+</view>

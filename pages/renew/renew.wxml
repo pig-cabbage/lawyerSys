@@ -1,0 +1,21 @@
+<!--pages/renew/renew.wxml-->
+<view class="page">
+    <view class="result_bd">
+        <mp-cells>
+            <mp-cell link hover value="服务方案" url="../servicePlanInfo/servicePlanInfo?id={{planId}}"></mp-cell>
+            <mp-cell value="服务时间" footer="{{serviceTime}}"></mp-cell>
+            <mp-cell value="服务费用" footer="{{cost}}"></mp-cell>
+        </mp-cells>
+    </view>
+    <view class="process_bd" >
+      <button style="width:60%;" type="primary" data-result="1" bindtap="pay">
+          支付费用
+      </button>
+    </view>
+</view>
+<modal title="扫码支付" hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel" >
+    <view>
+      <image class="image" src="../../images/pay_code.jpg" mode='aspectFit'></image>
+    </view>
+    <view>请扫码完成支付后点击“确定”按钮</view>
+  </modal>

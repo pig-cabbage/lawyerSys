@@ -1,0 +1,20 @@
+<!--pages/userCompanyInfo/userCompanyInfo.wxml-->
+<view class="page">
+  <view class="back"></view>
+    <view class = "userInfo">
+        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </view>
+    <mp-cells class="info-list">
+      <mp-cell link hover value="企业信息" url="../companyInfo/companyInfo?id={{accountId}}&certificationStatus={{certificationStatus}}"></mp-cell>
+      <mp-cell link hover value="认证申请" url="../authApply/authApply?certificationStatus={{certificationStatus}}"></mp-cell>
+    </mp-cells>
+</view>
+
+<!-- 自定义 tabbar -->
+<view class="nav-tabs">
+  <view class="tab-list {{currentTab == idx ? 'active' : 'default' }}" wx:for="{{items}}" wx:key="prototype" wx:for-index="idx" wx:for-item="item" data-current="{{idx}}" bindtap="swichNav">
+    <text class="tab-text {{currentTab == idx ? 'active1' : 'default1' }}" wx:for-index="idx" data-current="{{idx}}" src="{{currentTab == idx ? item.selectedIconPath : item.iconPath }}">{{item.text}}</text>
+    <image class="iconPath" wx:for-index="idx" data-current="{{idx}}" src="{{currentTab == idx ? item.selectedIconPath : item.iconPath }}"></image>
+  </view>
+</view>

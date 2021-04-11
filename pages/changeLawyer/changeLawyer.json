@@ -1,0 +1,14 @@
+{
+  "navigationBarBackgroundColor": "#1E90FF",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "更换律师",
+  "backgroundColor": "#f38033",
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+    "mp-searchbar": "weui-miniprogram/searchbar/searchbar",
+    "mp-cells": "weui-miniprogram/cells/cells",
+    "mp-cell": "weui-miniprogram/cell/cell",
+    "mp-checkbox-group": "weui-miniprogram/checkbox-group/checkbox-group",
+    "mp-checkbox": "weui-miniprogram/checkbox/checkbox"
+  }
+}

@@ -1,0 +1,22 @@
+<!--pages/archiveProject/archiveProject.wxml-->
+
+<view class="page">
+    <view class="result_bd">
+        <mp-cells>
+            <mp-cell link hover value="项目详情" url="../projectInfoIndex/projectInfoIndex?data={{data}}&status={{status}}">
+            </mp-cell>
+            <mp-cell value="归档编号" footer="{{number}}">
+            </mp-cell>
+        </mp-cells>
+        <mp-cells title="备注信息">
+        <mp-cell>
+          </mp-cell>
+        </mp-cells>
+        <view>
+            <textarea value="{{note}}" auto-height="true">
+            </textarea>
+          </view>
+    </view>
+
+</view>
+

@@ -1,0 +1,20 @@
+<view class="page">
+  <view class="nav_wrap">
+    <!--自己滚动区域的组件-->
+    <scroll-view class="nav" scroll-x >
+      <view bindtap="activeNav" data-index="{{index}}" 
+      class="nav_item {{index===currentIndexNav?'active':''}}" 
+      wx:for="{{tabs}}" wx:key="index" >{{item.title}}</view>
+    </scroll-view>
+  </view>
+  <view class="search_bd">
+        <mp-searchbar bindselectresult="selectResult" search="{{search}}" bindinput="bindinput"></mp-searchbar>
+    </view>
+    <view class="result_bd">
+        <mp-cells>
+            <mp-cell wx:for="{{result}}" link hover value="{{item.name}}" data-index="{{index}}" bindtap="goToInfo" >
+            </mp-cell>
+        </mp-cells>
+
+    </view>
+</view>

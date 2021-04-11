@@ -1,0 +1,45 @@
+/* pages/todoItemDetail/todoItemDetail.wxss */
+.content_title{
+  margin-top: 20rpx;
+  margin-left: 10%;
+  line-height: 20px;
+  height: 20px;
+  font-size: 30rpx;
+}
+.content{
+  margin: 5rpx auto;
+  width: 80%;
+  height: 160rpx;
+  padding: 20rpx 20rpx;
+  border:2px solid #1E90FF;
+  box-shadow: 3px 3px 2px #ccc;
+  align-items: center;
+}
+.payPlan{
+  margin: 20rpx auto;
+  width: 80%;
+  /* height: 300rpx; */
+  padding: 20rpx 20rpx;
+  border:2px solid #1E90FF;
+  border-radius: 30rpx;
+  box-shadow: 3px 3px 2px #ccc;
+  align-items: center;
+}
+.warn{
+  margin: 20rpx auto;
+  width: 80%;
+  padding: 20rpx 20rpx;
+  border:2px solid #e91f10;
+  border-radius: 20rpx;
+  box-shadow: 3px 3px 2px #ccc;
+  align-items: center;
+  font-size : 35rpx;
+  color : #8a8a8a;
+}
+.process_bd{
+  display: flex;
+  width: 100%;
+  bottom: 130rpx;
+  position: fixed;
+  text-align: center;
+}

@@ -1,0 +1,9 @@
+{
+  "navigationBarBackgroundColor": "#1E90FF",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "具体需求",
+  "backgroundColor": "#f38033",
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+  }
+}

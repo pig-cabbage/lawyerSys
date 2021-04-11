@@ -1,0 +1,49 @@
+<!--pages/addServicePlan/addServicePlan.wxml-->
+<view class="steps_box">
+
+<block class="block-step" wx:for="{{stepList}}">
+  <view class="view_item">
+    <!-- 打钩 -->
+    <icon wx:if="{{stepNum>index+1?true:false}}" type="success" size="24" />
+    <!-- 圆圈数字 -->
+    <view wx:else> {{index+1}} </view>
+    <text style="color:{{stepNum>=index+1?'#00bd3f':'#909090'}}; font-size:23rpx">{{item.name}}</text>
+  </view>
+  <!-- 横线 -->
+  <view wx:if="{{index==stepList.length-1?false:true}}"
+    class="view_line {{stepNum<=index+1?'line_bgcolor1':'line_bgcolor'}} "></view>
+</block>
+</view>
+<view wx:if="{{stepNum == 1}}">
+  <mp-cells>
+            <mp-cell  value="服务等级" footer="{{level}}级">
+            </mp-cell>
+            <mp-cell value="收费标准" footer="{{chargeStandard}}元/月">
+            </mp-cell>
+            <mp-cell>
+              <view><input placeholder="请输入服务方案名称" bindinput="inputName"/></view>
+            </mp-cell>
+  </mp-cells>
+
+</view>
+<view wx:if="{{stepNum == 2}}">
+  <mp-cells title="服务方案内容">
+    
+  </mp-cells>
+  <textarea placeholder="请输入服务方案内容" value="{{content}}" bindinput="inputContent"></textarea>
+</view>
+<view wx:if="{{stepNum == 3}}"> 
+  <path-view value="{{value}}" mode="{{addPlan}}"
+            btnTxt='选中本项'
+            catchtapBtn="selThis" user="manager" permit="public"></path-view>
+</view>
+<view class="next_btn" wx:if="{{stepNum == 1}}">
+<button bindtap="numSteps" type="primary">下一步</button>
+</view>
+<view wx:if="{{stepNum != 1}}"  class="weui-flex" style="margin-left: 20%;width: 60%;position: fixed; bottom: 30rpx;">
+        <view class="weui-flex__item"><view class="placeholder"><button button wx:if="{{stepNum != 1}}"  bindtap="previous" type="primary" >上一步</button></view></view>
+        <view class="weui-flex__item"><view class="placeholder"><button wx:if="{{stepNum != 4}}"  bindtap="numSteps" type="primary" >下一步</button>
+<button wx:if="{{stepNum == 4}}" bindtap="finish" type="primary" >完成</button></view></view>
+    </view>
+
+

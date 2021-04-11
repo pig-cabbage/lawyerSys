@@ -1,0 +1,19 @@
+.btn-area{
+  /* display: flex; */
+  justify-content: center;
+  margin-top: 5%;
+  align-items: center;
+}
+.btn1{
+  /* display: flex; */
+  margin-top: 10%;
+  padding: 0;
+  width: 40%;
+  height: 40%;
+  border-radius: 50rpx;
+  flex-direction:row;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 1rpx 1rpx 15rpx #888888;
+  border: 0;
+}

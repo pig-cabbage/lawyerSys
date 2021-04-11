@@ -1,0 +1,6 @@
+<!--index.wxml-->
+<view class="page-body">
+  <view class="btn-area" id="buttonContainer">
+    <button wx:for="{{loginRole}}" type="primary" bindtap="login" data-value="{{index}}">{{item}}</button>
+  </view>
+</view>

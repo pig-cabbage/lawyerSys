@@ -1,0 +1,106 @@
+/* pages/lawyerIndex/lawyerIndex.wxss */
+page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  
+}
+.char_card{
+  display: flex;
+  height: 150rpx;
+  width: 100%;
+  border-bottom:1px solid #dbdbdb;
+}
+.head{
+  width: 150rpx;
+  height: 150rpx;
+}
+.card_right{
+  width: 100%;
+}
+.right_top{
+  display: flex;
+  height: 100rpx;
+  line-height: 100rpx;
+}
+.right_bottom{
+  height: 50rpx;
+  line-height: 50rpx;
+  color: #bfbfbf;
+}
+.name{
+  width: 80%;
+}
+.time{
+  width: 20%;
+  font-size: 30rpx;
+  text-align: center;
+}
+.nav-tabs {
+  width: 100%;
+  display: flex;
+  position: fixed;
+  bottom: 0;
+}
+
+.tab-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column-reverse;
+  background: #fcfcfc;
+  height: 120rpx;
+
+}
+
+.tab-text {
+  font-size: 24rpx;
+  line-height: 35rpx;
+  color: #5f5f5f;
+}
+.active1{
+  color : #1E90FF;
+}
+
+.default1{
+  color : #A7A7A7;
+}
+
+.iconPath {
+  width:54rpx;
+  height: 54rpx;
+}
+
+.tab-content {
+  flex: 1;
+}
+
+.default {
+  line-height: 75rpx;
+  text-align: center;
+  flex: 1;
+  /* border-bottom: 1px solid #eee; */
+  color: #eee;
+  font-weight: bold;
+  font-size: 28rpx;
+}
+
+.active {
+  line-height: 75rpx;
+  text-align: center;
+  color: black;
+  flex: 1;
+  /* border-bottom: 1px solid red; */
+  font-weight: bold;
+  font-size: 28rpx;
+}
+
+.show {
+  display: block;
+  flex: 1;
+}
+
+.hidden {
+  display: none;
+  flex: 1;
+}

@@ -1,0 +1,15 @@
+<!--pages/servicePlanContent/servicePlanContent.wxml-->
+  <view   class="text_bd" style="height: {{height}}">
+  <textarea maxlength="5000"  class="text_content"  placeholder="{{oldValue}}" value="{{newValue}}"  disabled="{{startEditor}}" bindinput="inputContent">
+  </textarea>
+</view>
+<view wx:if="{{editor != 'false'}}" class="process_bd">
+      <button style="width : 45%;" type="primary" data-result="1" bindtap="startEditor">
+          {{button}}
+      </button>
+
+    </view>
+
+
+
+

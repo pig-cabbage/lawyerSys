@@ -1,0 +1,21 @@
+/* pages/projectDetail/projectDetail.wxss */
+.nav_wrap{
+  align-items: center;
+}
+.nav{
+  width: 90%;
+  margin : 0 auto;
+  white-space: nowrap;
+  padding: 5rpx;
+  align-items: center;
+}
+.nav_item{
+  padding: 15rpx 30rpx;
+  font-size: 40rpx;
+  display: inline-block;
+  margin : 0 auto;
+}
+/*粗度5rpx 实线 粉色*/
+.nav_item.active{
+  border-bottom: 5rpx solid #1E90FF;
+}

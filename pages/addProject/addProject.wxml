@@ -1,0 +1,80 @@
+<!--pages/addProject/addProject.wxml-->
+
+  <view wx:if="{{stepNum == 1}}" class="steps_box" >
+<block class="block-step" wx:for="{{stepList}}">
+  <view class="view_item">
+    <!-- 打钩 -->
+    <icon wx:if="{{stepNum>index+1?true:false}}" type="success" size="24" />
+    <!-- 圆圈数字 -->
+    <view wx:else> {{index+1}} </view>
+    <text style="color:{{stepNum>=index+1?'#00bd3f':'#909090'}}; font-size:23rpx">{{item.name}}</text>
+  </view>
+  <!-- 横线 -->
+  <view wx:if="{{index==stepList.length-1?false:true}}"
+    class="view_line {{stepNum<=index+1?'line_bgcolor1':'line_bgcolor'}} "></view>
+</block>
+</view>
+<view wx:if="{{stepNum == 1}}" class="demand_content">
+          <textarea class="demand_text" placeholder="请输入咨询需求" value="{{content}}" maxlength="-1"  bindinput="inputContent" maxlength="5000">
+          </textarea>
+    </view>
+<view wx:if="{{stepNum == 2}}">
+  <view class="nav_wrap">
+    <!--自己滚动区域的组件-->
+    <scroll-view class="nav" scroll-x >
+      <view bindtap="activeNav" data-index="{{index}}" 
+      class="nav_item {{index===currentIndexNav?'active':''}}" 
+      wx:for="{{tabs}}" wx:key="index" >{{item.title}}</view>
+    </scroll-view>
+  </view>
+  <view wx:if="{{currentIndexNav == 0}}" class="content">
+      <text>系统会根据您的咨询需求为您选择合适的服务方案，必要时会电话联系您，请您保持联系方式畅通。</text>
+    </view>
+  <view wx:if="{{currentIndexNav == 1}}">
+   
+<view class='dataCent'>
+  <view class='MenuDiv' wx:for="{{levelList}}" data-index="{{index}}" >
+      <view data-index="{{index}}" bindtap="clickMenu">
+        {{item.level}}级服务方案
+      </view>
+      <!-- <view class='bottomImages' hidden='{{item.hideHidden}}'>
+        <view wx:for="{{item.children}}">
+          <view>{{item.name}}</view>
+          <view class="nav_img" bingtap="gotoInfo">
+            <image style="width:50rpx; height : 50rpx; margin-top:15rpx;" src="../../icon/right.png"></image>
+          </view>
+        </view>
+        
+      </view> -->
+      <view hidden='{{item.hideHidden}}'>
+        <mp-checkbox-group prop="checkbox" multi="{{true}}" bindchange="radioChange" >
+        <mp-checkbox wx:for="{{item.children}}" wx:key="value" label="{{item.name}}" value="{{item.id}}" checked="{{item.checked}}" url="planInfo"></mp-checkbox>
+    </mp-checkbox-group>
+      </view>
+  </view>
+</view>
+  </view>
+</view>
+
+<view class="next_btn" wx:if="{{stepNum == 1}}">
+<button style="width : 60%" bindtap="numSteps" type="primary">下一步</button>
+</view>
+<view class="next_btn" wx:if="{{stepNum == 2}}">
+<button style="width : 60%" bindtap="finish" type="primary">发起咨询</button>
+</view>
+<modal title="项目名称" hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
+    <view class="text_area">
+      <textarea placeholder="请为这个项目命名" auto-height="true" maxlength="12"  bindinput="inputName"></textarea>
+      <view class="weui-textarea-counter">{{nameLength}}/12</view>
+    </view>
+    </modal>
+
+<!-- 自定义 tabbar -->
+<view class="nav-tabs">
+  <view class="tab-list {{currentTab == idx ? 'active' : 'default' }}" wx:for="{{items}}" wx:key="prototype" wx:for-index="idx" wx:for-item="item" data-current="{{idx}}" bindtap="swichNav">
+    <text class="tab-text {{currentTab == idx ? 'active1' : 'default1' }}" wx:for-index="idx" data-current="{{idx}}" src="{{currentTab == idx ? item.selectedIconPath : item.iconPath }}">{{item.text}}</text>
+    <image class="iconPath" wx:for-index="idx" data-current="{{idx}}" src="{{currentTab == idx ? item.selectedIconPath : item.iconPath }}"></image>
+  </view>
+</view>
+
+

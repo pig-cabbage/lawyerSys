@@ -1,0 +1,34 @@
+<!--pages/lawyerProjectDetail/lawyerProjectDetail.wxml-->
+<view class="page">
+  <view class="nav_wrap">
+    <!--自己滚动区域的组件-->
+    <scroll-view class="nav" scroll-x >
+      <view bindtap="activeNav" data-index="{{index}}" 
+      class="nav_item {{index===currentIndexNav?'active':''}}" 
+      wx:for="{{tabs}}" wx:key="index" >{{item.title}}</view>
+    </scroll-view>
+  </view>
+
+  <view class="result_bd">
+        <mp-cells wx:if="{{currentIndexNav == 0}}">
+            <mp-cell value="项目名称" footer="{{item.projectName}}" ></mp-cell>
+            <mp-cell link hover value="企业详情" url="../companyInfo/companyInfo?id={{item.project}}" ></mp-cell>
+            <mp-cell link hover value="咨询需求" url="../demandDetail/demandDetail?id={{item.demand}}" ></mp-cell>
+            <mp-cell value="发起时间" footer="{{item.createTimeDetail}}"></mp-cell>
+            <mp-cell link hover value="服务方案" url="../servicePlanInfo/servicePlanInfo?id={{item.plan}}" ></mp-cell>
+            <mp-cell  value="服务时间" footer="{{item.serviceTime}}"></mp-cell>
+            <mp-cell value="状态" footer="{{status}}"></mp-cell>
+        </mp-cells>
+        <path-view wx:if="{{currentIndexNav == 1}}" value="{{value}}"
+            btnTxt='选中本项'
+            catchtapBtn="selThis" permit="private" user="company"></path-view>
+        <path-view wx:if="{{currentIndexNav == 2}}" value="{{fileTemplate}}" user="company"  permit="public"
+            btnTxt='选中本项'
+            catchtapBtn="selThis"></path-view>
+    </view>
+  
+    <view wx:if="{{currentIndexNav == 0 && (item.status == 8 || item.status == 9)}}" class="weui-btn-area">
+            <button class="weui-btn" type="primary" bindtap="changeLawyer">申请更换律师</button>
+        </view>
+
+</view>

@@ -1,0 +1,21 @@
+.nav_wrap{
+  align-items: center;
+}
+.nav{
+  margin-left: 20%;
+  white-space: nowrap;
+  padding: 5rpx;
+}
+.nav_item{
+  padding: 15rpx 30rpx;
+  font-size: 40rpx;
+  display: inline-block;
+}
+/*粗度5rpx 实线 粉色*/
+.nav_item.active{
+  border-bottom: 5rpx solid #1E90FF;
+}
+.search_bd{
+  margin-left: 5%;
+  width: 90%;
+}

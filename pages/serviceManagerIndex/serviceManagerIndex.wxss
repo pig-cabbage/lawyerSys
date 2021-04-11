@@ -1,0 +1,4 @@
+/* pages/serviceManagerIndex/serviceManagerIndex.wxss */
+.chargeStandard_bd{
+  align-items: center;
+}

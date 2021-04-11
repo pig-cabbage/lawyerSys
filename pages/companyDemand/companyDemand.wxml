@@ -1,0 +1,12 @@
+<!--pages/companyDemand/companyDemand.wxml-->
+<view class="page">
+    <view class="result_bd">
+        <mp-cells>
+            <mp-cell wx:if="{{recommendPlan === 1}}"  link hover value="服务方案" footer="系统推荐"></mp-cell>
+            <mp-cell wx:if="{{recommendPlan === 0}}"  link hover value="服务方案" url="../servicePlanInfo/servicePlanInfo?id={{demandPlan}}"></mp-cell>
+            <mp-cell  link hover value="具体需求" url="../demandDetail/demandDetail?data={{content}}"></mp-cell>
+            <mp-cell wx:if="{{objection != null}}"  link hover value="企业异议" url="../companyComplaint/companyComplaint?id={{objection}}"></mp-cell>
+        </mp-cells>
+
+    </view>
+</view>

@@ -1,0 +1,56 @@
+/* pages/chooseLawyer/chooseLawyer.wxss */
+.page{
+  height: 100%;
+}
+.nav_wrap{
+  align-items: center;
+}
+.nav{
+  margin-left: 20%;
+  white-space: nowrap;
+  padding: 5rpx;
+}
+.nav_item{
+  padding: 15rpx 30rpx;
+  font-size: 40rpx;
+  display: inline-block;
+}
+/*粗度5rpx 实线 粉色*/
+.nav_item.active{
+  border-bottom: 5rpx solid #1E90FF;
+}
+.content{
+  margin-top: 20rpx;
+  margin-left: 5%;
+  width: 80%;
+  height: 160rpx;
+  padding: 20rpx 20rpx;
+  border:2px solid #1E90FF;
+  border-radius: 20rpx;
+  box-shadow: 3px 3px 2px #ccc;
+  align-items: center;
+  color : #8a8a8a;
+}
+.process_bd{
+  width: 100%;
+  bottom: 130rpx;
+  position: fixed;
+  text-align: center;
+}
+.warn{
+  width: 100%;
+  bottom: 250rpx;
+  position: fixed;
+
+}
+.warn_text{
+  display: block;
+  border:2px solid #e91f10;
+  padding : 20rpx 20rpx;
+  border-radius: 20rpx;
+  box-shadow: 3px 3px 2px #ccc;
+  font-size : 35rpx;
+  color : #8a8a8a;
+  margin: 0 auto;
+  width: 80%;
+}

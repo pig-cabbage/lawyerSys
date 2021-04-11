@@ -1,0 +1,20 @@
+<!--pages/companyEvaluate/companyEvaluate.wxml-->
+<view class="page">
+    <view class="score_bd">
+        <mp-cells title="评分">
+            <mp-cell>
+              <view class="weui-flex">
+                <view wx:for="{{array1}}"  class="weui-flex__item"><view class="placeholder"><image style=" width: 100rpx; height : 100rpx;margin-left:20rpx;"  src="../../icon/星星.svg" ></image></view></view>
+                <view  wx:for="{{array2}}" class="weui-flex__item"><view class="placeholder"><image style=" width: 100rpx; height : 100rpx; margin-left:20rpx;" src="../../icon/星星1.svg" ></image></view></view>
+              </view>
+            </mp-cell>
+        </mp-cells>
+    </view>
+    <view class="content_bd">
+      <mp-cells title="具体评价">
+      </mp-cells>
+      <view>
+        <textarea value="{{content}}" disabled="true" />
+      </view>
+    </view>
+</view>

@@ -1,0 +1,40 @@
+<!--pages/authApply/authApply.wxml-->
+<view class="page">
+  <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+<view class="form">
+  <mp-form id="form" rules="{{rules}}" models="{{formData}}">
+    <mp-cells >
+                <mp-cell prop="name" title="企业名称" ext-class="">
+                    <input bindinput="formInputChange" data-field="name" class="weui-input" placeholder="其输入企业名称" value="{{formData.name}}"/>
+                </mp-cell>
+                <mp-cell prop="phoneNumber" title="联系方式" ext-class="">
+                    <input bindinput="formInputChange" data-field="phoneNumber" class="weui-input" placeholder="请输入联系方式" value="{{formData.phoneNumber}}"/>
+                </mp-cell>
+                <mp-cell prop="organizationCode" title="机构代码" ext-class="">
+                    <input bindinput="formInputChange" data-field="organizationCode" class="weui-input" placeholder="其输入机构代码" value="{{formData.organizationCode}}"/>
+                </mp-cell>
+                <mp-cell  title="企业地址" ext-class="">
+                    <picker  mode="region" value="{{region}}"  bindchange="bindAddressChange">
+                        <view class="weui-input">{{region[0]}}-{{region[1]}}-{{region[2]}}</view>
+                    </picker>
+                </mp-cell>
+    </mp-cells>
+    <view class="weui-cells__title">详细地址</view>
+                <view class="weui-cells weui-cells_after-title">
+                <view class="weui-cell">
+                <view class="weui-cell__bd">
+                    <textarea class="weui-textarea"  placeholder="请输入详细地址" style="height: 3.3em" data-field="address" bindinput="formInputChange" value="{{formData.address}}" />
+                    <view class="weui-textarea-counter">{{addressLength}}/140</view>
+                </view>
+            </view>
+        </view>
+          <mp-cells title="上传营业执照">
+            <mp-cell prop="businessLicense" link hover value="选择文件" bindtap="chooseFile">
+                </mp-cell>
+            </mp-cells>
+  </mp-form>
+  <view class="weui-btn-area">
+            <button class="weui-btn" type="primary" bindtap="submitForm">确定</button>
+        </view>
+</view>
+</view>

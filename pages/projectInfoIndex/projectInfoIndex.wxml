@@ -1,0 +1,60 @@
+<!--pages/projectInfoIndex/projectInfoIndex.wxml-->
+<view class="page">
+    <view class="result_bd">
+        <mp-cells>
+            <mp-cell  link hover value="企业详情" url="../companyInfo/companyInfo?id={{company}}"></mp-cell>
+            <mp-cell  link hover value="企业需求" url="../companyDemand/companyDemand?id={{demand}}"></mp-cell>
+            <mp-cell  value="发起时间" footer="{{createTime}}"></mp-cell>
+
+            <mp-cell wx:if="{{status >=6 }}"  link hover value="服务方案" url="../servicePlanInfo/servicePlanInfo?id={{plan}}"></mp-cell>
+            <mp-cell wx:if="{{status >=6 }}"  value="服务时间" footer="{{serviceTime}}"></mp-cell>
+            <mp-cell wx:if="{{status ==7 }}"  link hover value="代理律师" url="../lawyerInfo/lawyerInfo?id={{lawyerId}}"></mp-cell>
+            <mp-cell wx:if="{{status >=8 }}"  link hover value="代理律师" url="../lawyerInfo/lawyerInfo?id={{nowLawyer}}"></mp-cell>
+        </mp-cells>
+        <mp-cells wx:if="{{status ==3 }}" ext-class="my-cells" title="分配方案">
+            <mp-cell link hover value="服务方案" url="../servicePlanInfo/servicePlanInfo?id={{distributePlanId}}"></mp-cell>
+            <mp-cell  value="服务时间" footer="{{distributeServiceTime}}"></mp-cell>
+        </mp-cells>
+        <mp-cell wx:if="{{status == 15 }}" link hover  value="用户评价" url="../companyEvaluate/companyEvaluate?id={{id}}"></mp-cell>
+            <mp-cell wx:if="{{status == 11 }}" link hover  value="状态" footer="待用户评价"></mp-cell>
+    </view>
+    <view wx:if="{{status == 0}}" class="weui-flex">
+        <view class="weui-flex__item"><button type="primary" data-result="1" bindtap="showAdvice">
+          审核通过
+      </button></view>
+        <view class="weui-flex__item"><button type="warn" data-result="0" bindtap="showAdvice">
+          审核不通过
+      </button></view>
+    </view>
+    <modal title="审核意见" hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
+    <view class="text_area">
+      <textarea style="width:100%;" placeholder="请输入审核意见" auto-height="true"  bindinput="inputAdvice">
+</textarea>
+    </view>
+    </modal>
+    <view wx:if="{{status == 1}}" class="weui-flex">
+        <view class="weui-flex__item"><button type="primary" bindtap="distributePlan">
+          分配服务
+      </button></view>
+    </view>
+    <view wx:if="{{status == 3}}" class="weui-flex">
+        <view class="weui-flex__item"><button type="primary" bindtap="remindPay">
+          提醒企业支付
+      </button></view>
+    </view>
+    <view wx:if="{{status == 15}}" class="weui-flex">
+        <view class="weui-flex__item"><button type="primary" bindtap="docProject">
+          归档项目
+      </button></view>
+    </view>
+    <modal title="归档信息" hidden="{{modalHidden1}}" bindconfirm="modalConfirm1" bindcancel="modalCandel1">
+      <view class="number_area">
+      <input value="{{number}}" placeholder="请输入归档编号" bindinput="inputNumber"></input>
+    </view>
+    <view class="text_area">
+      <textarea style="width:100%;" placeholder="请输入备注信息" auto-height="true"  bindinput="inputNote">
+</textarea>
+    </view>
+    </modal>
+</view>
+

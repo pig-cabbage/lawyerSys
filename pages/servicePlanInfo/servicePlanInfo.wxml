@@ -1,0 +1,42 @@
+<!--pages/servicePlanInfo/servicePlanInfo.wxml-->
+<view class="page">
+    <view class="result_bd">
+        <mp-cells>
+            <mp-cell wx:for="{{bar}}" wx:if="{{item.value}}" link hover value="{{item.key}}" footer = "{{item.value}}" data-key="{{item.key}}" data-value="{{item.value}}" bindtap="modifyValue">
+            </mp-cell>
+            <mp-cell wx:if="{{createTime != null}}"  value="注册时间" footer="{{createTime}}"></mp-cell>
+            <mp-cell  value="收费标准" footer="{{chargeStandard}}元/月"></mp-cell>
+            <mp-cell wx:if="{{detail}}">
+            <view class="weui-flex">
+        <view class="weui-flex__item"><view class="placeholder">状态</view></view>
+        <view class="weui-flex__item">
+          <view class="weui-flex">
+        <view class="weui-flex__item"><view class="placeholder">离线</view></view>
+        <view class="weui-flex__item"><view class="placeholder"><switch checked="{{status}}" bindchange="switch1Change"/></view></view>
+        <view class="weui-flex__item"><view class="placeholder">上线</view></view>
+    </view>
+        </view>
+    </view>
+  </mp-cell>
+            <mp-cell link hover value="服务摘要" url="../servicePlanContent/servicePlanContent?data={{content}}&editor=true&id={{ids[0]}}&detail={{detail}}"></mp-cell>
+              <mp-cell link hover value="文件模板" url="../serviceFile/serviceFile?id={{ids[0]}}&detail={{detail}}"></mp-cell> 
+        </mp-cells>
+    </view>
+    <view class="delete_bd" wx:if="{{detail}}">
+      <button type="warn" bindtap="deleteService">
+          删除
+      </button>
+    </view>
+    <modal title="修改服务名称" hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
+      <input placeholder="{{oldValue}}" bindinput="inputNewValue"></input>
+      </modal>
+      <modal title="修改服务等级" hidden="{{modalHidden1}}" bindconfirm="modalConfirm1" bindcancel="modalCandel1">
+    <view class="picker_area">
+      <picker bindchange="bindPickerChange" value="{{index}}" range="{{array1}}">
+    <view class="picker">
+      等级：{{array[index].level}}
+    </view>
+  </picker>
+</view>
+</modal>
+</view>

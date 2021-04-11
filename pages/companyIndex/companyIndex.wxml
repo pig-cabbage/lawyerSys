@@ -1,0 +1,27 @@
+<!--pages/companyIndex/companyIndex.wxml-->
+<view style='margin-bottom:130rpx;'>
+<!-- 组件显示，根据自己需求添加 -->
+  <mp-cells >
+    <mp-cell   link hover value="待办事项" url="../companyTodoItem/companyTodoItem"></mp-cell>
+  </mp-cells>
+  <view class="chat_bd">
+  <view class="char_card" wx:for="{{contractList}}">
+  <view><image class="head" src="../../icon/head.svg"></image></view>
+  <view class = "card_right" data-man="{{item.man}}" data-id="{{item.id}}" bindtap="goToChat">
+    <view class="right_top">
+      <view class="name">{{item.name}}</view>
+      <view class="time">11:33</view>
+    </view>
+    <view class="right_bottom">最新留言</view>
+  </view>
+  </view>
+</view>
+</view>
+
+<!-- 自定义 tabbar -->
+<view class="nav-tabs">
+  <view class="tab-list {{currentTab == idx ? 'active' : 'default' }}" wx:for="{{items}}" wx:key="prototype" wx:for-index="idx" wx:for-item="item" data-current="{{idx}}" bindtap="swichNav">
+    <text class="tab-text {{currentTab == idx ? 'active1' : 'default1' }}" wx:for-index="idx" data-current="{{idx}}" src="{{currentTab == idx ? item.selectedIconPath : item.iconPath }}">{{item.text}}</text>
+    <image class="iconPath" wx:for-index="idx" data-current="{{idx}}" src="{{currentTab == idx ? item.selectedIconPath : item.iconPath }}"></image>
+  </view>
+</view>
