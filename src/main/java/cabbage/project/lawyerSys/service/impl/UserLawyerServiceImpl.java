@@ -29,6 +29,7 @@ public class UserLawyerServiceImpl extends ServiceImpl<UserLawyerDao, UserLawyer
   @Override
   public PageUtils queryPage(Map<String, Object> params) {
     QueryWrapper<UserLawyerEntity> wrapper = new QueryWrapper<>();
+    Assert.isNotNull(params.get("level"), level -> wrapper.ge("highest_level", level).le("lowest_level", level));
     Assert.isNotBlank((String) params.get("key"), key -> {
       wrapper.like("name", key);
     });
@@ -46,7 +47,16 @@ public class UserLawyerServiceImpl extends ServiceImpl<UserLawyerDao, UserLawyer
     userLawyerEntity.setCertificationTime(date);
     userLawyerEntity.setLowestLevel(lowestLevel);
     userLawyerEntity.setHighestLevel(highestLevel);
-    this.save(userLawyerEntity);
+    userLawyerEntity.setId(null);
+    UserLawyerEntity account = this.getOne(new QueryWrapper<UserLawyerEntity>().eq("account", userLawyerAuthEntity.getAccount()));
+    if (account == null) {
+      this.save(userLawyerEntity);
+    } else {
+      userLawyerEntity.setId(account.getId());
+      BeanUtils.copyProperties(userLawyerEntity, account);
+      this.updateById(account);
+    }
+
   }
 
   @Override

@@ -28,7 +28,7 @@ public class StatisticalLawyerEntity implements Serializable {
   /**
    *
    */
-  private Long lawyer;
+  private String lawyer;
   /**
    *
    */
@@ -36,7 +36,7 @@ public class StatisticalLawyerEntity implements Serializable {
   /**
    *
    */
-  private Long company;
+  private String company;
   /**
    *
    */
@@ -57,5 +57,9 @@ public class StatisticalLawyerEntity implements Serializable {
    *
    */
   private Double cost;
+  /**
+   *
+   */
+  private Long plan;
 
 }

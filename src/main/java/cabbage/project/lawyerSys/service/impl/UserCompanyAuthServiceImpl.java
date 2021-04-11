@@ -9,6 +9,7 @@ import cabbage.project.lawyerSys.dao.UserCompanyAuthDao;
 import cabbage.project.lawyerSys.entity.UserAccountEntity;
 import cabbage.project.lawyerSys.entity.UserCompanyAuthEntity;
 import cabbage.project.lawyerSys.entity.UserCompanyEntity;
+import cabbage.project.lawyerSys.entity.UserLawyerAuthEntity;
 import cabbage.project.lawyerSys.service.SystemMessageService;
 import cabbage.project.lawyerSys.service.UserAccountService;
 import cabbage.project.lawyerSys.service.UserCompanyAuthService;
@@ -55,10 +56,10 @@ public class UserCompanyAuthServiceImpl extends ServiceImpl<UserCompanyAuthDao, 
   public void auth(CompanyAuthVo companyAuthVo) {
     UserAccountEntity userAccountEntity = userAccountService.getById(companyAuthVo.getAccount());
     Assert.isNotNull(userAccountEntity);
-    if (Integer.valueOf(0).equals(userAccountEntity.getCertificationStatus())) {
-      Date date = new Date();
+    if (!Integer.valueOf(1).equals(userAccountEntity.getCertificationStatus())) {
       UserCompanyAuthEntity userCompanyAuthEntity = new UserCompanyAuthEntity();
       BeanUtils.copyProperties(companyAuthVo, userCompanyAuthEntity);
+      Date date = new Date();
       userCompanyAuthEntity.setCreateTime(date);
       this.save(userCompanyAuthEntity);
       userAccountEntity.setCertificationStatus(1);
@@ -67,6 +68,11 @@ public class UserCompanyAuthServiceImpl extends ServiceImpl<UserCompanyAuthDao, 
     } else {
       throw RunException.builder().code(ExceptionCode.USER_COMPANY_STATUS_ERROR).build();
     }
+  }
+
+  @Override
+  public UserCompanyAuthEntity getLatest(String account) {
+    return this.baseMapper.getLatest(account);
   }
 
 }

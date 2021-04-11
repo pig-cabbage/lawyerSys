@@ -35,7 +35,6 @@ public class ProjectLawyerDealChangeLawyerEntity implements Serializable {
   /**
    *
    */
-  @ListValue(vals = {0, 1})
   private Integer result;
   /**
    *

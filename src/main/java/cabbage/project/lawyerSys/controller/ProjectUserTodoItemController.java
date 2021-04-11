@@ -28,23 +28,13 @@ public class ProjectUserTodoItemController {
   private ProjectUserTodoItemService projectUserTodoItemService;
 
   /**
-   * 获取特定用户的待办事项
-   */
-  @RequestMapping("/list/{userId}")
-  public R list(@PathVariable("userId") String userId) {
-    List<TodoItemVo> list = projectUserTodoItemService.getList(userId);
-
-    return R.ok().put("list", list);
-  }
-
-  /**
    * 列表
    */
   @RequestMapping("/list")
   public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = projectUserTodoItemService.queryPage(params);
+    List<TodoItemVo> list = projectUserTodoItemService.search(params);
 
-    return R.ok().put("page", page);
+    return R.ok().put("list", list);
   }
 
 

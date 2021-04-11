@@ -26,7 +26,7 @@ public class ServiceFileTemplateController {
   private ServiceFileTemplateService serviceFileTemplateService;
 
   /**
-   * 列表
+   * 获取特定服务方案的文件模板列表
    */
   @RequestMapping("/{id}/list")
   public R getList(@PathVariable("id") Long id) {

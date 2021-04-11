@@ -44,7 +44,6 @@ public class UserLawyerController {
   @RequestMapping("/search")
   public R search(@RequestParam Map<String, Object> params) {
     PageUtils page = userLawyerService.queryPage(params);
-
     return R.ok().put("page", page);
   }
 

@@ -19,10 +19,20 @@ import java.util.Map;
  * @date 2021-02-07 20:32:44
  */
 @RestController
-@RequestMapping("/api/project/distributeLawyer")
+@RequestMapping("api/project/distributeLawyer")
 public class ProjectLawyerController {
   @Autowired
   private ProjectLawyerService projectLawyerService;
+
+  /**
+   * 获取特定项目的最近一条分配记录
+   */
+  @RequestMapping("/{id}/latestRecord")
+  public R getLatestRecord(@PathVariable("id") Long id) {
+    ProjectLawyerEntity entity = projectLawyerService.getLatestRecord(id);
+
+    return R.ok().put("entity", entity);
+  }
 
   /**
    * 列表

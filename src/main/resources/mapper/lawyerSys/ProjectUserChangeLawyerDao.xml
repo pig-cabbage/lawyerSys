@@ -18,5 +18,11 @@
         SELECT * FROM `project_user_change_lawyer` WHERE `project` = #{projectId} ORDER BY `create_time` DESC LIMIT 0, 1
     </select>
 
+    <select id="getLatestInfo"
+            resultType="cabbage.project.lawyerSys.entity.ProjectUserChangeLawyerEntity">
+        SELECT * FROM `project_user_change_lawyer` WHERE `project` = #{projectId} AND `creator` = 0 ORDER BY
+        `create_time` DESC LIMIT 0, 1
+    </select>
+
 
 </mapper>

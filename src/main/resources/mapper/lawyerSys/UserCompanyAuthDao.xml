@@ -16,6 +16,9 @@
         <result property="createTime" column="create_time"/>
         <result property="processTime" column="process_time"/>
     </resultMap>
+    <select id="getLatest" resultType="cabbage.project.lawyerSys.entity.UserCompanyAuthEntity">
+        SELECT * FROM `user_company_auth` WHERE `account` = #{account} ORDER BY `create_time` DESC LIMIT 0, 1
 
+    </select>
 
 </mapper>

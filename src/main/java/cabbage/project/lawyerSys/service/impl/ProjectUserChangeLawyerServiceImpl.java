@@ -31,4 +31,9 @@ public class ProjectUserChangeLawyerServiceImpl extends ServiceImpl<ProjectUserC
     return this.baseMapper.getByProjectLatest(projectId);
   }
 
+  @Override
+  public ProjectUserChangeLawyerEntity getLatestInfo(Long projectId) {
+    return this.baseMapper.getLatestInfo(projectId);
+  }
+
 }

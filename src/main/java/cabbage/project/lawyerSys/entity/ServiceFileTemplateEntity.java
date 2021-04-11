@@ -29,7 +29,7 @@ public class ServiceFileTemplateEntity implements Serializable {
   /**
    *
    */
-  private String name;
+  private String fileName;
   /**
    *
    */

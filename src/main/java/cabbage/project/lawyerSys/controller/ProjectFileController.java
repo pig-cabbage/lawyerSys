@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -19,19 +20,20 @@ import java.util.Map;
  * @date 2021-02-07 20:32:44
  */
 @RestController
-@RequestMapping("lawyersys/projectfile")
+@RequestMapping("api/project/file")
 public class ProjectFileController {
   @Autowired
   private ProjectFileService projectFileService;
+
 
   /**
    * 列表
    */
   @RequestMapping("/list")
   public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = projectFileService.queryPage(params);
+    List<ProjectFileEntity> list = projectFileService.search(params);
 
-    return R.ok().put("page", page);
+    return R.ok().put("list", list);
   }
 
 
@@ -51,8 +53,7 @@ public class ProjectFileController {
   @RequestMapping("/save")
   public R save(@RequestBody ProjectFileEntity projectFile) {
     projectFileService.save(projectFile);
-
-    return R.ok();
+    return R.ok().put("entity", projectFile);
   }
 
   /**

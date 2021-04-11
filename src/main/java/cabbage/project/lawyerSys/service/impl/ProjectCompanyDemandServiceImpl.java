@@ -15,9 +15,11 @@ import cabbage.project.lawyerSys.service.ProjectBaseService;
 import cabbage.project.lawyerSys.service.ProjectCompanyDemandService;
 import cabbage.project.lawyerSys.service.SystemMessageService;
 import cabbage.project.lawyerSys.valid.Assert;
+import cabbage.project.lawyerSys.vo.ProjectDemandVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,27 +53,29 @@ public class ProjectCompanyDemandServiceImpl extends ServiceImpl<ProjectCompanyD
    */
   @Transactional
   @Override
-  public void add(ProjectCompanyDemandEntity entity) {
+  public void add(ProjectDemandVo vo) {
     Date date = new Date();
-    if (Integer.valueOf(0).equals(entity.getRecommendPlan())) {
-      Assert.isNotNull(entity.getDemandPlan());
+    if (Integer.valueOf(0).equals(vo.getRecommendPlan())) {
+      Assert.isNotNull(vo.getDemandPlan());
     } else {
-      if (Integer.valueOf(1).equals(entity.getRecommendPlan())) {
-        Assert.isNull(entity.getDemandPlan());
+      if (Integer.valueOf(1).equals(vo.getRecommendPlan())) {
+        Assert.isNull(vo.getDemandPlan());
       } else {
         throw RunException.builder().code(ExceptionCode.WRONG_DATA_CODE).build();
       }
     }
-    this.save(entity);
+    ProjectCompanyDemandEntity projectCompanyDemandEntity = new ProjectCompanyDemandEntity();
+    BeanUtils.copyProperties(vo, projectCompanyDemandEntity);
+    this.save(projectCompanyDemandEntity);
     ProjectBaseEntity project = ProjectBaseEntity.builder()
-        .company(entity.getCompanyAccount())
-        .demand(entity.getId())
+        .company(projectCompanyDemandEntity.getCompanyAccount())
+        .demand(projectCompanyDemandEntity.getId())
         .createTime(date)
         .status(ProjectConstant.ProjectStatusEnum.REGISTER_SUCCESS.getCode())
-        .projectName(String.valueOf(date.toString()))
+        .projectName(vo.getProjectName())
         .build();
     projectBaseService.save(project);
-    systemMessageService.addMessage(entity.getCompanyAccount(), SystemConstant.SystemMessageEnum.REGISTER_SUCCESS, String.valueOf(project.getId()), date);
+    systemMessageService.addMessage(projectCompanyDemandEntity.getCompanyAccount(), SystemConstant.SystemMessageEnum.REGISTER_SUCCESS, String.valueOf(project.getId()), date);
   }
 
 }

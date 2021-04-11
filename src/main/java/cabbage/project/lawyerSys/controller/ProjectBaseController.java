@@ -4,9 +4,7 @@ import cabbage.project.lawyerSys.common.utils.PageUtils;
 import cabbage.project.lawyerSys.common.utils.R;
 import cabbage.project.lawyerSys.entity.*;
 import cabbage.project.lawyerSys.service.ProjectBaseService;
-import cabbage.project.lawyerSys.vo.ChooseLawyerVo;
-import cabbage.project.lawyerSys.vo.DistributeLawyerVo;
-import cabbage.project.lawyerSys.vo.ProjectPlanVo;
+import cabbage.project.lawyerSys.vo.*;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,8 +106,8 @@ public class ProjectBaseController {
    * 律师用户决定是否承接项目
    */
   @PostMapping("/{id}/determineUnderTake")
-  public R determineUnderTake(@PathVariable("id") Long id, @RequestBody ProjectLawyerCarryEntity projectLawyerCarryEntity) {
-    projectBaseService.determineUnderTake(id, projectLawyerCarryEntity);
+  public R determineUnderTake(@PathVariable("id") Long id, @RequestBody ProjectLawyerCarryVo projectLawyerCarryVo) {
+    projectBaseService.determineUnderTake(id, projectLawyerCarryVo);
     return R.ok();
   }
 
@@ -135,8 +133,8 @@ public class ProjectBaseController {
    * 律师处理企业更换律师申请
    */
   @PostMapping("/{id}/dealChangeLawyer")
-  public R dealChangeLawyer(@PathVariable("id") Long id, @RequestBody ProjectLawyerDealChangeLawyerEntity projectLawyerDealChangeLawyerEntity) {
-    projectBaseService.dealChangeLawyer(id, projectLawyerDealChangeLawyerEntity);
+  public R dealChangeLawyer(@PathVariable("id") Long id, @RequestBody ProjectLawyerDealChangeLawyerVo projectLawyerDealChangeLawyerVo) {
+    projectBaseService.dealChangeLawyer(id, projectLawyerDealChangeLawyerVo);
     return R.ok();
   }
 
@@ -184,6 +182,57 @@ public class ProjectBaseController {
     projectBaseService.archive(id, projectArchiveEntity);
     return R.ok();
   }
+
+  /**
+   * 获取项目的服务方案等级
+   */
+  @GetMapping("/{id}/level")
+  public R getLevel(@PathVariable("id") Long id) {
+    Long level = projectBaseService.getLevel(id);
+
+    return R.ok().put("level", level);
+  }
+
+  /**
+   * 获取特定企业用户的历史咨询项目列表
+   */
+  @RequestMapping("/company/{id}/list")
+  public R history(@PathVariable("id") String id) {
+    List<ProjectBaseEntity> list = projectBaseService.history(id);
+
+    return R.ok().put("list", list);
+  }
+
+  /**
+   * 获取特定律师用户的新分配项目
+   */
+  @RequestMapping("/{lawyerId}/newList")
+  public R newList(@PathVariable("lawyerId") String lawyerId) {
+    List<ProjectBaseEntity> list = projectBaseService.newList(lawyerId);
+
+    return R.ok().put("list", list);
+  }
+
+  /**
+   * 获取特定律师用户的在办项目
+   */
+  @RequestMapping("/{lawyerId}/nowList")
+  public R nowList(@PathVariable("lawyerId") String lawyerId) {
+    List<ProjectBaseEntity> list = projectBaseService.nowList(lawyerId);
+
+    return R.ok().put("list", list);
+  }
+
+  /**
+   * 获取特定律师用户的已结束项目
+   */
+  @RequestMapping("/{lawyerId}/endList")
+  public R endList(@PathVariable("lawyerId") String lawyerId) {
+    List<WorkRecordVo> list = projectBaseService.endList(lawyerId);
+
+    return R.ok().put("list", list);
+  }
+
   /**
    * 列表
    */

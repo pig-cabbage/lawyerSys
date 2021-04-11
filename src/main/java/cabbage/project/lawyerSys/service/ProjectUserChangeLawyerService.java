@@ -18,5 +18,7 @@ public interface ProjectUserChangeLawyerService extends IService<ProjectUserChan
   PageUtils queryPage(Map<String, Object> params);
 
   ProjectUserChangeLawyerEntity getInfo(Long projectId);
+
+  ProjectUserChangeLawyerEntity getLatestInfo(Long projectId);
 }
 

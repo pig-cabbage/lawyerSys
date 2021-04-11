@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cabbage.project.lawyerSys.dao.ProjectChatRecordDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="cabbage.project.lawyerSys.entity.ProjectChatRecordEntity" id="projectBaseMap">
+        <result property="id" column="id"/>
+        <result property="sessionId" column="session_id"/>
+        <result property="sender" column="sender"/>
+        <result property="type" column="type"/>
+        <result property="content" column="content"/>
+        <result property="createTime" column="createTime"/>
+    </resultMap>
+
+
+</mapper>

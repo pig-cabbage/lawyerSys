@@ -11,5 +11,4 @@
         <result property="demandLawyer" column="demand_lawyer"/>
     </resultMap>
 
-
 </mapper>

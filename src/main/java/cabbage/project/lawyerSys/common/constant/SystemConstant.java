@@ -14,12 +14,26 @@ public class SystemConstant {
   public static final Long RE_CHOOSE_LAWYER = 5L;
   public static final Long RE_CHOOSE_LAWYER_LAWYER_AGREE = 6L;
   public static final Long RE_CHOOSE_LAWYER_REFUSE_LAWYER = 7L;
+  public static final Long RENEW_PROJECT = 8L;
+  public static final Long ADD_CHAT_RECORD = 9L;
+  public static final Long DELETE_CHAT_RECORD = 10L;
+  public static final Long START_PROJECT = 11L;
+  public static final Long END_PROJECT = 12L;
+  public static final Long RE_CHOOSE_LAWYER_LAWYER_REFUSE = 13L;
 
-  //更换律师至结束服务缓冲期 默认是3天
+  //律师同意更换律师到服务结束的缓冲期
   public static final Long CHANGE_LAWYER_GOV = 3L;
 
   //承接项目至开始服务缓冲期 默认是3天
   public static final Long UNDERTAKE_GOV = 3L;
+
+  //旧律师结束服务到新律师开始服务的时间间隔 默认是1天
+  public static final Long OLD_TO_NEW_LAWYER = 1L;
+
+  public static final Integer MAX_CHAR_RECORD_REDIS = 30;
+
+  public static final Integer MONTH_DAY = 30;
+  public static final Integer MS_OF_DAY = 24 * 60 * 60 * 1000;
 
 
   //认证结果消息
@@ -77,9 +91,16 @@ public class SystemConstant {
     DETERMINE_UNDER_TAKE_PAST_DUE_TO_COMPANY("决定是否承接项目过期", "代理律师用户没有在规定时间内作出选择，系统默认律师用户拒绝承接项目", "律师详情", "/api/user/lawyer/info/"),
     DETERMINE_AGREE_CHANGE_LAWYER_PAST_DUE_TO_LAWYER("处理企业用户更换律师申请过期", "您没有在规定时间内决定是否同意企业用户的更换律师申请，系统默认执行同意操作", "申请详情", "/api/project/changeLawyerAudit/info/"),
     DEAL_COMPLAINT_REFUSE_LAWYER_TO_COMAPNY("处理申诉", "系统驳回律师的申诉请求，请尽快前往待办事项重新选择律师", "处理详情", "/api/project/complaint/info/"),
-    DEAL_COMPLAINT_REFUSE_LAWYER_TO_LAWYER("处理申诉", "系统驳回律师的申诉请求，三天后您对企业的服务将终止", "处理详情", "/api/project/complaint/info"),
-    DEAL_COMPLAINT_REFUSE_COMPANY_TO_COMPANY("处理申诉", "系统驳回企业的更换律师请求，律师会继续为您提供服务", "处理详情", "/api/project/complaint/info"),
-    DEAL_COMPLAINT_REFUSE_COMPANY_TO_LAWYER("处理申诉", "系统驳回企业的更换律师请求, 请继续为企业提供服务", "处理详情", "/api/project/complaint/info");
+    DEAL_COMPLAINT_REFUSE_LAWYER_TO_LAWYER("处理申诉", "系统驳回律师的申诉请求，三天后您对企业的服务将终止", "处理详情", "/api/project/complaint/info/"),
+    DEAL_COMPLAINT_REFUSE_COMPANY_TO_COMPANY("处理申诉", "系统驳回企业的更换律师请求，律师会继续为您提供服务", "处理详情", "/api/project/complaint/info/"),
+    DEAL_COMPLAINT_REFUSE_COMPANY_TO_LAWYER("处理申诉", "系统驳回企业的更换律师请求, 请继续为企业提供服务", "处理详情", "/api/project/complaint/info/"),
+    START_PROJECT_TO_COMPANY("项目开始服务", "您申请的咨询项目已开始", "查看详情", "/api/project/info/"),
+    LAWYER_START_SERVICE_TO_LAWYER("律师开始服务", "您负责的项目开始了，您现在可以与企业交流", "项目详情", "/api/project/info/"),
+    LAWYER_START_SERVICE_TO_COMPANY("律师开始服务", "您发起的项目的律师已开始服务，您现在可以与律师交流", "项目详情", "/api/project/info/"),
+    END_SERVICE_TO_LAWYER("律师结束服务", "您对项目的服务已终止！", "", ""),
+    END_SERVICE_TO_COMPANY("律师结束服务", "律师对您项目的服务已终止，请等待新的律师继续为您提供服务", "", ""),
+    END_PROJECT_TO_COMPANY("项目结束", "您申请的项目已到期, 欢迎继续订购我们的服务。", "项目详情", "/api/project/info/"),
+    END_PROJECT_TO_LAWYER("项目结束", "您负责的项目已到期，感谢您的付出。", "项目详情", "/api/project/info/");
 
     private final String brief;
     private final String detail;

@@ -1,7 +1,8 @@
 package cabbage.project.lawyerSys.service;
 
 import cabbage.project.lawyerSys.common.utils.PageUtils;
-import cabbage.project.lawyerSys.entity.ProjectBaseEntity;
+import cabbage.project.lawyerSys.dto.EndServiceDTO;
+import cabbage.project.lawyerSys.dto.StartServiceDTO;
 import cabbage.project.lawyerSys.entity.StatisticalLawyerEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -19,8 +20,8 @@ public interface StatisticalLawyerService extends IService<StatisticalLawyerEnti
 
   PageUtils queryPage(Map<String, Object> params);
 
-  void endService(ProjectBaseEntity projectBaseEntity, String nowLawyer, Date date);
+  void startService(StartServiceDTO startServiceDTO, boolean isFirst);
 
-  void endServiceFinal(ProjectBaseEntity projectBaseEntity, String nowLawyer);
+  void endService(EndServiceDTO endServiceDTO, Date date);
 }
 

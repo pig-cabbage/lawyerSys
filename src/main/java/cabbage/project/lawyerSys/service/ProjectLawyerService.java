@@ -20,5 +20,7 @@ public interface ProjectLawyerService extends IService<ProjectLawyerEntity> {
   PageUtils queryPage(Map<String, Object> params);
 
   Long addRecord(DistributeLawyerVo distributeLawyerVo, Date date);
+
+  ProjectLawyerEntity getLatestRecord(Long id);
 }
 

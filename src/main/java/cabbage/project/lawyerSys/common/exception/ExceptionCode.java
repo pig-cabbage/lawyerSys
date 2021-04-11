@@ -17,6 +17,7 @@ public enum ExceptionCode {
   ACCESS_DENY(10013, "没有权限"),
   GET_WEIXIN_AUTH_FAIL(10014, "获取微信登录状态失败"),
   LOGIN_ROLE_WRONG(10015, "登录身份不匹配"),
+  DATE_TRANS_WRONG(10016, "日期转化错误"),
   USER_COMPANY_STATUS_ERROR(20001, "企业用户状态错误"),
   USER_LAWYER_STATUS_ERROR(20002, "律师用户状态错误"),
   PROCESS_CER_STATUS_ERROR(20003, "处理用户认证申请状态码错误"),

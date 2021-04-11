@@ -4,16 +4,15 @@ package cabbage.project.lawyerSys.service.impl;
 import cabbage.project.lawyerSys.common.utils.PageUtils;
 import cabbage.project.lawyerSys.common.utils.Query;
 import cabbage.project.lawyerSys.dao.ServicePlanDao;
-import cabbage.project.lawyerSys.entity.ServiceFileTemplateEntity;
-import cabbage.project.lawyerSys.entity.ServiceLevelEntity;
-import cabbage.project.lawyerSys.entity.ServicePlanEntity;
-import cabbage.project.lawyerSys.entity.UserCompanyEntity;
+import cabbage.project.lawyerSys.entity.*;
+import cabbage.project.lawyerSys.service.ProjectBaseService;
 import cabbage.project.lawyerSys.service.ServiceFileTemplateService;
 import cabbage.project.lawyerSys.service.ServiceLevelService;
 import cabbage.project.lawyerSys.service.ServicePlanService;
 import cabbage.project.lawyerSys.valid.Assert;
 import cabbage.project.lawyerSys.vo.ServiceFileTemplateVo;
 import cabbage.project.lawyerSys.vo.ServicePlanDetailVo;
+import cabbage.project.lawyerSys.vo.ServiceMathVo;
 import cabbage.project.lawyerSys.vo.ServicePlanVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -37,6 +36,8 @@ public class ServicePlanServiceImpl extends ServiceImpl<ServicePlanDao, ServiceP
   private ServiceFileTemplateService serviceFileTemplateService;
   @Autowired
   private ServiceLevelService serviceLevelService;
+  @Autowired
+  private ProjectBaseService projectBaseService;
 
   @Override
   public PageUtils queryPage(Map<String, Object> params) {

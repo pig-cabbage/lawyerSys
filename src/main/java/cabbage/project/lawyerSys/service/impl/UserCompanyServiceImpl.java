@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Optional;
 
 
 @Service("userCompanyService")
@@ -51,7 +52,16 @@ public class UserCompanyServiceImpl extends ServiceImpl<UserCompanyDao, UserComp
     UserCompanyEntity userCompanyEntity = new UserCompanyEntity();
     BeanUtils.copyProperties(userCompanyAuthEntity, userCompanyEntity);
     userCompanyEntity.setCertificationTime(date);
-    this.save(userCompanyEntity);
+    userCompanyEntity.setId(null);
+    UserCompanyEntity account = this.getOne(new QueryWrapper<UserCompanyEntity>().eq("account", userCompanyAuthEntity.getAccount()));
+    if (account == null) {
+      System.out.println("ewrwe");
+      this.save(userCompanyEntity);
+    } else {
+      userCompanyEntity.setId(account.getId());
+      BeanUtils.copyProperties(userCompanyEntity, account);
+      this.updateById(account);
+    }
   }
 
   @Override

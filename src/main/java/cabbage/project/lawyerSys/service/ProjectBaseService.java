@@ -3,9 +3,7 @@ package cabbage.project.lawyerSys.service;
 import cabbage.project.lawyerSys.common.constant.ProjectConstant;
 import cabbage.project.lawyerSys.common.utils.PageUtils;
 import cabbage.project.lawyerSys.entity.*;
-import cabbage.project.lawyerSys.vo.ChooseLawyerVo;
-import cabbage.project.lawyerSys.vo.DistributeLawyerVo;
-import cabbage.project.lawyerSys.vo.ProjectPlanVo;
+import cabbage.project.lawyerSys.vo.*;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.text.ParseException;
@@ -35,13 +33,13 @@ public interface ProjectBaseService extends IService<ProjectBaseEntity> {
 
   void remindUnderTake(Long id, Long distributeRecordId);
 
-  void determineUnderTake(Long id, ProjectLawyerCarryEntity projectLawyerCarryEntity);
+  void determineUnderTake(Long id, ProjectLawyerCarryVo projectLawyerCarryVo);
 
   void changeLawyer(Long id, ProjectUserChangeLawyerEntity projectUserChangeLawyerEntity);
 
   void changeLawyerAudit(Long id, ProjectChangeLawyerAuditEntity projectChangeLawyerAuditEntity);
 
-  void dealChangeLawyer(Long id, ProjectLawyerDealChangeLawyerEntity projectLawyerDealChangeLawyerEntity);
+  void dealChangeLawyer(Long id, ProjectLawyerDealChangeLawyerVo projectLawyerDealChangeLawyerEntity);
 
   void objection(Long id, ProjectCompanyObjectionEntity projectCompanyObjectionEntity);
 
@@ -54,5 +52,15 @@ public interface ProjectBaseService extends IService<ProjectBaseEntity> {
   void archive(Long id, ProjectArchiveEntity projectArchiveEntity);
 
   void dealComplaint(Long id, ProjectComplaintEntity projectComplaintEntity);
+
+  Long getLevel(Long id);
+
+  List<ProjectBaseEntity> history(String id);
+
+  List<ProjectBaseEntity> newList(String lawyerId);
+
+  List<ProjectBaseEntity> nowList(String lawyerId);
+
+  List<WorkRecordVo> endList(String lawyerId);
 }
 

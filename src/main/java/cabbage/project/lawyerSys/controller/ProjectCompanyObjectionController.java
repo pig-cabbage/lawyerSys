@@ -19,7 +19,7 @@ import java.util.Map;
  * @date 2021-02-07 20:32:44
  */
 @RestController
-@RequestMapping("lawyersys/projectcompanyobjection")
+@RequestMapping("api/project/objection")
 public class ProjectCompanyObjectionController {
   @Autowired
   private ProjectCompanyObjectionService projectCompanyObjectionService;

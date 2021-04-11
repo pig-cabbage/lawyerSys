@@ -33,9 +33,9 @@ public class ProjectLawyerDealChangeLawyerServiceImpl extends ServiceImpl<Projec
   }
 
   @Override
-  public ProjectLawyerDealChangeLawyerEntity getInfo(Long projectId) {
-    ProjectUserChangeLawyerEntity projectUserChangeLawyerEntity = projectUserChangeLawyerService.getInfo(projectId);
-    return this.getOne(new QueryWrapper<ProjectLawyerDealChangeLawyerEntity>().eq("change_lawyer", projectUserChangeLawyerEntity.getId()));
+  public ProjectLawyerDealChangeLawyerEntity getInfo(Long eventId) {
+
+    return this.getOne(new QueryWrapper<ProjectLawyerDealChangeLawyerEntity>().eq("change_lawyer", eventId));
   }
 
 }

@@ -5,6 +5,9 @@ import cabbage.project.lawyerSys.common.constant.SystemConstant;
 import cabbage.project.lawyerSys.dto.AutoFinishTodoItemDTO;
 import cabbage.project.lawyerSys.entity.*;
 import cabbage.project.lawyerSys.service.*;
+import cabbage.project.lawyerSys.valid.Assert;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -29,13 +32,22 @@ public class ScheduleJob implements Job {
   private ProjectLawyerCarryService projectLawyerCarryService;
   @Autowired
   private ProjectLawyerDealChangeLawyerService projectLawyerDealChangeLawyerService;
+  @Autowired
+  private ProjectChatService projectChatService;
+  @Autowired
+  private StatisticalLawyerService statisticalLawyerService;
+  @Autowired
+  private ProjectCompanyEvaluationService projectCompanyEvaluationService;
+
 
   @Override
   public void execute(JobExecutionContext jobExecutionContext) {
     AutoFinishTodoItemDTO finishTodoItemDTO = (AutoFinishTodoItemDTO) jobExecutionContext.getMergedJobDataMap().get("finishTodoItemDTO");
     ProjectBaseEntity project = (ProjectBaseEntity) jobExecutionContext.getMergedJobDataMap().get("project");
     Long eventId = (Long) jobExecutionContext.getMergedJobDataMap().get("eventId");
+    Double chargeStandard = (Double) jobExecutionContext.getMergedJobDataMap().get("chargeStandard");
     int itemKey = finishTodoItemDTO.getItemKey().intValue();
+
     switch (itemKey) {
       case 1:
         //支付费用过期
@@ -93,6 +105,48 @@ public class ScheduleJob implements Job {
         systemMessageService.addMessage(finishTodoItemDTO.getUserId(), SystemConstant.SystemMessageEnum.DETERMINE_AGREE_CHANGE_LAWYER_PAST_DUE_TO_LAWYER, String.valueOf(eventId), finishTodoItemDTO.getDate());
         systemMessageService.addMessageWithoutEventId(finishTodoItemDTO.getOtherId(), SystemConstant.SystemMessageEnum.LAWYER_AGREE_CHANGE_LAWYER, finishTodoItemDTO.getDate());
         break;
+      case 9:
+        //律师开始服务时发生的事件
+        //1、增加一条聊天对象记录
+        //2、修改项目属性
+        //3、企业用户和律师用户都新增一条系统消息
+        ProjectChatEntity projectChatEntity = ProjectChatEntity.builder().project(finishTodoItemDTO.getProjectId()).lawyer(finishTodoItemDTO.getUserId()).lawyerName(finishTodoItemDTO.getUserName()).company(finishTodoItemDTO.getOtherId()).companyName(finishTodoItemDTO.getOtherName()).build();
+        projectChatService.save(projectChatEntity);
+        systemMessageService.addMessage(finishTodoItemDTO.getUserId(), SystemConstant.SystemMessageEnum.LAWYER_START_SERVICE_TO_LAWYER, String.valueOf(finishTodoItemDTO.getProjectId()), finishTodoItemDTO.getDate());
+        systemMessageService.addMessage(finishTodoItemDTO.getOtherId(), SystemConstant.SystemMessageEnum.LAWYER_START_SERVICE_TO_COMPANY, String.valueOf(finishTodoItemDTO.getProjectId()), finishTodoItemDTO.getDate());
+      case 10:
+        //律师服务结束
+        //1、删除聊天对象记录
+        //2、企业用户和律师用户新增一条系统消息
+        projectChatService.remove(new QueryWrapper<ProjectChatEntity>().eq("project", finishTodoItemDTO.getProjectId()).eq("lawyer", finishTodoItemDTO.getUserId()));
+        systemMessageService.addMessageWithoutEventId(finishTodoItemDTO.getUserId(), SystemConstant.SystemMessageEnum.END_SERVICE_TO_LAWYER, finishTodoItemDTO.getDate());
+        systemMessageService.addMessageWithoutEventId(finishTodoItemDTO.getOtherId(), SystemConstant.SystemMessageEnum.END_SERVICE_TO_COMPANY, finishTodoItemDTO.getDate());
+      case 11:
+        //项目开始
+        //1、修改项目状态
+        //2、用户新增一条系统消息
+        projectBaseService.updateStatus(project, ProjectConstant.ProjectStatusEnum.SERVICING);
+        systemMessageService.addMessage(finishTodoItemDTO.getUserId(), SystemConstant.SystemMessageEnum.START_PROJECT_TO_COMPANY, String.valueOf(project.getId()), finishTodoItemDTO.getDate());
+        break;
+      case 12:
+        //项目结束
+        //1、修改项目状态
+        //2、设置服务记录的结束时间
+        //3、删除聊天对象记录
+        //4、企业用户和律师用户新增一条系统消息
+        StatisticalLawyerEntity lawyerEntity = statisticalLawyerService.getOne(new QueryWrapper<StatisticalLawyerEntity>().eq("project", finishTodoItemDTO.getProjectId()).eq("lawyer", finishTodoItemDTO.getUserId()).isNull("end_time"));
+        lawyerEntity.setEndTime(finishTodoItemDTO.getDate());
+        lawyerEntity.setCost((lawyerEntity.getEndTime().getTime() - lawyerEntity.getStartTime().getTime()) / (SystemConstant.MS_OF_DAY * SystemConstant.MONTH_DAY) * chargeStandard);
+        statisticalLawyerService.updateById(lawyerEntity);
+        projectChatService.remove(new QueryWrapper<ProjectChatEntity>().eq("project", finishTodoItemDTO.getProjectId()).eq("lawyer", finishTodoItemDTO.getUserId()));
+        systemMessageService.addMessage(finishTodoItemDTO.getUserId(), SystemConstant.SystemMessageEnum.END_PROJECT_TO_COMPANY, String.valueOf(project.getId()), finishTodoItemDTO.getDate());
+        systemMessageService.addMessage(finishTodoItemDTO.getOtherId(), SystemConstant.SystemMessageEnum.END_PROJECT_TO_LAWYER, String.valueOf(project.getId()), finishTodoItemDTO.getDate());
+        if (projectCompanyEvaluationService.getOne(new QueryWrapper<ProjectCompanyEvaluationEntity>().eq("project", finishTodoItemDTO.getProjectId())) != null) {
+          projectBaseService.updateStatus(project, ProjectConstant.ProjectStatusEnum.END_HAVE_EVALUATION);
+        } else {
+          projectBaseService.updateStatus(project, ProjectConstant.ProjectStatusEnum.END_WAIT_TO_EVALUATION);
+        }
+        break;
       default:
         //其他情况：企业重新选择律师过期
         //1、修改项目状态
@@ -103,11 +157,7 @@ public class ScheduleJob implements Job {
         ProjectCompanyDemandLawyerEntity projectCompanyDemandLawyerEntity1 = ProjectCompanyDemandLawyerEntity.builder().project(finishTodoItemDTO.getProjectId()).recommendLawyer(finishTodoItemDTO.getDefaultValue()).createTime(finishTodoItemDTO.getDate()).build();
         projectCompanyDemandLawyerService.save(projectCompanyDemandLawyerEntity1);
         systemMessageService.addMessageWithoutEventId(finishTodoItemDTO.getUserId(), SystemConstant.SystemMessageEnum.CHOOSE_LAWYER_PAST_DUE, finishTodoItemDTO.getDate());
-        if (5 == itemKey) {
-          projectUserTodoItemService.finishItemWithSystem(finishTodoItemDTO.getProjectId(), SystemConstant.RE_CHOOSE_LAWYER, finishTodoItemDTO.getDate());
-        } else {
-          projectUserTodoItemService.finishItemWithSystem(finishTodoItemDTO.getProjectId(), SystemConstant.RE_CHOOSE_LAWYER_LAWYER_AGREE, finishTodoItemDTO.getDate());
-        }
+        projectUserTodoItemService.finishItemWithSystem(finishTodoItemDTO.getProjectId(), finishTodoItemDTO.getItemKey(), finishTodoItemDTO.getDate());
         break;
     }
   }

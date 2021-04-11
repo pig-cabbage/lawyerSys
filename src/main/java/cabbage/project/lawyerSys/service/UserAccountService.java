@@ -21,8 +21,8 @@ public interface UserAccountService extends IService<UserAccountEntity> {
 
   void addMessage(String accountId);
 
-  UserAccountEntity addAccount(String openid, Integer role);
-
   void updateStatus(String accountId, UserConstant.CertificationStatusEnum certificationStatusEnum);
+
+  UserAccountEntity addAccount(String openid, Integer role);
 }
 

@@ -28,6 +28,6 @@ public interface ProjectUserTodoItemService extends IService<ProjectUserTodoItem
 
   void finishItemWithSystem(Long id, Long itemKey, Date date);
 
-  List<TodoItemVo> getList(String userId);
+  List<TodoItemVo> search(Map<String, Object> params);
 }
 

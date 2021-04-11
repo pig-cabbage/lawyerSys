@@ -4,6 +4,7 @@ import cabbage.project.lawyerSys.common.utils.PageUtils;
 import cabbage.project.lawyerSys.common.utils.R;
 import cabbage.project.lawyerSys.entity.ProjectCompanyDemandEntity;
 import cabbage.project.lawyerSys.service.ProjectCompanyDemandService;
+import cabbage.project.lawyerSys.vo.ProjectDemandVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +29,8 @@ public class ProjectCompanyDemandController {
    * 新建咨询
    */
   @PostMapping("/add")
-  public R add(@RequestBody ProjectCompanyDemandEntity entity) {
-    projectCompanyDemandService.add(entity);
+  public R add(@RequestBody ProjectDemandVo vo) {
+    projectCompanyDemandService.add(vo);
     return R.ok();
   }
 

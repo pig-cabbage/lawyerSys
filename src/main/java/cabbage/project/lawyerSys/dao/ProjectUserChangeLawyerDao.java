@@ -16,4 +16,6 @@ import org.apache.ibatis.annotations.Param;
 public interface ProjectUserChangeLawyerDao extends BaseMapper<ProjectUserChangeLawyerEntity> {
 
   ProjectUserChangeLawyerEntity getByProjectLatest(@Param("projectId") Long projectId);
+
+  ProjectUserChangeLawyerEntity getLatestInfo(@Param("projectId") Long projectId);
 }

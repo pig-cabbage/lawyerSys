@@ -40,7 +40,7 @@ public class ProjectCompanyDemandLawyerEntity implements Serializable {
   /**
    *
    */
-  private Long demandLawyer;
+  private String demandLawyer;
   /**
    *
    */

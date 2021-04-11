@@ -2,6 +2,7 @@ package cabbage.project.lawyerSys.service;
 
 import cabbage.project.lawyerSys.common.utils.PageUtils;
 import cabbage.project.lawyerSys.entity.ProjectCompanyDemandEntity;
+import cabbage.project.lawyerSys.vo.ProjectDemandVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Map;
@@ -17,6 +18,6 @@ public interface ProjectCompanyDemandService extends IService<ProjectCompanyDema
 
   PageUtils queryPage(Map<String, Object> params);
 
-  void add(ProjectCompanyDemandEntity entity);
+  void add(ProjectDemandVo vo);
 }
 

@@ -18,7 +18,6 @@ import lombok.Data;
  * @date 2021-02-09 02:07:42
  */
 @Data
-@Builder
 @TableName("project_company_demand")
 public class ProjectCompanyDemandEntity implements Serializable {
   private static final long serialVersionUID = 1L;

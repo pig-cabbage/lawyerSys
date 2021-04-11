@@ -16,8 +16,10 @@ import java.util.Map;
  */
 public interface UserCompanyAuthService extends IService<UserCompanyAuthEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
+  PageUtils queryPage(Map<String, Object> params);
 
-    void auth(CompanyAuthVo companyAuthVo);
+  void auth(CompanyAuthVo companyAuthVo);
+
+  UserCompanyAuthEntity getLatest(String account);
 }
 

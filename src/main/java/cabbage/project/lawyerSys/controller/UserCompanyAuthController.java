@@ -3,6 +3,7 @@ package cabbage.project.lawyerSys.controller;
 import cabbage.project.lawyerSys.common.utils.PageUtils;
 import cabbage.project.lawyerSys.common.utils.R;
 import cabbage.project.lawyerSys.entity.UserCompanyAuthEntity;
+import cabbage.project.lawyerSys.entity.UserLawyerAuthEntity;
 import cabbage.project.lawyerSys.service.UserCompanyAuthService;
 import cabbage.project.lawyerSys.vo.CompanyAuthVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,16 @@ public class UserCompanyAuthController {
   public R apply(@RequestBody CompanyAuthVo companyAuthVo) {
     userCompanyAuthService.auth(companyAuthVo);
     return R.ok();
+  }
+
+  /**
+   * 获取特定账户最近一条申请记录
+   */
+  @RequestMapping("/{account}/latestRecord")
+  public R getLatest(@PathVariable("account") String account) {
+    UserCompanyAuthEntity entity = userCompanyAuthService.getLatest(account);
+
+    return R.ok().put("entity", entity);
   }
 
   /**

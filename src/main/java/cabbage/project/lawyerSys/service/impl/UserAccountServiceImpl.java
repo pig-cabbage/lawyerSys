@@ -11,6 +11,7 @@ import cabbage.project.lawyerSys.valid.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,15 +38,6 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountDao, UserAcco
     this.baseMapper.addMessage(accountId);
   }
 
-  @Override
-  public UserAccountEntity addAccount(String openid, Integer role) {
-    UserAccountEntity accountEntity = UserAccountEntity.builder().id(openid)
-        .certificationStatus(0)
-        .createTime(new Date())
-        .unReadMessage(0).role(role).build();
-    this.baseMapper.insertWithId(accountEntity);
-    return accountEntity;
-  }
 
   @Override
   @Transactional
@@ -55,6 +47,18 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountDao, UserAcco
     Assert.isNotEqual(accountEntity.getCertificationStatus(), certificationStatusEnum.getCode());
     accountEntity.setCertificationStatus(certificationStatusEnum.getCode());
     this.updateById(accountEntity);
+  }
+
+  @Override
+  public UserAccountEntity addAccount(String openid, Integer role) {
+    UserAccountEntity accountEntity = new UserAccountEntity();
+    accountEntity.setId(openid);
+    accountEntity.setRole(role);
+    accountEntity.setCertificationStatus(0);
+    accountEntity.setCreateTime(new Date());
+    accountEntity.setUnReadMessage(0);
+    this.save(accountEntity);
+    return accountEntity;
   }
 
 }

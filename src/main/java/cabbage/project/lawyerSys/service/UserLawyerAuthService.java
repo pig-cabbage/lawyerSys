@@ -16,8 +16,10 @@ import java.util.Map;
  */
 public interface UserLawyerAuthService extends IService<UserLawyerAuthEntity> {
 
-    PageUtils queryPage(Map<String, Object> params);
+  PageUtils queryPage(Map<String, Object> params);
 
-    void auth(LawyerAuthVo lawyerAuthVo);
+  void auth(LawyerAuthVo lawyerAuthVo);
+
+  UserLawyerAuthEntity getLatest(String account);
 }
 

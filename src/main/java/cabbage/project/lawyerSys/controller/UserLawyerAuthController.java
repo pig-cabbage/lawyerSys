@@ -26,25 +26,35 @@ public class UserLawyerAuthController {
     @Autowired
     private UserLawyerAuthService userLawyerAuthService;
 
-    /**
-     * 律师认证申请
-     * 127.0.0.1：8080/api/user/company/auth/apply
-     */
-    @PostMapping("/apply")
-    public R apply(@RequestBody LawyerAuthVo lawyerAuthVo) {
-        userLawyerAuthService.auth(lawyerAuthVo);
-        return R.ok();
-    }
+  /**
+   * 律师认证申请
+   * 127.0.0.1：8080/api/user/company/auth/apply
+   */
+  @PostMapping("/apply")
+  public R apply(@RequestBody LawyerAuthVo lawyerAuthVo) {
+    userLawyerAuthService.auth(lawyerAuthVo);
+    return R.ok();
+  }
 
-    /**
-     * 列表
-     */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = userLawyerAuthService.queryPage(params);
+  /**
+   * 获取特定账户最近一条申请记录
+   */
+  @RequestMapping("/{account}/latestRecord")
+  public R getLatest(@PathVariable("account") String account) {
+    UserLawyerAuthEntity entity = userLawyerAuthService.getLatest(account);
 
-        return R.ok().put("page", page);
-    }
+    return R.ok().put("entity", entity);
+  }
+
+  /**
+   * 列表
+   */
+  @RequestMapping("/list")
+  public R list(@RequestParam Map<String, Object> params) {
+    PageUtils page = userLawyerAuthService.queryPage(params);
+
+    return R.ok().put("page", page);
+  }
 
 
     /**

@@ -6,7 +6,7 @@
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="cabbage.project.lawyerSys.entity.ServiceFileTemplateEntity" id="serviceFileTemplateMap">
         <result property="id" column="id"/>
-        <result property="name" column="name"/>
+        <result property="fileName" column="file_name"/>
         <result property="url" column="url"/>
         <result property="type" column="type"/>
         <result property="suffix" column="suffix"/>

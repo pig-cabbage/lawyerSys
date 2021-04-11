@@ -3,6 +3,7 @@ package cabbage.project.lawyerSys.dao;
 import cabbage.project.lawyerSys.entity.ProjectLawyerEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 项目分配律师记录表

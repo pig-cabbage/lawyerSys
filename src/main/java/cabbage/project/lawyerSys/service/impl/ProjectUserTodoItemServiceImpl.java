@@ -20,6 +20,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,8 @@ public class ProjectUserTodoItemServiceImpl extends ServiceImpl<ProjectUserTodoI
   private SystemMessageService systemMessageService;
   @Autowired
   private ProjectBaseService projectBaseService;
+  @Autowired
+  private ProjectPlanService projectPlanService;
   @Autowired
   private ProjectCompanyDemandLawyerService projectCompanyDemandLawyerService;
   @Autowired
@@ -60,18 +63,24 @@ public class ProjectUserTodoItemServiceImpl extends ServiceImpl<ProjectUserTodoI
     projectUserTodoItemEntity.setCreateTime(date);
     projectUserTodoItemEntity.setLatestTime(new Date(date.getTime() + constantTodoItemEntity.getDuration() * 24 * 60 * 60 * 1000));
     this.save(projectUserTodoItemEntity);
-    AutoFinishTodoItemDTO finishTodoItemDTO = AutoFinishTodoItemDTO.builder().itemKey(projectUserTodoItemEntity.getItem()).projectId(projectUserTodoItemEntity.getProject()).userId(projectUserTodoItemEntity.getUser()).otherId(theOtherId).date(date).defaultValue(constantTodoItemEntity.getDefaultValue()).build();
-    JobDetail jobDetail = JobBuilder.newJob(ScheduleJob.class).withIdentity(String.valueOf(constantTodoItemEntity.getId()), String.valueOf(projectUserTodoItemEntity.getProject())).build();
-    jobDetail.getJobDataMap().put("finishTodoItemDTO", finishTodoItemDTO);
-    jobDetail.getJobDataMap().put("eventId", eventId);
-    jobDetail.getJobDataMap().put("project", projectBaseService.getById(projectUserTodoItemEntity.getProject()));
-    Trigger trigger = TriggerBuilder.newTrigger().withIdentity(String.valueOf(constantTodoItemEntity.getId()), String.valueOf(projectUserTodoItemEntity.getProject())).startAt(projectUserTodoItemEntity.getLatestTime()).build();
     try {
-      scheduler.scheduleJob(jobDetail, trigger);
-      scheduler.start();
+      scheduler.deleteJob(new JobKey(String.valueOf(constantTodoItemEntity.getId()), String.valueOf(projectUserTodoItemEntity.getProject())));
+      AutoFinishTodoItemDTO finishTodoItemDTO = AutoFinishTodoItemDTO.builder().itemKey(projectUserTodoItemEntity.getItem()).projectId(projectUserTodoItemEntity.getProject()).userId(projectUserTodoItemEntity.getUser()).otherId(theOtherId).date(date).defaultValue(constantTodoItemEntity.getDefaultValue()).build();
+      JobDetail jobDetail = JobBuilder.newJob(ScheduleJob.class).withIdentity(String.valueOf(constantTodoItemEntity.getId()), String.valueOf(projectUserTodoItemEntity.getProject())).build();
+      jobDetail.getJobDataMap().put("finishTodoItemDTO", finishTodoItemDTO);
+      jobDetail.getJobDataMap().put("eventId", eventId);
+      jobDetail.getJobDataMap().put("project", projectBaseService.getById(projectUserTodoItemEntity.getProject()));
+      Trigger trigger = TriggerBuilder.newTrigger().withIdentity(String.valueOf(constantTodoItemEntity.getId()), String.valueOf(projectUserTodoItemEntity.getProject())).startAt(projectUserTodoItemEntity.getLatestTime()).build();
+      try {
+        scheduler.scheduleJob(jobDetail, trigger);
+        scheduler.start();
+      } catch (SchedulerException e) {
+        throw RunException.builder().code(ExceptionCode.CREATE_SCHEDULE_ERROR).build();
+      }
     } catch (SchedulerException e) {
-      throw RunException.builder().code(ExceptionCode.CREATE_SCHEDULE_ERROR).build();
+      e.printStackTrace();
     }
+
   }
 
   @Override
@@ -100,9 +109,20 @@ public class ProjectUserTodoItemServiceImpl extends ServiceImpl<ProjectUserTodoI
   }
 
   @Override
-  public List<TodoItemVo> getList(String userId) {
-    List<ProjectUserTodoItemEntity> itemEntities = this.list(new QueryWrapper<ProjectUserTodoItemEntity>().eq("user", userId).eq("status", 0));
-    List<TodoItemVo> collect = itemEntities.stream().map(item -> {
+  public List<TodoItemVo> search(Map<String, Object> params) {
+    QueryWrapper<ProjectUserTodoItemEntity> wrapper = new QueryWrapper<ProjectUserTodoItemEntity>();
+    List<ProjectUserTodoItemEntity> itemEntities = new ArrayList<>();
+    if (params.containsKey("project")) {
+      wrapper.eq("project", params.get("project")).eq("status", 0);
+      if (params.containsKey("user")) {
+        wrapper.eq("user", params.get("user"));
+      }
+      itemEntities = this.list(wrapper);
+    } else {
+      wrapper.eq("user", params.get("user")).eq("status", 0);
+      itemEntities = this.list(wrapper);
+    }
+    return itemEntities.stream().map(item -> {
       TodoItemVo itemVo = new TodoItemVo();
       BeanUtils.copyProperties(item, itemVo);
       ConstantTodoItemEntity constantItem = constantTodoItemService.getById(item.getItem());
@@ -110,7 +130,6 @@ public class ProjectUserTodoItemServiceImpl extends ServiceImpl<ProjectUserTodoI
       itemVo.setItemContent(constantItem.getContent());
       return itemVo;
     }).collect(Collectors.toList());
-    return collect;
   }
 
 }

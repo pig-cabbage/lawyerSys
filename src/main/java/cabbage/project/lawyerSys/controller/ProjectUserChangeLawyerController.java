@@ -25,6 +25,16 @@ public class ProjectUserChangeLawyerController {
   private ProjectUserChangeLawyerService projectUserChangeLawyerService;
 
   /**
+   * 获取最近的发起方为企业的已审核通过的更换律师申请
+   */
+  @RequestMapping("/{projectId}/latestInfo")
+  public R getLatestInfo(@PathVariable("projectId") Long projectId) {
+    ProjectUserChangeLawyerEntity projectUserChangeLawyer = projectUserChangeLawyerService.getLatestInfo(projectId);
+
+    return R.ok().put("projectUserChangeLawyer", projectUserChangeLawyer);
+  }
+
+  /**
    * 获取项目的未处理更换律师申请
    */
   @RequestMapping("/{projectId}/info")

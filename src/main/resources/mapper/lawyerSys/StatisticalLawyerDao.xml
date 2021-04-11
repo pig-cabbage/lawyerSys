@@ -14,7 +14,12 @@
         <result property="endTime" column="end_time"/>
         <result property="project" column="project"/>
         <result property="cost" column="cost"/>
+        <result property="plan" column="plan"/>
     </resultMap>
 
+    <select id="getLatestRecord"
+            resultType="cabbage.project.lawyerSys.entity.StatisticalLawyerEntity">
+        SELECT * FROM `statistical_lawyer` WHERE `project` = #{projectId} ORDER BY `start_time` DESC LIMIT 0, 1
+    </select>
 
 </mapper>

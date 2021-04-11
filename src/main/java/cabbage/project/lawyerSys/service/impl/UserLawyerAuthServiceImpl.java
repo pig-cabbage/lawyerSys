@@ -12,6 +12,7 @@ import cabbage.project.lawyerSys.entity.UserLawyerAuthEntity;
 import cabbage.project.lawyerSys.service.SystemMessageService;
 import cabbage.project.lawyerSys.service.UserAccountService;
 import cabbage.project.lawyerSys.service.UserLawyerAuthService;
+import cabbage.project.lawyerSys.service.UserLawyerService;
 import cabbage.project.lawyerSys.valid.Assert;
 import cabbage.project.lawyerSys.vo.LawyerAuthVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -33,6 +34,8 @@ public class UserLawyerAuthServiceImpl extends ServiceImpl<UserLawyerAuthDao, Us
   private UserAccountService userAccountService;
   @Autowired
   private SystemMessageService systemMessageService;
+  @Autowired
+  private UserLawyerService userLawyerService;
 
   @Override
   public PageUtils queryPage(Map<String, Object> params) {
@@ -55,10 +58,10 @@ public class UserLawyerAuthServiceImpl extends ServiceImpl<UserLawyerAuthDao, Us
   public void auth(LawyerAuthVo lawyerAuthVo) {
     UserAccountEntity userAccountEntity = userAccountService.getById(lawyerAuthVo.getAccount());
     Assert.isNotNull(userAccountEntity);
-    if (Integer.valueOf(0).equals(userAccountEntity.getCertificationStatus())) {
-      Date date = new Date();
+    if (!Integer.valueOf(1).equals(userAccountEntity.getCertificationStatus())) {
       UserLawyerAuthEntity userLawyerAuthEntity = new UserLawyerAuthEntity();
       BeanUtils.copyProperties(lawyerAuthVo, userLawyerAuthEntity);
+      Date date = new Date();
       userLawyerAuthEntity.setCreateTime(date);
       this.save(userLawyerAuthEntity);
       userAccountEntity.setCertificationStatus(1);
@@ -67,6 +70,12 @@ public class UserLawyerAuthServiceImpl extends ServiceImpl<UserLawyerAuthDao, Us
     } else {
       throw RunException.builder().code(ExceptionCode.USER_COMPANY_STATUS_ERROR).build();
     }
+
+  }
+
+  @Override
+  public UserLawyerAuthEntity getLatest(String account) {
+    return this.baseMapper.getLatest(account);
   }
 
 }

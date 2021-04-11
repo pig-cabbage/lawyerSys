@@ -2,6 +2,7 @@ package cabbage.project.lawyerSys.oss;
 
 import cabbage.project.lawyerSys.common.exception.ExceptionCode;
 import cabbage.project.lawyerSys.common.utils.R;
+import com.alibaba.fastjson.JSONObject;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.common.utils.BinaryUtil;
 import com.aliyun.oss.model.MatchMode;
@@ -20,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("oss")
 public class OssController {
 
   @Autowired
@@ -33,7 +35,10 @@ public class OssController {
   @Value("${alibaba.cloud.access-key}")
   private String accessId;
 
-  @RequestMapping("/oss/policy")
+  @Value("${alibaba.cloud.callback-url}")
+  private String callbackUrl;
+
+  @RequestMapping("/policy")
   public R policy()
       throws ServletException, IOException {
 
@@ -44,13 +49,13 @@ public class OssController {
     String dir = format + "/"; // 用户上传文件时指定的前缀。
     Map<String, String> respMap = null;
     try {
-      long expireTime = 30;
+      long expireTime = 300;
       long expireEndTime = System.currentTimeMillis() + expireTime * 1000;
       Date expiration = new Date(expireEndTime);
       // PostObject请求最大可支持的文件大小为5 GB，即CONTENT_LENGTH_RANGE为5*1024*1024*1024。
       PolicyConditions policyConds = new PolicyConditions();
       policyConds.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, 1048576000);
-      policyConds.addConditionItem(MatchMode.StartWith, PolicyConditions.COND_KEY, dir);
+//      policyConds.addConditionItem(MatchMode.StartWith, PolicyConditions.COND_KEY, dir);
 
       String postPolicy = ossClient.generatePostPolicy(expiration, policyConds);
       byte[] binaryData = postPolicy.getBytes("utf-8");
@@ -65,6 +70,16 @@ public class OssController {
       respMap.put("host", host);
       respMap.put("expire", String.valueOf(expireEndTime / 1000));
       // respMap.put("expire", formatISO8601Date(expiration));
+
+      //设置回调
+//      JSONObject jasonCallback = new JSONObject();
+//      jasonCallback.put("callbackUrl", callbackUrl + "/api/file/url/callback");
+//      jasonCallback.put("callbackBody",
+//          "filename=${object}&size=${size}&mimeType=${mimeType}&height=${imageInfo.height}&width=${imageInfo.width}");
+//      jasonCallback.put("callbackBodyType", "application/x-www-form-urlencoded");
+//      String base64CallbackBody = BinaryUtil.toBase64String(jasonCallback.toString().getBytes());
+//      respMap.put("callback", base64CallbackBody);
+
     } catch (Exception e) {
       // Assert.fail(e.getMessage());
       return R.error(ExceptionCode.GET_POLICY_EXCEPTION);

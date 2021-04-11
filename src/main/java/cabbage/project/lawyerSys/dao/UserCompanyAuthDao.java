@@ -3,6 +3,7 @@ package cabbage.project.lawyerSys.dao;
 import cabbage.project.lawyerSys.entity.UserCompanyAuthEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 企业认证申请记录表
@@ -14,4 +15,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserCompanyAuthDao extends BaseMapper<UserCompanyAuthEntity> {
 
+  UserCompanyAuthEntity getLatest(@Param("account") String account);
 }

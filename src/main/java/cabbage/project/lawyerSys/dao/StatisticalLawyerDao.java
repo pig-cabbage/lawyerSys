@@ -3,6 +3,7 @@ package cabbage.project.lawyerSys.dao;
 import cabbage.project.lawyerSys.entity.StatisticalLawyerEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 律师服务记录表
@@ -14,4 +15,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface StatisticalLawyerDao extends BaseMapper<StatisticalLawyerEntity> {
 
+  StatisticalLawyerEntity getLatestRecord(@Param("projectId") Long project);
 }

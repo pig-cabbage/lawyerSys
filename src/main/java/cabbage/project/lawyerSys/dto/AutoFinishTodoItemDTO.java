@@ -18,6 +18,8 @@ public class AutoFinishTodoItemDTO {
   private Long projectId;
   private String userId;
   private String otherId;
+  private String userName;
+  private String otherName;
   private Date date;
   private Integer defaultValue;
 }
