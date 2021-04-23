@@ -1,1 +1,8 @@
 /* pages/projectInfoIndex/projectInfoIndex.wxss */
+.deal_bd{
+  position : fixed;
+  display: flex;
+  width: 100%;
+  bottom: 130rpx;
+  text-align: center;
+}

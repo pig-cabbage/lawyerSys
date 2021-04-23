@@ -8,6 +8,6 @@
         </mp-cells> -->
         <path-view value="{{value}}"
             btnTxt='选中本项'
-            catchtapBtn="selThis" user="{{manager}}" itemId="{{id}}" permit="public"></path-view>
+            catchtapBtn="selThis" user="{{manager}}" itemId="{{id}}" permit="public" download="{{download}}"></path-view>
     </view>
 </view>

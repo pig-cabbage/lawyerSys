@@ -34,6 +34,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + '/api/todoItem/list',
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data : {
         user : app.globalData.userInfo.id
       },

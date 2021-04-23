@@ -39,6 +39,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + '/api/project/company/demand/info/' + this.data.id,
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success : function(res){
         that.setData({
           recommendPlan : res.data.projectCompanyDemand.recommendPlan,

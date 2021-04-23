@@ -76,6 +76,9 @@ Page({
           result : this.data.result,
           advice: this.data.advice 
         },
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
       success: function(res){
         if(res.data.code == 0){
           wx.showToast({
@@ -97,6 +100,9 @@ Page({
           data:{
             result : this.data.result,
             advice: this.data.advice 
+          },
+          header : {
+            'cookie' : wx.getStorageSync("sessionid")
           },
         success: function(res){
           if(res.data.code == 0){
@@ -151,6 +157,9 @@ Page({
           advice: this.data.advice,
           lowestLevel: this.data.lowestLevel,
           highestLevel: this.data.highestLevel
+        },
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
         },
       success: function(res){
         if(res.data.code == 0){

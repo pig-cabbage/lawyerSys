@@ -62,6 +62,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + "/api/service/plan/" + that.data.levelEntityList[0].id + "/search",
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data : {
         status : 1,
         sort : "0"
@@ -107,6 +110,9 @@ Page({
       wx.request({
         url: app.globalData.baseUrl + "/api/service/plan/" + this.data.levelEntityList[e.detail.value].id + "/search",
         method : 'GET',
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data : {
           status : 1,
           sort : "0"
@@ -170,6 +176,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + '/api/project/' + that.data.id + '/system/distributePlan',
       method : 'POST',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data:{
         plan : that.data.planId,
         startTime : that.data.startTime,

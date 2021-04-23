@@ -74,11 +74,14 @@ Page({
   submitForm : function(){
     var that = this;
     wx.request({
-      url: app.globalData.baseUrl + "/api/project/" + that.data.project + "/changeLawyer",
+      url: app.globalData.baseUrl + "/api/project/" + that.data.project + "/user/changeLawyer",
       method : "POST",
       data : {
         reason : that.data.reason,
         creator : that.data.role
+      },
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
       },
       success : function(res){
         if(res.data.code == 0){

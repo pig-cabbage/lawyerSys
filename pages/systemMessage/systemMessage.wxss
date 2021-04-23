@@ -1,0 +1,129 @@
+/* pages/systemMessage/systemMessage.wxss */
+page {  
+  background-color: #f2f2f2;  
+  height: 100%;
+}  
+
+.history {  
+  height: 90%;  
+  padding: 20rpx  20rpx  20rpx  20rpx;
+  font-size: 14px;  
+  line-height: 50rpx;  
+  word-break: break-all;  
+}  
+.jia_img{  
+  height: 80rpx;  
+  width: 90rpx;  
+}  
+.time {  
+  text-align: center;  
+  padding: 5rpx 20rpx 5rpx 20rpx;  
+  width: 200rpx;  
+  font-size: 26rpx;  
+  background-color: #E8E8E8;  
+}  
+.tab{
+  bottom: 120rpx;
+}
+.tab_1{
+  position: fixed;
+  bottom: 50rpx;
+  width: 200rpx;
+  font-size: 26rpx;
+  left: 50%;
+  margin-left: -45rpx;
+  height: 100rpx;
+}
+.tab_2{
+  right: 30rpx;
+  position: fixed;
+}
+/* 聊天 */  
+.my_right {  
+  float: right;  
+  margin-top: 18rpx;
+  position: relative;  
+  right: 40rpx;  
+  width: 100%;
+  
+} 
+.p_r{
+  display: flex;
+  float: right;  
+  position: relative;  
+} 
+.my_audio{
+  height: 120rpx;
+  width: 150rpx;
+  position: absolute;
+  right: 150rpx;
+  background: white;
+  top: 20rpx;
+}
+.my_img_bg{
+  height: 150rpx;
+  width: 400rpx;
+  position: relative;
+  right: 0;
+  background: white;
+  top: 20rpx;
+}
+.you_left {  
+  margin-top: 18rpx;
+  float: left;  
+  position: relative;  
+  left: 5rpx;  
+  width: 100%;
+}  
+.p_l{
+  display: flex;
+  float: left;  
+  position: relative;  
+}
+  
+.new_img {  
+  width: 100rpx;  
+  height: 100rpx;  
+  border-radius: 50%;  
+}  
+  
+.new_txt {  
+  width: 420rpx;  
+}  
+.new_txt_my{
+  border-radius: 7px;  
+  background-color: #00CC00;
+  margin-top: 10rpx;
+  padding: 0rpx 30rpx 0rpx 30rpx;  
+  float: right;
+}
+.new_txt_ai{
+  border-radius: 7px;  
+  background-color: #fff;  
+  margin-top: 10rpx;
+  padding: 0rpx 30rpx 0rpx 30rpx;  
+  float: left;
+  display: flex;
+}
+.new_text_active{
+  color: #1E90FF;
+}
+.new_txt_ai_1{
+  color: #1E90FF;
+}
+.sanjiao {  
+  top: 25rpx;  
+  position: relative;  
+  width: 0px;  
+  height: 0px;  
+  border-width: 15rpx;  
+  border-style: solid;  
+}  
+  
+.my {  
+  border-color: transparent transparent transparent #00CC00;  
+}  
+  
+.you {  
+  border-color: transparent #fff transparent transparent;  
+}  

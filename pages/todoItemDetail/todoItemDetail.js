@@ -19,41 +19,79 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var item = JSON.parse(options.data);
-    this.setData({
-      id : item.item,
-      project : item.project,
-      content : item.itemContent,
-      latestTime : app.formatDate(item.latestTime)
-      
-    })
-    switch(this.data.id){
-      case 1:
-        this.getPlan();
-        this.setData({
-        warn : "请在" + this.data.latestTime + "前完成支付，否则系统将终止此次流程！"
+    var that = this;
+    if(options.data != null){
+      var item = JSON.parse(options.data);
+      that.setData({
+        id : item.item,
+        project : item.project,
+        content : item.itemContent,
+        latestTime : app.formatDate(item.latestTime)
+      })
+      that.getMoreData(that.data.id)
+    }else{
+      wx.request({
+        url: app.globalData.baseUrl + "/api/todoItem/info/" + options.id,
+        method : "GET",
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
+        success(res){
+          if(res.data.code == 0){
+            var item = res.data.projectUserTodoItem
+            that.setData({
+              id : item.item,
+              project : item.project,
+              content : item.itemContent,
+              latestTime : app.formatDate(item.latestTime)
+            })
+            that.getMoreData(item.item)
+          }else{
+            wx.showModal({
+              title : "提示",
+              content : "获取数据失败，请重试",
+              showCancel : false,
+              success(res){
+                wx.navigateBack({
+                  delta: 1,
+                })
+              }
+            })
+          }
+        }
+      })
+    }
+  },
+  getMoreData : function(id){
+    var that = this;
+    switch(id){
+      case 1 :
+        that.getPlan();
+        that.setData({
+        warn : "请在" + that.data.latestTime + "前完成支付，否则系统将终止此次流程！"
          });
-      case 8:
-        this.setData({
-          warn : "请在" + this.data.latestTime + "前完成操作，否则系统将默认执行拒绝操作！"
+        break;
+      case 8 :
+        that.setData({
+          warn : "请在" + that.data.latestTime + "前完成操作，否则系统将默认执行拒绝操作！"
         })
         break;
-      case 3:
-        this.getProject();
-        this.getRecord();
-        this.setData({
-          warn : "请在" + this.data.latestTime + "前完成操作，否则系统将默认执行拒绝操作！"
+      case 3 :
+        that.getProject();
+        that.getRecord();
+        that.setData({
+          warn : "请在" + that.data.latestTime + "前完成操作，否则系统将默认执行拒绝操作！"
          })
         break;
-      case 4:
-        this.getApply();
-          this.setData({
-            warn : "请在" + this.data.latestTime + "前完成操作，否则系统将自动同意申请！"
+      case 4 :
+        that.getApply();
+        that.setData({
+            warn : "请在" + that.data.latestTime + "前完成操作，否则系统将自动同意申请！"
           })
-          break;
+        break;
       default:
-        this.setData({
-          warn : "请在" + this.data.latestTime + "前完成操作，否则系统将自动为您指定律师！"
+        that.setData({
+          warn : "请在" + that.data.latestTime + "前完成操作，否则系统将自动为您指定律师！"
         })
         break;
     }
@@ -61,8 +99,11 @@ Page({
   undertake : function(){
     var that = this;
     wx.request({
-      url: app.globalData.baseUrl + "/api/project/" + that.data.project + "/determineUnderTake",
+      url: app.globalData.baseUrl + "/api/project/" + that.data.project + "/lawyer/determineUnderTake",
       method : "POST",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data : {
         lawyer : that.data.distributeId,
         carry : 1
@@ -92,6 +133,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + "/api/project/" + that.data.project + "/determineUnderTake",
       method : "POST",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data : {
         lawyer : that.data.distributeId,
         carry : 0,
@@ -137,6 +181,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + "/api/project/distributeLawyer/" + that.data.project +  "/latestRecord",
       method : "GET",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success : function(res){
         if(res.data.code == 0){
           that.setData({
@@ -152,6 +199,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + "/api/project/info/" + that.data.project,
       method : "GET",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success : function(res){
         if(res.data.code == 0){
           that.setData({
@@ -180,9 +230,13 @@ Page({
   getPlan : function(){
     var that = this;
     wx.request({
-      url: app.globalData.baseUrl + "/api/project/system/plan/" + that.data.project + '/closestRecord',
+      url: app.globalData.baseUrl + "/api/project/distributePlan/" + that.data.project + '/closestRecord',
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success  : function(res){
+        console.log(res)
         if(res.data.code == 0){
           that.setData({
             recordId : res.data.projectPlan.id,
@@ -199,7 +253,11 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + "/api/project/changeLawyer/" + that.data.project + '/latestInfo',
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success  : function(res){
+        console.log(res)
         if(res.data.code == 0){
           that.setData({
             applyId : res.data.projectUserChangeLawyer.id,
@@ -212,8 +270,11 @@ Page({
   agreeApply : function(){
     var that = this;
     wx.request({
-      url: app.globalData.baseUrl + "/api/project/" + that.data.project + "/dealChangeLawyer",
+      url: app.globalData.baseUrl + "/api/project/" + that.data.project + "/lawyer/dealChangeLawyer",
       method : "POST",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data : {
         changeLawyer : that.data.applyId,
         result : 0
@@ -265,6 +326,9 @@ Page({
       wx.request({
         url: app.globalData.baseUrl + "/api/project/" + that.data.project + "/dealChangeLawyer",
         method : "POST",
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data : {
           changeLawyer : that.data.applyId,
           result : 1,
@@ -304,8 +368,11 @@ Page({
   modalConfirm : function(){
     var that = this;
     wx.request({
-      url: app.globalData.baseUrl + '/api/project/' +  that.data.project + '/pay',
+      url: app.globalData.baseUrl + '/api/project/' +  that.data.project + '/company/pay',
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success : function(res){
         if(res.data.code == 0){
           wx.showToast({
@@ -351,8 +418,11 @@ Page({
       })
     }else{
       wx.request({
-        url: app.globalData.baseUrl + '/api/project/' + that.data.project + '/objection',
+        url: app.globalData.baseUrl + '/api/project/' + that.data.project + '/comapny/objection',
         method : 'POST',
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data : {
           distributeRecord : that.data.planId,
           content : that.data.objectionContent

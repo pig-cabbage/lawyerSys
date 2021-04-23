@@ -36,7 +36,7 @@
     <view class="th">服务名称</view>
     <view class="th"><view class="th-top">服务次数</view><view class="th-bottom">单位(次)</view></view>
     <view class="th "><view class="th-top">服务时长</view><view class="th-bottom">单位(天)</view></view>
-    <view class="th "><view class="th-top">累计收入</view><view class="th-bottom">单位(万元)</view></view>
+    <view class="th "><view class="th-top">累计收入</view><view class="th-bottom">单位(元)</view></view>
   </view>
   <block wx:for="{{serviceList}}">
     <block wx:for="{{item.list}}">
@@ -80,21 +80,15 @@
       <view class="td">{{item.cost}}</view>
     </view>
   </block>
-  <!-- <block>
-      <view class="tr bg-g">
-      <view class="td">累计</view>
-      <view class="td">{{totalNumber}}</view>
-      <view class="td">{{totalDate}}</view>
-      <view class="td">{{totalCost}}</view>
-    </view>
-    </block> -->
+
 </view>
 <view class="table"  wx:if="{{currentIndexNav == 2}}">
   <view class="tr bg-w">
-    <view class="th">律师名称</view>
-    <view class="th"><view class="th-top">服务次数</view><view class="th-bottom">单位(次)</view></view>
-    <view class="th "><view class="th-top">服务时长</view><view class="th-bottom">单位(天)</view></view>
-    <view class="th "><view class="th-top">累计收入</view><view class="th-bottom">单位(元)</view></view>
+    <view class="th lawyer">律师名称</view>
+    <view class="th"><view class="th-top lawyer">服务次数</view><view class="th-bottom lawyer">单位(次)</view></view>
+    <view class="th "><view class="th-top lawyer">服务时长</view><view class="th-bottom lawyer">单位(天)</view></view>
+    <view class="th"><view class="th-top lawyer">累计收入</view><view class="th-bottom lawyer">单位(元)</view></view>
+    <view class="th ">详情</view>
   </view>
   <block wx:for="{{lawyerList}}">
     <view class="tr">
@@ -102,16 +96,9 @@
       <view class="td">{{item.totalNumber}}</view>
       <view class="td">{{item.totalDate}}</view>
       <view class="td">{{item.totalCost}}</view>
+      <view class="td" data-id="{{item.account}}" bindtap="goToDetail">>></view>
     </view>
   </block>
-  <!-- <block>
-      <view class="tr bg-g">
-      <view class="td">累计</view>
-      <view class="td">{{totalNumber}}</view>
-      <view class="td">{{totalDate}}</view>
-      <view class="td">{{totalCost}}</view>
-    </view>
-    </block> -->
 </view>
 </view>
 

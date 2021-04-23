@@ -29,6 +29,7 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
+    if(options.data != null){
     var item = JSON.parse(options.data);
     that.setData({
       id : item.id,
@@ -40,10 +41,48 @@ Page({
       serviceTime : app.formatDate(item.startTime) + '-' + app.formatDate(item.endTime),
       nowLawyer : item.nowLawyer
     })
+  }else{
+    wx.request({
+      url: app.globalData.baseUrl + "/api/project/info/" + options.id,
+      method : "GET",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
+      success(res){
+        if(res.date.code == 0){
+          that.setData({
+            id : item.id,
+            status : options.status,
+            company : item.company,
+            demand : item.demand,
+            createTime : app.formatDate(item.createTime),
+            plan : item.plan,
+            serviceTime : app.formatDate(item.startTime) + '-' + app.formatDate(item.endTime),
+            nowLawyer : item.nowLawyer
+          })
+        }else{
+          wx.showModal({
+            title : "提示",
+            content : "获取数据失败， 请重试。",
+            showCancel : false,
+            success(res){
+              wx.navigateBack({
+                delta: 1,
+              })
+            }
+          })
+        }
+      }
+
+    })
+  }
     if(this.data.status == "3"){
       wx.request({
-        url: app.globalData.baseUrl + '/api/project/system/plan/' + that.data.id + '/closestRecord',
+        url: app.globalData.baseUrl + '/api/project/distributePlan/' + that.data.id + '/closestRecord',
         method : 'GET',
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         success : function(res){
           that.setData({
             distributePlanId : res.data.projectPlan.plan,
@@ -56,6 +95,9 @@ Page({
         wx.request({
           url: app.globalData.baseUrl + '/api/project/distributeLawyer/' + that.data.id + '/latestRecord',
           method : 'GET',
+          header : {
+            'cookie' : wx.getStorageSync("sessionid")
+          },
           success : function(res){
             if(res.data.code == 0){
               console.log(res.data)
@@ -119,6 +161,9 @@ Page({
       wx.request({
         url: app.globalData.baseUrl + '/api/project/' + that.data.id + '/system/audit',
         method : 'POST',
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data:{
           result : this.data.result,
           advice : that.data.advice
@@ -152,8 +197,11 @@ Page({
   remindPay : function(){
     var that = this;
     wx.request({
-      url: app.globalData.baseUrl + '/api/project/' + that.data.id + '/remindPay',
+      url: app.globalData.baseUrl + '/api/project/' + that.data.id + '/system/remindPay',
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success : function(res){
         if(res.data.code == 0){
           wx.showToast({
@@ -201,8 +249,11 @@ Page({
       })
     }else{
       wx.request({
-        url: app.globalData.baseUrl + '/api/project/' + that.data.id + '/archive',
+        url: app.globalData.baseUrl + '/api/project/' + that.data.id + '/system/archive',
         method : 'POST',
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data : {
           archiveId : that.data.number,
           note : that.data.note

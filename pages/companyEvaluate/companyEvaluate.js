@@ -42,6 +42,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + '/api/project/companyEvaluate/' + that.data.projectId + '/info',
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success : function(res){
         if(res.data.code == 0){
           that.setData({

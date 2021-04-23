@@ -69,6 +69,9 @@ Page({
       wx.request({
         url: app.globalData.baseUrl + "/api/project/file/list",
         method : "GET",
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data : {
           projectId : that.data.item.id
         },
@@ -91,6 +94,9 @@ Page({
       wx.request({
         url: app.globalData.baseUrl + "/api/service/file/template/" + that.data.item.plan + "/list",
         method : "GET",
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         success : function(res){
           if(res.data.code == 0){
             that.setData({
@@ -123,6 +129,9 @@ pay : function(){
   wx.request({
     url: app.globalData.baseUrl + "/api/todoItem/list",
     method : "GET",
+    header : {
+      'cookie' : wx.getStorageSync("sessionid")
+    },
     data : {
       project : that.data.item.id
     },

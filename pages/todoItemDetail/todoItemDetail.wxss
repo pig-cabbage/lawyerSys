@@ -43,3 +43,9 @@
   position: fixed;
   text-align: center;
 }
+.process_bd_1{
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}

@@ -60,6 +60,9 @@ Page({
         wx.request({
           url: app.globalData.baseUrl + "/api/user/lawyer/search",
           method: "GET",
+          header : {
+            'cookie' : wx.getStorageSync("sessionid")
+          },
           data:{
             key: that.data.key,
             level : that.data.level
@@ -92,6 +95,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + "/api/user/lawyer/search",
       method: "GET",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data:{
         key: that.data.key,
         level : that.data.level
@@ -108,6 +114,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + "/api/project/" + that.data.projectId + "/level",
       method : "GET",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success : function(res){
         if(res.data.code == 0){
           that.setData({
@@ -116,6 +125,9 @@ Page({
           wx.request({
             url: app.globalData.baseUrl + "/api/user/lawyer/search",
             method: "GET",
+            header : {
+              'cookie' : wx.getStorageSync("sessionid")
+            },
             data:{
               key: that.data.key,
               level : res.data.level
@@ -146,8 +158,11 @@ Page({
     var that = this;
     if(that.data.currentIndexNav == 0){
       wx.request({
-        url: app.globalData.baseUrl +  "/api/project/" + that.data.projectId + "/chooseLawyer",
+        url: app.globalData.baseUrl +  "/api/project/" + that.data.projectId + "/company/chooseLawyer",
         method : "POST",
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data : {
           recommendLawyer : 1
         },
@@ -181,6 +196,9 @@ Page({
         wx.request({
           url: app.globalData.baseUrl +  "/api/project/" + that.data.projectId + "/chooseLawyer",
           method : "POST",
+          header : {
+            'cookie' : wx.getStorageSync("sessionid")
+          },
           data : {
             recommendLawyer : 0,
             demandLawyer : that.data.lawyerId

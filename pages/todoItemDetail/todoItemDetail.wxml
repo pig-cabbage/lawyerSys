@@ -59,7 +59,7 @@
           申诉
       </button>
     </view>
-    <view wx:if="{{id == 3}}" class="process_bd">
+    <view wx:if="{{id == 3}}" class="process_bd_1">
       <button style="width:45%;" type="primary" data-result="1" bindtap="undertake">
           同意
       </button>

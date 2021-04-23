@@ -4,7 +4,7 @@ const app = getApp()
 
 Page({
   data: {
-    buttonText: ['用户管理', "服务方案管理", "项目流程管理", "数据统计", "案件管理"],
+    buttonText: ['用户管理', "服务方案管理", "服务项目管理", "数据统计", "案件项目管理"],
   },
 
   onLoad : function(){
@@ -34,9 +34,12 @@ Page({
        });
        break;  
      default:
-       wx.navigateTo({
-        url: '../logs/logs'
-       });
+       wx.request({
+         url: app.globalData.baseUrl + "/api/test/test10/20",
+         success(res){
+           console.log(res)
+         }
+       })
        break;   
 
    }

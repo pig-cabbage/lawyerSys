@@ -34,6 +34,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + "/api/dataStatistics/service",
       method : "GET",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data : {
         startDate : that.data.startDate,
         endDate : that.data.endDate
@@ -109,6 +112,9 @@ getLawyerData : function(){
   wx.request({
     url: app.globalData.baseUrl + "/api/dataStatistics/lawyer",
     method : "GET",
+    header : {
+      'cookie' : wx.getStorageSync("sessionid")
+    },
     data : {
       startDate : that.data.startDate,
       endDate : that.data.endDate
@@ -133,6 +139,9 @@ getCompanyData : function(){
   wx.request({
     url: app.globalData.baseUrl + "/api/dataStatistics/company",
     method : "GET",
+    header : {
+      'cookie' : wx.getStorageSync("sessionid")
+    },
     data : {
       startDate : that.data.startDate,
       endDate : that.data.endDate
@@ -170,48 +179,33 @@ getData : function(){
   switch(that.data.currentIndexNav){
     case 0: 
       that.getServiceData();
+      that.setData({
+        companyList : [],
+        lawyerList : [],
+      })
       break;
     case 1:
-      this.getCompanyData();
+      that.getCompanyData();
+      that.setData({
+        serviceList : [],
+        lawyerList : [],
+      })
       break;
     case 2:
-      this.getLawyerData();
+      that.getLawyerData();
+      that.setData({
+        serviceList : [],
+        companyList : [],
+      })
       break;
   }
 },
+goToDetail : function(e){
+  var that = this;
+  wx.navigateTo({
+    url: '../lawyerStatisticsDetail/lawyerStatisticsDetail?id=' + e.currentTarget.dataset.id + "&startDate=" + that.data.startDate + "&endDate=" + that.data.endDate,
+  })
+  
+},
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

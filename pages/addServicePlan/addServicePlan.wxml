@@ -26,24 +26,21 @@
   </mp-cells>
 
 </view>
-<view wx:if="{{stepNum == 2}}">
-  <mp-cells title="服务方案内容">
-    
-  </mp-cells>
-  <textarea placeholder="请输入服务方案内容" value="{{content}}" bindinput="inputContent"></textarea>
+<view class="content_pr" wx:if="{{stepNum == 2}}">
+  <textarea class="content_area" placeholder="请输入服务方案内容" value="{{content}}" bindinput="inputContent"></textarea>
 </view>
 <view wx:if="{{stepNum == 3}}"> 
   <path-view value="{{value}}" mode="{{addPlan}}"
             btnTxt='选中本项'
-            catchtapBtn="selThis" user="manager" permit="public"></path-view>
+            catchtapBtn="selThis" user="manager" permit="public" itemId="{{tempPlanId}}"></path-view>
 </view>
 <view class="next_btn" wx:if="{{stepNum == 1}}">
 <button bindtap="numSteps" type="primary">下一步</button>
 </view>
-<view wx:if="{{stepNum != 1}}"  class="weui-flex" style="margin-left: 20%;width: 60%;position: fixed; bottom: 30rpx;">
-        <view class="weui-flex__item"><view class="placeholder"><button button wx:if="{{stepNum != 1}}"  bindtap="previous" type="primary" >上一步</button></view></view>
-        <view class="weui-flex__item"><view class="placeholder"><button wx:if="{{stepNum != 4}}"  bindtap="numSteps" type="primary" >下一步</button>
-<button wx:if="{{stepNum == 4}}" bindtap="finish" type="primary" >完成</button></view></view>
-    </view>
+<view wx:if="{{stepNum != 1}}"  class="button_bd">
+        <button style="wdith : 30%;" wx:if="{{stepNum != 1}}"  bindtap="previous" type="primary" >上一步</button>
+        <button style="wdith : 30%;" wx:if="{{stepNum != 4}}"  bindtap="numSteps" type="primary" >下一步</button>
+        <button style="wdith : 30%;" wx:if="{{stepNum == 4}}" bindtap="finish" type="primary" >完成</button>
+ </view>
 
 

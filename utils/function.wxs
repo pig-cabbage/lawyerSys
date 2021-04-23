@@ -1,0 +1,46 @@
+var format = function(num){
+  var temp = num + "";
+  if(temp.length == 1){
+    return "0" + temp;
+  }else{
+    return temp;
+  }
+}
+var functions = {
+  formatChatDate : function(date){
+    if(date == null){
+      return ""
+    }
+    var now = getDate();
+    var old = getDate(date);
+    if(now.getTime() - date < 24 * 60 * 60 * 1000){
+      if(old.getDate() == now.getDate()){
+        return format(old.getHours()) + ":" +format(old.getMinutes());
+      }else{
+        return "昨天"
+      }
+    }else{
+      if(now.getTime() - date < 48 * 60 * 60 * 1000){
+        if(old.getDate() == now.getDate() - 1){
+          return "昨天";
+        }
+      }else{
+        var moneth = old.getMonth() + 1;
+        if(old.getFullYear() != now.getFullYear()){
+          return old.getFullYear() + "年" + moneth + "月" + old.getDate() + "日";
+        }
+        return moneth + "月" + old.getDate() + "日"
+      }
+    }  
+  },
+  formatDate: function (date) {
+    var temp = getDate(date);
+    var month = temp.getMonth() + 1;
+    return temp.getFullYear() + "-" + month + "-" + temp.getDate() + " " + format(temp.getHours()) + ":" + format(temp.getMinutes()) + ":" + format(temp.getSeconds());
+  },
+  
+}
+module.exports = {
+  formatChatDate: functions.formatChatDate,
+  formatDate: functions.formatDate,
+}

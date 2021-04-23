@@ -33,6 +33,9 @@ Page({
         data:{
           key: that.key
         },
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         success: function(res){
           that.setData({
             result: res.data.page.list
@@ -45,6 +48,9 @@ Page({
         method: "GET",
         data:{
           key: that.key
+        },
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
         },
         success: function(res){
           that.setData({
@@ -63,6 +69,9 @@ Page({
       data:{
         key: that.key
       },
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success: function(res){
         that.setData({
           result: res.data.page.list
@@ -77,6 +86,9 @@ Page({
       method: "GET",
       data:{
         key: that.key
+      },
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
       },
       success: function(res){
         that.setData({

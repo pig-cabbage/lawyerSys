@@ -65,6 +65,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + "/api/service/level/add",
       method: "POST",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data:{
         level: this.data.level,
         chargeStandard: this.data.chargeStandard
@@ -78,19 +81,8 @@ Page({
           })
           app.getLevelList();
           that.setData({
-            getLevelList : true
+            modalHidden : true
           })
-          // wx.request({
-          //   url: app.globalData.baseUrl + "/api/service/level/list",
-          //   method: "GET",
-          //   success: function(res){
-          //     that.setData({
-          //       levelList : res.data.page.list,
-          //       modalHidden : true
-          //     })
-          //     app.globalData.levelList = res.data.page.list
-          //   }
-          // })
         }
       }
     })

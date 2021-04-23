@@ -51,6 +51,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + "/oss/policy",
       method : "GET",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success : function(res){
         if(res.data.code == 0){
           var data = res.data.data
@@ -116,6 +119,9 @@ Page({
                 address : that.data.formData.address,
                 businessLicense : that.data.formData.businessLicense
               },
+              header : {
+                'cookie' : wx.getStorageSync("sessionid")
+              },
               success : function(res){
                 if(res.data.code == 0){
                   wx.showToast({
@@ -173,6 +179,9 @@ Page({
               wx.request({
                 url: app.globalData.baseUrl + "/api/user/company/auth/" + app.globalData.userInfo.id +"/latestRecord" ,
                 method : "GET",
+                header : {
+                  'cookie' : wx.getStorageSync("sessionid")
+                },
                 success : function(res){
                   if(res.data.code == 0){
                     var item = res.data.entity

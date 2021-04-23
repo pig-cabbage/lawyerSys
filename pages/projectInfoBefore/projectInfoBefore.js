@@ -85,6 +85,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + '/api/project/demandLawyer/' + JSON.parse(that.data.data).id + '/closestRecord',
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success : function(res){
         if(res.data.code ==0){
           that.setData({
@@ -101,6 +104,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + '/api/user/lawyer/list',
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success :function(res){
         if(res.data.code == 0){
           that.setData({
@@ -139,8 +145,11 @@ Page({
       })
     }else{
       wx.request({
-        url: app.globalData.baseUrl +'/api/project/' +  JSON.parse(that.data.data).id + '/distributeLawyer',
+        url: app.globalData.baseUrl +'/api/project/' +  JSON.parse(that.data.data).id + '/system/distributeLawyer',
         method : 'POST',
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data : {
           demandLawyerRecordId : that.data.demandId,
           lawyerId : that.data.lawyerId
@@ -172,6 +181,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl +'/api/project/archive/' + JSON.parse(that.data.data).id + '/info',
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success : function(res){
         if(res.data.code == 0){
           that.setData({
@@ -196,6 +208,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + '/api/project/changeLawyer/' + JSON.parse(that.data.data).id + '/info',
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success : function(res){
         if(res.data.code == 0){
           that.setData({
@@ -249,8 +264,11 @@ Page({
       })
     }else{
       wx.request({
-        url: app.globalData.baseUrl + '/api/project/' + JSON.parse(that.data.data).id + '/changeLawyerAudit',
+        url: app.globalData.baseUrl + '/api/project/' + JSON.parse(that.data.data).id + '/system/changeLawyerAudit',
         method : 'POST',
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data : {
           changeLawyer : that.data.changeLawyerApplyId,
           result : that.data.result,

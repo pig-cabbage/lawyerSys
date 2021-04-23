@@ -47,6 +47,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + '/api/project/lawyerDealChangeApply/' + JSON.parse(that.data.data).id + '/info',
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success : function(res){
         if(res.data.code == 0){
           that.setData({
@@ -100,8 +103,11 @@ Page({
       })
     }else{
       wx.request({
-        url: app.globalData.baseUrl + '/api/project/' + JSON.parse(that.data.data).id + '/dealComplaint',
+        url: app.globalData.baseUrl + '/api/project/' + JSON.parse(that.data.data).id + '/system/dealComplaint',
         method : 'POST',
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data : {
           complaint : that.data.complaintId,
           result : that.data.result,

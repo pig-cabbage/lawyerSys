@@ -48,7 +48,11 @@
     "pages/workRecord/workRecord",
     "pages/lawyerProjectDetail/lawyerProjectDetail",
     "pages/changeLawyer/changeLawyer",
-    "pages/chat/chat"
+    "pages/chat/chat",
+    "pages/systemMessage/systemMessage",
+    "pages/messageDetail/messageDetail",
+    "pages/projectMessage/projectMessage",
+    "pages/lawyerStatisticsDetail/lawyerStatisticsDetail"
 
   ],
   "window":{

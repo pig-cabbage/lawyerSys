@@ -51,6 +51,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + "/oss/policy",
       method : "GET",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success : function(res){
         console.log(res.data.data)
         if(res.data.code == 0){
@@ -107,9 +110,13 @@ Page({
 
             }
         } else {
+            
             wx.request({
               url: app.globalData.baseUrl + "/api/user/lawyer/auth/apply",
               method: "POST",
+              header : {
+                'cookie' : wx.getStorageSync("sessionid")
+              },
               data : {
                 account : app.globalData.userInfo.id,
                 name : that.data.formData.name,
@@ -164,6 +171,7 @@ bindAddressChange: function (e) {
    */
   onLoad: function (options) {
     var that = this;
+    console.log(app.globalData.header)
     if(options.certificationStatus == "1"){
       wx.showModal({
         title : "提示",
@@ -191,6 +199,9 @@ bindAddressChange: function (e) {
               wx.request({
                 url: app.globalData.baseUrl + "/api/user/lawyer/auth/" + app.globalData.userInfo.id +"/latestRecord" ,
                 method : "GET",
+                header : {
+                  'cookie' : wx.getStorageSync("sessionid")
+                },
                 success : function(res){
                   if(res.data.code == 0){
                     var item = res.data.entity

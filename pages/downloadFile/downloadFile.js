@@ -36,6 +36,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + "/oss/get",
       method : "GET",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data : {
         objectName : targetName
       },

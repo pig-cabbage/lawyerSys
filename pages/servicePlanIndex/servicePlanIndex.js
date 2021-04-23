@@ -48,6 +48,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + "/api/service/plan/" + this.data.levelId + "/search",
       method: "GET",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data:{
         status : this.data.status,
         key : this.data.key,
@@ -107,6 +110,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + "/api/service/plan/" + this.data.levelId + "/search",
       method: "GET",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data:{
         status : this.data.status,
         key : this.data.key,

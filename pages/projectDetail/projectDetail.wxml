@@ -11,12 +11,13 @@
 
   <view class="result_bd">
         <mp-cells wx:if="{{currentIndexNav == 0}}">
+          <mp-cell link hover value="项目消息" url="../projectMessage/projectMessage?id={{item.id}}&role=1" ></mp-cell>
             <mp-cell value="项目名称" footer="{{item.projectName}}" ></mp-cell>
             <mp-cell link hover value="咨询需求" url="../demandDetail/demandDetail?id={{item.demand}}" ></mp-cell>
             <mp-cell value="发起时间" footer="{{item.createTimeDetail}}"></mp-cell>
-            <mp-cell wx:if="{{item.status >= 3}}" link hover value="服务方案" url="../servicePlanInfo/servicePlanInfo?id={{item.plan}}" ></mp-cell>
-            <mp-cell wx:if="{{item.status >= 3}}" value="服务时间" footer="{{item.serviceTime}}"></mp-cell>
-            <mp-cell wx:if="{{item.status >= 6}}" link hover value="代理律师" url="../lawyerInfo/lawyerInfo?id={{item.nowLawyer}}"></mp-cell>
+            <mp-cell wx:if="{{item.plan != null}}" link hover value="服务方案" url="../servicePlanInfo/servicePlanInfo?id={{item.plan}}" ></mp-cell>
+            <mp-cell wx:if="{{item.createTime != null}}" value="服务时间" footer="{{item.serviceTime}}"></mp-cell>
+            <mp-cell wx:if="{{item.nowLawyer != null}}" link hover value="代理律师" url="../lawyerInfo/lawyerInfo?id={{item.nowLawyer}}"></mp-cell>
         </mp-cells>
         <path-view wx:if="{{currentIndexNav == 1}}" value="{{value}}"
             btnTxt='选中本项'

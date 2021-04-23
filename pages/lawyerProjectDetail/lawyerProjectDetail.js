@@ -28,6 +28,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + "/api/project/info/" + options.id,
       method : "GET",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success : function(res){
         if(res.data.code == 0){
           var item = res.data.projectBase
@@ -93,6 +96,9 @@ Page({
       wx.request({
         url: app.globalData.baseUrl + "/api/project/file/list",
         method : "GET",
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data : {
           projectId : that.data.item.id
         },
@@ -115,6 +121,9 @@ Page({
       wx.request({
         url: app.globalData.baseUrl + "/api/service/file/template/" + that.data.item.plan + "/list",
         method : "GET",
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         success : function(res){
           if(res.data.code == 0){
             that.setData({

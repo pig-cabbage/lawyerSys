@@ -38,6 +38,7 @@
   font-size: 14px;
   line-height: 40px;
   width: 65%;
+  overflow: hidden; text-overflow:ellipsis; white-space: nowrap;display:block;
 }
 .list-view-item .tip {
   font-size: 12px;

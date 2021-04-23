@@ -10,7 +10,19 @@ page {
 	align-items: center;
 	justify-content: center;
 }
+.content_pr{
+	width : 100%;
+	height : 80%;
+}
+.content_area{
+	margin : 10rpx auto;
+	width : 90%;
+	height : 100%;
+}
+.button_bd{
 
+ position : fixed;bottom: 30rpx; display : flex; text-align : center; width: 100%;
+}
 .block-step {
 	display: flex;
 	flex-direction: row;

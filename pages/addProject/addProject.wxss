@@ -136,6 +136,9 @@ page {
   position: fixed;
   text-align: center;
 }
+.local{
+  padding : 10rpx 20rpx;
+}
 .demand_content{
   height : 60%;
   margin: 10rpx auto;

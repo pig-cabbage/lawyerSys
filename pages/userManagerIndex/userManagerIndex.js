@@ -32,6 +32,9 @@ onLoad(){
       wx.request({
         url: app.globalData.baseUrl + "/api/user/company/search",
         method: "GET",
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data:{
           key: that.data.key
         },
@@ -45,6 +48,9 @@ onLoad(){
       wx.request({
         url: app.globalData.baseUrl + "/api/user/lawyer/search",
         method: "GET",
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data:{
           key: that.data.key
         },
@@ -62,6 +68,9 @@ onLoad(){
     wx.request({
       url: app.globalData.baseUrl + "/api/user/company/search",
       method: "GET",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data:{
         key: that.data.key
       },
@@ -78,6 +87,9 @@ onLoad(){
       wx.request({
         url: app.globalData.baseUrl + "/api/user/company/search",
         method: "GET",
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data:{
           key: that.data.key
         },
@@ -91,6 +103,9 @@ onLoad(){
       wx.request({
         url: app.globalData.baseUrl + "/api/user/lawyer/search",
         method: "GET",
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data:{
           key: that.data.key
         },

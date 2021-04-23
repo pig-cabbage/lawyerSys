@@ -25,7 +25,8 @@ Page({
     this.setData({
       level : options.level,
       levelId : options.levelId,
-      chargeStandard : options.chargeStandard
+      chargeStandard : options.chargeStandard,
+      tempPlanId : parseInt(Math.random()*1000)
     })
   },
   // 下一步
@@ -89,11 +90,14 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + '/api/service/plan/add',
       method : 'POST',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data : {
         serviceLevel : that.data.levelId,
         name : that.data.planName,
         content : that.data.content,
-        userInfo : app.globalData.userInfo.id
+        userInfo : that.data.tempPlanId
       },
       success : function(res){
         if(res.data.code == 0){

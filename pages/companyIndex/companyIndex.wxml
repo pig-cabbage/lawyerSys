@@ -1,18 +1,27 @@
 <!--pages/companyIndex/companyIndex.wxml-->
 <view style='margin-bottom:130rpx;'>
 <!-- 组件显示，根据自己需求添加 -->
-  <mp-cells >
-    <mp-cell   link hover value="待办事项" url="../companyTodoItem/companyTodoItem"></mp-cell>
-  </mp-cells>
+<view class="top" hidden="{{currentTab == 0? false: true}}">
+  <view class="top_left" bindtap="goToItem">
+    <image class="top_left_img" src="../../icon/item.svg"></image>
+    <view class = "top_left_text">待办事项</view>
+  </view>
+  <view class="top_right" bindtap="goToMessage">
+    <image class="top_left_img" src="../../icon/sys_msg.svg"></image>
+    <view class = "top_left_text top_left_text_1">系统消息
+      <view wx:if="{{count > 0}}" class="red_pot">{{count}}</view>
+    </view>
+  </view>
+</view>
   <view class="chat_bd">
   <view class="char_card" wx:for="{{contractList}}">
   <view><image class="head" src="../../icon/head.svg"></image></view>
   <view class = "card_right" data-man="{{item.man}}" data-id="{{item.id}}" bindtap="goToChat">
     <view class="right_top">
       <view class="name">{{item.name}}</view>
-      <view class="time">11:33</view>
+      <view class="time">{{functions.formatChatDate(item.newestMessage.createTime)}}</view>
     </view>
-    <view class="right_bottom">最新留言</view>
+    <view class="right_bottom">{{item.newestMessage.content}}</view>
   </view>
   </view>
 </view>

@@ -39,6 +39,15 @@ Component({
         })
       }
     },
+    download: {
+      type: Boolean,
+      value: true,
+      observer: function (val) {
+        this.setData({
+          download: val
+        })
+      }
+    },
     value: {
       type: Array,
       value: [],
@@ -117,7 +126,8 @@ Component({
     suffix: "",
     newList: [],
     mode: "show",
-    id: -1
+    id: -1,
+    download : true,
   },
   methods: {
     newValue() {
@@ -141,14 +151,6 @@ Component({
         })
       }
     },
-
-    newPrivateFloder: function () {
-      wx.request({
-        url: app.globalData.baseUrl + "/api/project/file",
-        method: "POST",
-
-      })
-    },
     modalCandel() {
       this.setData({
         modalHidden: true
@@ -164,9 +166,13 @@ Component({
       var parent = that.data.currentPath.length == 0 ? -1 : this.data.currentPath[this.data.currentPath.length - 1].id;
       var outValue = that.data.outValue;
       var currentPath = that.data.currentPath;
-      if (that.properties.permit == "public") {wx.request({
+      if (that.properties.permit == "public") {
+        wx.request({
         url: app.globalData.baseUrl + "/oss/policy",
         method: "GET",
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         success: function (res) {
           if (res.data.code == 0) {
             var data = res.data.data
@@ -197,6 +203,9 @@ Component({
                       wx.request({
                         url: app.globalData.baseUrl + "/api/service/file/template/save",
                         method: "POST",
+                        header : {
+                          'cookie' : wx.getStorageSync("sessionid")
+                        },
                         data: {
                           fileName: name,
                           url: key,
@@ -243,6 +252,9 @@ Component({
         wx.request({
           url: app.globalData.baseUrl + "/oss/policy",
           method: "GET",
+          header : {
+            'cookie' : wx.getStorageSync("sessionid")
+          },
           success: function (res) {
             if (res.data.code == 0) {
               var data = res.data.data
@@ -273,6 +285,9 @@ Component({
                         wx.request({
                           url: app.globalData.baseUrl + "/api/project/file/save",
                           method: "POST",
+                          header : {
+                            'cookie' : wx.getStorageSync("sessionid")
+                          },
                           data: {
                             fileName: name,
                             url: key,
@@ -320,57 +335,69 @@ Component({
     },
     download : function(e){
       var that = this;
-      wx.request({
-        url: app.globalData.baseUrl + "/oss/get",
-        method : "GET",
-        data : {
-          objectName : e.currentTarget.dataset.value
-        },
-        success : function(res){
-          if(res.data.code == 0){
-            wx.downloadFile({
-              url: res.data.url,
-              success : function(res){     
-                if(res.statusCode == 200){
-                  wx.saveFile({
-                    tempFilePath: res.tempFilePath,
-                    success(res){
-                      that.setData({
-                        downLoadFile : res.savedFilePath
-                      })
-                      wx.showToast({
-                        title: '下载成功',
-                        icon : "success"
-                      })
-                    }
-                  })
-                }else{
+      if(that.data.download == false){
+        wx.showModal({
+          title : "提示",
+          content : "你还未订购服务，无法下载。",
+          showCancel : false,
+        })
+      }else{
+        wx.request({
+          url: app.globalData.baseUrl + "/oss/get",
+          method : "GET",
+          header : {
+            'cookie' : wx.getStorageSync("sessionid")
+          },
+          data : {
+            objectName : e.currentTarget.dataset.value
+          },
+          success : function(res){
+            if(res.data.code == 0){
+              wx.downloadFile({
+                url: res.data.url,
+                success : function(res){     
+                  if(res.statusCode == 200){
+                    wx.saveFile({
+                      tempFilePath: res.tempFilePath,
+                      success(res){
+                        that.setData({
+                          downLoadFile : res.savedFilePath
+                        })
+                        wx.showToast({
+                          title: '下载成功',
+                          icon : "success"
+                        })
+                      }
+                    })
+                  }else{
+                    wx.showModal({
+                      title : "提示",
+                      content : "获取数据失败,请重试",
+                      showCancel : false,
+                    })
+                  }
+                },fail(res){
                   wx.showModal({
                     title : "提示",
                     content : "获取数据失败,请重试",
                     showCancel : false,
+  
                   })
                 }
-              },fail(res){
-                wx.showModal({
-                  title : "提示",
-                  content : "获取数据失败,请重试",
-                  showCancel : false,
-
-                })
-              }
-            })
-          }else{
-            wx.showModal({
-              title : "提示",
-              content : "获取数据失败,请重试",
-              showCancel : false,
-
-            })
+              })
+            }else{
+              wx.showModal({
+                title : "提示",
+                content : "获取数据失败,请重试",
+                showCancel : false,
+  
+              })
+            }
           }
-        }
-
-      })
+  
+        })
+      }
+      
     },
     modalConfirm() {
       var that = this;
@@ -378,6 +405,9 @@ Component({
           wx.request({
             url: app.globalData.baseUrl + "/api/service/file/template/save",
             method: 'POST',
+            header : {
+              'cookie' : wx.getStorageSync("sessionid")
+            },
             data: {
               fileName: that.data.name,
               type: 0,
@@ -402,6 +432,9 @@ Component({
           wx.request({
             url: app.globalData.baseUrl + "/api/project/file/save",
             method: 'POST',
+            header : {
+              'cookie' : wx.getStorageSync("sessionid")
+            },
             data: {
               project: that.data.id,
               fileName: that.data.name,

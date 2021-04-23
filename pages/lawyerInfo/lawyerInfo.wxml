@@ -9,9 +9,4 @@
             </mp-cell>
         </mp-cells>
     </view>
-    <view wx:if="{{detail}}" class="process_bd">
-      <button type="warn">
-          删除用户
-      </button>
-    </view>
 </view>

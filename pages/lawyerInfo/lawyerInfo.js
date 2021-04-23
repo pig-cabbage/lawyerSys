@@ -56,6 +56,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + '/api/user/lawyer/info/account/' + options.id,
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success: function(res){
         that.setData({
           detail : false,

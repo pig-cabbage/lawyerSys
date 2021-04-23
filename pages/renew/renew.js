@@ -37,6 +37,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + "/api/project/system/plan/" + that.data.projectId + '/closestRecord',
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success  : function(res){
         if(res.data.code == 0){
           that.setData({
@@ -64,8 +67,11 @@ Page({
   modalConfirm : function(){
     var that = this;
     wx.request({
-      url: app.globalData.baseUrl + "/api/project/" + that.data.projectId + "/renewal",
+      url: app.globalData.baseUrl + "/api/project/" + that.data.projectId + "/company/renewal",
       method : 'POST',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data : {
         plan : that.data.planId,
         cost : that.data.cost,

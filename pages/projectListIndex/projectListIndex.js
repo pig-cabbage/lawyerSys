@@ -51,8 +51,11 @@ Page({
     var that = this;
     if(that.data.fromLawyer == "新分配"){
       wx.request({
-        url: app.globalData.baseUrl + "/api/project/" + app.globalData.userInfo.id + "/newList",
+        url: app.globalData.baseUrl + "/api/project/lawyer/" + app.globalData.userInfo.id + "/newList",
         method : "GET",
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         success : function(res){
           if(res.data.code == 0){
             that.setData({
@@ -70,8 +73,11 @@ Page({
     }else{
       if(that.data.fromLawyer == "在办"){
         wx.request({
-          url: app.globalData.baseUrl + "/api/project/" + app.globalData.userInfo.id + "/nowList",
+          url: app.globalData.baseUrl + "/api/project/lawyer/" + app.globalData.userInfo.id + "/nowList",
           method : "GET",
+          header : {
+            'cookie' : wx.getStorageSync("sessionid")
+          },
           success : function(res){
             if(res.data.code == 0){
               that.setData({
@@ -88,8 +94,11 @@ Page({
         }) 
       }else{
         wx.request({
-          url: app.globalData.baseUrl + "/api/project/" + app.globalData.userInfo.id + "/endList",
+          url: app.globalData.baseUrl + "/api/project/lawyer/" + app.globalData.userInfo.id + "/endList",
           method : "GET",
+          header : {
+            'cookie' : wx.getStorageSync("sessionid")
+          },
           success : function(res){
             if(res.data.code == 0){
               that.setData({
@@ -112,6 +121,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + '/api/project/list',
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data:{
         status : that.data.statusList,
         key : that.data.key
@@ -133,6 +145,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + '/api/project/list',
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data:{
         status : that.data.statusList,
         key : that.data.key

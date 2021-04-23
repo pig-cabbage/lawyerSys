@@ -12,6 +12,7 @@ Page({
     value: [],
     detail : true,
     manager : "manager",
+    download : true,
 
   },
 
@@ -26,7 +27,8 @@ Page({
       if(options.detail != null){
         if(options.detail == "false"){
           that.setData({
-            manager : "company"
+            manager : "company",
+            download : false
           })
         }
       }
@@ -51,6 +53,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + '/api/service/file/template/' + this.data.id + '/list',
       method: 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success: function(res){
         that.setData({
           value : res.data.list

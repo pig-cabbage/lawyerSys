@@ -11,6 +11,7 @@
 
   <view class="result_bd">
         <mp-cells wx:if="{{currentIndexNav == 0}}">
+          <mp-cell link hover value="项目消息" url="../projectMessage/projectMessage?id={{item.id}}&role=2" ></mp-cell>
             <mp-cell value="项目名称" footer="{{item.projectName}}" ></mp-cell>
             <mp-cell link hover value="企业详情" url="../companyInfo/companyInfo?id={{item.project}}" ></mp-cell>
             <mp-cell link hover value="咨询需求" url="../demandDetail/demandDetail?id={{item.demand}}" ></mp-cell>
@@ -21,7 +22,7 @@
         </mp-cells>
         <path-view wx:if="{{currentIndexNav == 1}}" value="{{value}}"
             btnTxt='选中本项'
-            catchtapBtn="selThis" permit="private" user="company"></path-view>
+            catchtapBtn="selThis" permit="private" user="company" itemId="{{item.id}}"></path-view>
         <path-view wx:if="{{currentIndexNav == 2}}" value="{{fileTemplate}}" user="company"  permit="public"
             btnTxt='选中本项'
             catchtapBtn="selThis"></path-view>

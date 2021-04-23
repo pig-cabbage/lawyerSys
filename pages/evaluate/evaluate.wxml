@@ -1,27 +1,27 @@
 <!--pages/evaluate/evaluate.wxml-->
-<view class="page">
+
   <view class="content">
       <text>{{content}}</text>
     </view>
     <view  class = "evaluate">
-      <mp-cells>
-        <mp-cell><view class="score">
+
+<view class="score">
                 <view class="score_text">律师评分</view>
                 <view class="star">
-                  <view wx:for="{{light}}" class="star_item " data-index="{{index}}" bindtap="light"><image style=" width: 50rpx; height : 50rpx;" src="../../icon/星星.svg" ></image></view>
-                  <view wx:for="{{dark}}" class="star_item " data-index="{{index}}" bindtap="dark"><image style=" width: 50rpx; height : 50rpx;" src="../../icon/星星1.svg" ></image></view>
+                  <view wx:for="{{light}}" class="star_item " data-index="{{index}}" bindtap="light"><image class="image_item"  src="../../icon/star_active.svg" ></image></view>
+                  <view wx:for="{{dark}}" class="star_item " data-index="{{index}}" bindtap="dark"><image class="image_item"  src="../../icon/star.svg" ></image></view>
                 </view>
-              </view></mp-cell>
-        <mp-cell value="具体评价" ></mp-cell>
+              </view>
+        <view class="content_title">具体评价</view>
         <view class="evaluateContent">
-          <textarea placeholder="请输入具体评价" value="{{advice}}" auto-height="true" bindinput="inputContent">
+          <textarea class="content_bd" placeholder="请输入具体评价" value="{{advice}}" auto-height="true" bindinput="inputContent">
           </textarea>
     </view>
-      </mp-cells>
-    </view>
+      </view>
+      
     <view class="process_bd" >
       <button style="width: 60%;"  type="primary" data-result="1" bindtap="evaluate">
           确定
       </button>
     </view>
-  </view>
+

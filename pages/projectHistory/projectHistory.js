@@ -87,8 +87,11 @@ Page({
   initData : function(){
     var that = this;
     wx.request({
-      url: app.globalData.baseUrl + "/api/project/company/" + app.globalData.userInfo.id + "/list",
+      url: app.globalData.baseUrl + "/api/project/company/" + app.globalData.userInfo.id + "/allList",
       method : "GET",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success : function(res){
         if(res.data.code == 0){
           that.setData({

@@ -4,9 +4,9 @@
   <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
 <view class="form">
   <mp-form id="form" rules="{{rules}}" models="{{formData}}">
-    <mp-cells >
+    <mp-cells title="基本信息" >
                 <mp-cell prop="name" title="姓名" ext-class="">
-                    <input bindinput="formInputChange" data-field="name" class="weui-input" value="{{formData.name}}" placeholder="其输入企业名称"/>
+                    <input bindinput="formInputChange" data-field="name" class="weui-input" value="{{formData.name}}" placeholder="其输入姓名"/>
                 </mp-cell>
                 <mp-cell prop="phoneNumber" title="联系方式" ext-class="">
                     <input bindinput="formInputChange" data-field="phoneNumber" class="weui-input" value="{{formData.phoneNumber}}" placeholder="请输入联系方式"/>

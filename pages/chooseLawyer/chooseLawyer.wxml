@@ -17,7 +17,13 @@
     </view>
     <view class="result_bd">
       <mp-checkbox-group prop="checkbox" multi="{{true}}" bindchange="radioChange">
-        <mp-checkbox  wx:for="{{lawyerList}}" wx:key="value" label="{{item.name}}" value="{{item.id}}" checked="{{item.checked}}" url="lawyerInfo" account="{{item.account}}"></mp-checkbox>
+        <!-- <mp-checkbox  wx:for="{{lawyerList}}" wx:key="value" label="{{item.name}}" value="{{item.id}}" checked="{{item.checked}}" url="lawyerInfo" account="{{item.account}}"></mp-checkbox> -->
+        <label class="weui-cell weui-check__label local" wx:for="{{item.children}}" wx:key="{{item.value}}">
+            <view class="weui-cell__hd">
+              <checkbox value="{{item.id}}" checked="{{item.checked}}"/>
+            </view>
+            <view class="weui-cell__bd" data-id="{{item.id}}" bindtap="planInfo">{{item.name}}</view>
+          </label>
     </mp-checkbox-group>
     </view>
     <view  class="warn">

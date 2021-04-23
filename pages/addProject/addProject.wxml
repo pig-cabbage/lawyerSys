@@ -37,19 +37,16 @@
       <view data-index="{{index}}" bindtap="clickMenu">
         {{item.level}}级服务方案
       </view>
-      <!-- <view class='bottomImages' hidden='{{item.hideHidden}}'>
-        <view wx:for="{{item.children}}">
-          <view>{{item.name}}</view>
-          <view class="nav_img" bingtap="gotoInfo">
-            <image style="width:50rpx; height : 50rpx; margin-top:15rpx;" src="../../icon/right.png"></image>
-          </view>
-        </view>
-        
-      </view> -->
       <view hidden='{{item.hideHidden}}'>
-        <mp-checkbox-group prop="checkbox" multi="{{true}}" bindchange="radioChange" >
-        <mp-checkbox wx:for="{{item.children}}" wx:key="value" label="{{item.name}}" value="{{item.id}}" checked="{{item.checked}}" url="planInfo"></mp-checkbox>
-    </mp-checkbox-group>
+        <radio-group bindchange="radioChange">
+        <!-- <mp-checkbox wx:for="{{item.children}}" wx:key="value" label="{{item.name}}" value="{{item.id}}" checked="{{item.checked}}" url="planInfo"></mp-checkbox> -->
+        <label class="weui-cell weui-check__label local" wx:for="{{item.children}}" wx:key="{{item.value}}">
+            <view class="weui-cell__hd">
+              <radio value="{{item.id}}" checked="{{item.checked}}"/>
+            </view>
+            <view class="weui-cell__bd" data-id="{{item.id}}" bindtap="planInfo">{{item.name}}</view>
+          </label>
+    </radio-group>
       </view>
   </view>
 </view>

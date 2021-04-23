@@ -41,6 +41,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl +'/api/project/archive/' + JSON.parse(that.data.data).id + '/info',
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success : function(res){
         if(res.data.code == 0){
           that.setData({

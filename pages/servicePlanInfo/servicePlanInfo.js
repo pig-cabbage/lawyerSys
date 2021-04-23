@@ -44,6 +44,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + '/api/service/plan/detail/' + options.id,
       method : 'GET',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       success: function(res){
         that.setData({
           detail : false,
@@ -78,6 +81,9 @@ Page({
           wx.request({
             url: app.globalData.baseUrl + '/api/service/plan/delete?id=' + that.data.ids[0],
             method: 'DELETE',
+            header : {
+              'cookie' : wx.getStorageSync("sessionid")
+            },
             success: function(res){
               if(res.data.code == 0){
                 wx.showToast({
@@ -153,6 +159,9 @@ Page({
       wx.request({
         url: app.globalData.baseUrl + '/api/service/plan/update',
         method: 'POST',
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data:{
           id : that.data.ids[0],
           name : that.data.newValue 
@@ -196,6 +205,9 @@ Page({
       wx.request({
         url: app.globalData.baseUrl + '/api/service/plan/update',
         method: 'POST',
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data:{
           id : that.data.ids[0],
           serviceLevel : that.data.newLevelId 
@@ -236,6 +248,9 @@ Page({
     wx.request({
       url: app.globalData.baseUrl + '/api/service/plan/update',
       method: 'POST',
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data:{
         id : that.data.ids[0],
         status : that.data.status == false? 0 : 1 

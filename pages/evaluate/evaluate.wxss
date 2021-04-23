@@ -1,8 +1,12 @@
 /* pages/evaluate/evaluate.wxss */
+page{
+  width: 100%;
+  height: 100%;
+}
 .content{
   margin: 15rpx auto;
   width: 80%;
-  height: 160rpx;
+  height: 12%;
   padding: 20rpx 20rpx;
   border:2px solid #1E90FF;
   box-shadow: 3px 3px 2px #ccc;
@@ -12,6 +16,7 @@
 .evaluate{
   margin: 20rpx auto;
   width: 80%;
+  height: 60%;
   padding: 20rpx 20rpx;
   border:2px solid #1E90FF;
   border-radius: 30rpx;
@@ -20,27 +25,48 @@
 }
 .score{
   display: flex;
+  height: 10%;
+
 }
 .score_text{
-  width: 200rpx;
+  width: 30%;
+  text-align: center;
+}
+.content_title{
+  width: 30%;
+  text-align: center;
+  height: 10%;
 }
 .star{
-  margin: 0 auto; display:flex; 
+  margin: 0 auto;
+   display:flex; 
+   align-items: center;
 }
 .star_item{
-  width: 35%;
-  text-align:center;
+width: 50rpx;
+height: 50rpx;
+}
+.image_item{
+  width: 100%;
+  height: 100%;
 }
 .evaluateContent{
-  margin: 10rpx auto;
+  width: 90%;
+  height: 73%;
+  margin: 7rpx auto;
   padding: 20rpx 20rpx;
   border:2px solid #8a8a8a;
   box-shadow: 3px 3px 2px #ccc;
   text-align: center;
 }
+.content_bd{
+  width: 100%;
+  height: 100%;
+}
 .process_bd{
   width: 100%;
-  bottom: 130rpx;
-  position: fixed;
+  margin : 0 auto;
+  margin-top: 5%;
+  
   text-align: center;
 }

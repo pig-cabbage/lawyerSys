@@ -11,11 +11,6 @@
             </mp-cell>
         </mp-cells>
     </view>
-    <view wx:if="{{accountId.size == 0}}" class="delete_bd">
-      <button type="warn" bindtap="deleteUser">
-          删除用户
-      </button>
-    </view>
     <modal title="营业执照" hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
     <view>
       <image class="image1" src="{{url1}}" mode='aspectFit'></image>

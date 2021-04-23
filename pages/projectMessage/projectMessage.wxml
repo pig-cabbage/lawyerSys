@@ -1,0 +1,27 @@
+<!--pages/projectMessage/projectMessage.wxml-->
+<wxs module="functions" src="../../utils/function.wxs"></wxs>
+<scroll-view class="history"  scroll-y="true" scroll-with-animation scroll-top="{{scrollTop}}">
+ 
+ <block wx:key="{{index}}" wx:for="{{list}}">
+   <view>
+     <text class='time'>{{functions.formatDate(item.createTime)}}</text>
+   </view>
+   <view class='you_left' id='id_{{allContentList.length}}' wx:key="{{index}}" >
+     <view class='p_l'>
+       <image class='new_img' src='../../icon/robot.svg' ></image>
+       <view class='sanjiao you'></view>
+       <view class='new_txt'>
+         <view class='new_txt_ai'>
+           {{item.content}}
+         </view>
+         <view wx:if="{{item.appendContent != null && item.appendContent != '代办事项'}}">
+         <view wx:if="{{item.appendContent === '律师信息'}}" class="new_txt_ai new_text_active" data-content="{{item.appendContent}}" data-id="{{item.itemId}}" bindtap="toToDetail">律师信息>></view>
+         <view wx:elif="{{item.appendContent === '方案信息'}}" class="new_txt_ai new_text_active" data-content="{{item.appendContent}}" data-id="{{item.itemId}}" bindtap="toToDetail">方案信息>></view>
+         <view wx:else class="new_txt_ai">{{item.appendContent}}</view>
+         </view>
+         <view wx:if="{{item.appendContent != '律师信息' && item.appendContent != '方案信息' && item.itemId != null}}" class="new_txt_ai new_text_active" data-id="{{item.itemId}}" bindtap="goToItem">前往处理>></view>
+       </view>
+     </view>
+   </view>
+ </block>
+</scroll-view>

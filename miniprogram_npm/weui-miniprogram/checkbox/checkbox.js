@@ -207,7 +207,6 @@ Component({
           })
           break;
         case "planInfo":
-          console.log(that.properties.value)
           wx.navigateTo({
             url: '../../pages/servicePlanInfo/servicePlanInfo?id=' + that.properties.value,
           })

@@ -45,6 +45,9 @@ Page({
       wx.request({
         url: app.globalData.baseUrl + "/api/service/plan/update",
         method : "POST",
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data : {
           id : that.data.id,
           content : that.data.newValue

@@ -7,6 +7,7 @@ Page({
    */
   data: {
     currentTab: 0,
+    count : 0,
     //这里只做tab名和显示图标
     contractList : [],
     items: [
@@ -31,6 +32,11 @@ Page({
         "selectedIconPath": "/icon/info_select.png"
       }
     ]
+  },
+  goToMessage : function(event){
+    wx.navigateTo({
+      url: '../systemMessage/systemMessage',
+    })
   },
   swichNav: function (e) {
     var that = this;
@@ -77,7 +83,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getContract();
   },
 
   /**
@@ -86,21 +91,50 @@ Page({
   onReady: function () {
 
   },
-  getContract : function(){
+  onShow: function(){
+    var that = this;
+    wx.onSocketMessage(onMessage => {
+      console.log('服务器返回的消息Index: ', onMessage.data)
+      app.globalData.newestMessage = onMessage.data
+      var item = JSON.parse(onMessage.data);
+      var temp = that.data.contractList;
+      for(var i = 0; i < temp.length; i++){
+        if(temp[i].id == item.sessionId){
+          temp[i].newestMessage = item;
+          break;
+        }
+      }
+      that.setData({
+        contractList : temp
+      })
+      
+    })
+    this.getContractAndMessage();
+  },
+  getContractAndMessage : function(){
     var that = this;
     wx.request({
       url: app.globalData.baseUrl + "/api/user/account/" + app.globalData.userInfo.id + "/chat",
       method : "GET",
+      header : {
+        'cookie' : wx.getStorageSync("sessionid")
+      },
       data : {
         role : 0
       },
       success : function(res){
         if(res.data.code == 0){
           that.setData({
-            contractList : res.data.list
+            contractList : res.data.list,
+            count : res.data.count
           })
         }
       }
+    })
+  },
+  goToItem : function(event){
+    wx.navigateTo({
+      url: '../companyTodoItem/companyTodoItem',
     })
   },
   goToChat : function(event){

@@ -34,6 +34,10 @@ Page({
   onShow: function () {
 
   },
+
+  onUnload: function(){
+
+  },
   light : function(event){
     var that = this;
     var num = event.currentTarget.dataset.index + 1;
@@ -81,8 +85,11 @@ Page({
       })
     }else{
       wx.request({
-        url: app.globalData.baseUrl + "/api/project/" + that.data.projectId + "/evaluation",
+        url: app.globalData.baseUrl + "/api/project/" + that.data.projectId + "/company/evaluation",
         method : "POST",
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data : {
           score : that.data.light.length,
           content : that.data.advice

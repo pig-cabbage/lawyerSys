@@ -132,6 +132,9 @@ Page({
         wx.request({
           url: app.globalData.baseUrl + "/api/service/plan/" + that.data.levelList[index].id + "/search",
           method : 'GET',
+          header : {
+            'cookie' : wx.getStorageSync("sessionid")
+          },
           success :function(res){
             if(res.data.code == 0){
               var temp = 'levelList[' + index + '].children';
@@ -161,13 +164,24 @@ Page({
   },
   radioChange: function (e) {
     var that = this;
-    var radioItems = that.data.levelList[that.data.oldIndex].children;
+    // console.log(e.detail.value)
+    // var radioItems = that.data.levelList[that.data.oldIndex].children;
+    // var str = "that.data.levelList[" + that.data.oldIndex + "].children";
+    // for (var i = 0, len = radioItems.length; i < len; ++i) {
+    //     radioItems[i].checked = radioItems[i].id == e.detail.value;    
+    // }
+    // that.setData({
+    //   [str] : radioItems,
+    //   planId : e.detail.value
+    // })
+const items = that.data.levelList[that.data.oldIndex].children;
     var str = "that.data.levelList[" + that.data.oldIndex + "].children";
-    for (var i = 0, len = radioItems.length; i < len; ++i) {
-        radioItems[i].checked = radioItems[i].id == e.detail.value;    
+    for (let i = 0, lenI = items.length; i < lenI; ++i) {
+      items[i].checked = items[i].id == e.detail.value;  
     }
-    that.setData({
-      [str] : radioItems,
+
+    this.setData({
+      [str] : items,
       planId : e.detail.value
     })
   },
@@ -193,6 +207,9 @@ Page({
       wx.request({
         url: app.globalData.baseUrl + "/api/project/company/demand/add",
         method : "POST",
+        header : {
+          'cookie' : wx.getStorageSync("sessionid")
+        },
         data : {
           recommendPlan : 1,
           content : that.data.content,
@@ -224,6 +241,9 @@ Page({
         wx.request({
           url: app.globalData.baseUrl + "/api/project/company/demand/add",
           method : "POST",
+          header : {
+            'cookie' : wx.getStorageSync("sessionid")
+          },
           data : {
             recommendPlan : 0,
             demandPlan : that.data.planId,
@@ -247,7 +267,11 @@ Page({
         })
       }
     }
-    
+  },
+  planInfo : function(e){
+    wx.navigateTo({
+      url: '../servicePlanInfo/servicePlanInfo?id=' + e.currentTarget.dataset.id,
+    })
   },
   /**
    * 生命周期函数--监听页面加载
