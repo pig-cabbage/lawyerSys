@@ -48,44 +48,4 @@ public class ServiceLevelController {
   }
 
 
-  /**
-   * 信息
-   */
-  @RequestMapping("/info/{id}")
-  public R info(@PathVariable("id") Integer id) {
-    ServiceLevelEntity serviceLevel = serviceLevelService.getById(id);
-
-    return R.ok().put("serviceLevel", serviceLevel);
-  }
-
-  /**
-   * 保存
-   */
-  @RequestMapping("/save")
-  public R save(@RequestBody ServiceLevelEntity serviceLevel) {
-    serviceLevelService.save(serviceLevel);
-
-    return R.ok();
-  }
-
-  /**
-   * 修改
-   */
-  @RequestMapping("/update")
-  public R update(@RequestBody ServiceLevelEntity serviceLevel) {
-    serviceLevelService.updateById(serviceLevel);
-
-    return R.ok();
-  }
-
-  /**
-   * 删除
-   */
-  @RequestMapping("/delete")
-  public R delete(@RequestBody Integer[] ids) {
-    serviceLevelService.removeByIds(Arrays.asList(ids));
-
-    return R.ok();
-  }
-
 }

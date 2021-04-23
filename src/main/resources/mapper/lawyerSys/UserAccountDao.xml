@@ -15,8 +15,9 @@
         UPDATE `user_account` SET `un_read_message` = `un_read_message` + 1 WHERE `id` = #{accountId}
     </update>
     <insert id="insertWithId" parameterType="cabbage.project.lawyerSys.entity.UserAccountEntity">
-        INSERT INTO `user_account` (`id`, `certification_status`, `create_time`, `un_read_message`)
-        VALUES (#{entity.id}, #{entity.certificationStatus}, #{entity.createTime}, #{entity.unReadMessage})
+        INSERT INTO `user_account` (`id`, `certification_status`, `role`,`create_time`, `un_read_message`)
+        VALUES (#{entity.id}, #{entity.certificationStatus}, #{entity.role}, #{entity.createTime},
+        #{entity.unReadMessage})
     </insert>
 
 

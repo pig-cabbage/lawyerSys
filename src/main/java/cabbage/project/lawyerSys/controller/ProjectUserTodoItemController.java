@@ -43,7 +43,7 @@ public class ProjectUserTodoItemController {
    */
   @RequestMapping("/info/{id}")
   public R info(@PathVariable("id") Integer id) {
-    ProjectUserTodoItemEntity projectUserTodoItem = projectUserTodoItemService.getById(id);
+    TodoItemVo projectUserTodoItem = projectUserTodoItemService.getByIdNew(id);
 
     return R.ok().put("projectUserTodoItem", projectUserTodoItem);
   }

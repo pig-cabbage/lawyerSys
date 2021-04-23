@@ -35,26 +35,6 @@ public class ServiceFileTemplateController {
     return R.ok().put("list", result);
   }
 
-  /**
-   * 列表
-   */
-  @RequestMapping("/list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = serviceFileTemplateService.queryPage(params);
-
-    return R.ok().put("page", page);
-  }
-
-
-  /**
-   * 信息
-   */
-  @RequestMapping("/info/{id}")
-  public R info(@PathVariable("id") Integer id) {
-    ServiceFileTemplateEntity serviceFileTemplate = serviceFileTemplateService.getById(id);
-
-    return R.ok().put("serviceFileTemplate", serviceFileTemplate);
-  }
 
   /**
    * 保存
@@ -65,15 +45,6 @@ public class ServiceFileTemplateController {
     return R.ok().put("entity", serviceFileTemplate);
   }
 
-  /**
-   * 修改
-   */
-  @RequestMapping("/update")
-  public R update(@RequestBody ServiceFileTemplateEntity serviceFileTemplate) {
-    serviceFileTemplateService.updateById(serviceFileTemplate);
-
-    return R.ok();
-  }
 
   /**
    * 删除

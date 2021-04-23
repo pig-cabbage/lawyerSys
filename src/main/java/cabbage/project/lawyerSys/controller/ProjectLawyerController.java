@@ -52,7 +52,7 @@ public class ProjectLawyerController {
   public R info(@PathVariable("id") Integer id) {
     ProjectLawyerEntity projectLawyer = projectLawyerService.getById(id);
 
-    return R.ok().put("projectLawyer", projectLawyer);
+    return R.ok().put("entity", projectLawyer);
   }
 
   /**

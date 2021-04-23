@@ -17,7 +17,7 @@ import java.util.Map;
  * @date 2021-02-07 20:32:44
  */
 @RestController
-@RequestMapping("api/project/changeLawyerAudit")
+@RequestMapping("api/project/system/changeLawyerAudit")
 public class ProjectChangeLawyerAuditController {
   @Autowired
   private ProjectChangeLawyerAuditService projectChangeLawyerAuditService;
@@ -40,7 +40,7 @@ public class ProjectChangeLawyerAuditController {
   public R info(@PathVariable("id") Integer id) {
     ProjectChangeLawyerAuditEntity projectChangeLawyerAudit = projectChangeLawyerAuditService.getById(id);
 
-    return R.ok().put("projectChangeLawyerAudit", projectChangeLawyerAudit);
+    return R.ok().put("entity", projectChangeLawyerAudit);
   }
 
   /**

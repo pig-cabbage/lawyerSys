@@ -53,7 +53,7 @@ public class ProjectCompanyDemandLawyerController {
   public R info(@PathVariable("id") Integer id) {
     ProjectCompanyDemandLawyerEntity projectCompanyDemandLawyer = projectCompanyDemandLawyerService.getById(id);
 
-    return R.ok().put("projectCompanyDemandLawyer", projectCompanyDemandLawyer);
+    return R.ok().put("entity", projectCompanyDemandLawyer);
   }
 
   /**

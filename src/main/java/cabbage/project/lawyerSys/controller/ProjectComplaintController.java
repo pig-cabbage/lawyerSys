@@ -42,7 +42,7 @@ public class ProjectComplaintController {
   public R info(@PathVariable("id") Integer id) {
     ProjectComplaintEntity projectComplaint = projectComplaintService.getById(id);
 
-    return R.ok().put("projectComplaint", projectComplaint);
+    return R.ok().put("entity", projectComplaint);
   }
 
   /**

@@ -47,55 +47,5 @@ public class UserCompanyController {
         return R.ok().put("page", page);
     }
 
-    /**
-     * 列表
-     */
-    @RequestMapping("/list")
-    public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = userCompanyService.queryPage(params);
-
-        return R.ok().put("page", page);
-    }
-
-
-    /**
-     * 信息
-     */
-    @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") Integer id) {
-        UserCompanyEntity userCompany = userCompanyService.getById(id);
-
-        return R.ok().put("userCompany", userCompany);
-    }
-
-    /**
-     * 保存
-     */
-    @RequestMapping("/save")
-    public R save(@RequestBody UserCompanyEntity userCompany) {
-        userCompanyService.save(userCompany);
-
-        return R.ok();
-    }
-
-    /**
-     * 修改
-     */
-    @RequestMapping("/update")
-    public R update(@RequestBody UserCompanyEntity userCompany) {
-        userCompanyService.updateById(userCompany);
-
-        return R.ok();
-    }
-
-    /**
-     * 删除
-     */
-    @RequestMapping("/delete")
-    public R delete(@RequestBody Integer[] ids) {
-        userCompanyService.removeByIds(Arrays.asList(ids));
-
-        return R.ok();
-    }
 
 }

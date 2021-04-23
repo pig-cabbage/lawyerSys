@@ -57,44 +57,6 @@ public class UserCompanyAuthController {
   }
 
 
-  /**
-   * 信息
-   */
-  @RequestMapping("/info/{id}")
-  public R info(@PathVariable("id") Integer id) {
-    UserCompanyAuthEntity userCompanyAuth = userCompanyAuthService.getById(id);
 
-    return R.ok().put("userCompanyAuth", userCompanyAuth);
-  }
-
-  /**
-   * 保存
-   */
-  @RequestMapping("/save")
-  public R save(@RequestBody UserCompanyAuthEntity userCompanyAuth) {
-    userCompanyAuthService.save(userCompanyAuth);
-
-    return R.ok();
-  }
-
-  /**
-   * 修改
-   */
-  @RequestMapping("/update")
-  public R update(@RequestBody UserCompanyAuthEntity userCompanyAuth) {
-    userCompanyAuthService.updateById(userCompanyAuth);
-
-    return R.ok();
-  }
-
-  /**
-   * 删除
-   */
-  @RequestMapping("/delete")
-  public R delete(@RequestBody Integer[] ids) {
-    userCompanyAuthService.removeByIds(Arrays.asList(ids));
-
-    return R.ok();
-  }
 
 }

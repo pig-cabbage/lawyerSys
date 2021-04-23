@@ -16,8 +16,7 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -148,7 +147,13 @@ public class DataStatisticsServiceimpl implements DataStatisticsService {
               totalCost[0] = totalCost[0].add(new BigDecimal(spendTime).divide(BigDecimal.valueOf((long) SystemConstant.MS_OF_DAY * SystemConstant.MONTH_DAY), 5, RoundingMode.HALF_DOWN).multiply(serviceLevelService.getById(servicePlanService.getById(record.getPlan()).getServiceLevel()).getChargeStandard()));
             } else {
               spendTime = (Math.min(endDate.getTime(), record.getEndTime().getTime())) - record.getStartTime().getTime();
-              totalCost[0] = totalCost[0].add(BigDecimal.valueOf(record.getCost()));
+              if (endDate.getTime() > record.getEndTime().getTime()) {
+                totalCost[0] = totalCost[0].add(BigDecimal.valueOf(record.getCost()));
+              } else {
+                totalCost[0] = totalCost[0].add(new BigDecimal(endDate.getTime() - record.getStartTime().getTime()).divide(BigDecimal.valueOf((long) SystemConstant.MS_OF_DAY * SystemConstant.MONTH_DAY), 5, RoundingMode.HALF_DOWN).multiply(serviceLevelService.getById(servicePlanService.getById(record.getPlan()).getServiceLevel()).getChargeStandard()));
+
+              }
+
             }
             spendTime /= SystemConstant.MS_OF_DAY;
             totalDate.addAndGet(spendTime);
@@ -161,6 +166,63 @@ public class DataStatisticsServiceimpl implements DataStatisticsService {
       throw RunException.builder().code(ExceptionCode.DATE_TRANS_WRONG).build();
     }
 
+  }
+
+  @Override
+  public List<LawyerMathDetailVo> lawyerMathDetail(String account, String startDates, String endDates) {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+    try {
+      Date startDate = sdf.parse(startDates);
+      Date endDate = sdf.parse(endDates);
+      Date date = new Date();
+      Map<String, LawyerMathDetailVo> temp = new HashMap<>();
+      List<StatisticalLawyerEntity> list = statisticalLawyerService.list(new QueryWrapper<StatisticalLawyerEntity>().eq("lawyer", account).between("start_time", startDate, endDate));
+      Assert.isNotEmpty(list, list1 -> {
+        list1.stream().forEach(item -> {
+          long spendTime;
+          BigDecimal cost = new BigDecimal(0L);
+          if (item.getEndTime() == null) {
+            if (date.getTime() > endDate.getTime()) {
+              spendTime = endDate.getTime() - item.getStartTime().getTime();
+            } else {
+              if (date.getTime() > item.getStartTime().getTime()) {
+                spendTime = date.getTime() - item.getStartTime().getTime();
+              } else {
+                spendTime = 0L;
+              }
+            }
+            cost = (new BigDecimal(spendTime).divide(BigDecimal.valueOf((long) SystemConstant.MS_OF_DAY * SystemConstant.MONTH_DAY), 5, RoundingMode.HALF_DOWN).multiply(serviceLevelService.getById(servicePlanService.getById(item.getPlan()).getServiceLevel()).getChargeStandard()));
+          } else {
+            spendTime = (Math.min(endDate.getTime(), item.getEndTime().getTime())) - item.getStartTime().getTime();
+            if (endDate.getTime() > item.getEndTime().getTime()) {
+              cost = (BigDecimal.valueOf(item.getCost()));
+            } else {
+              cost = (new BigDecimal(endDate.getTime() - item.getStartTime().getTime()).divide(BigDecimal.valueOf((long) SystemConstant.MS_OF_DAY * SystemConstant.MONTH_DAY), 5, RoundingMode.HALF_DOWN).multiply(serviceLevelService.getById(servicePlanService.getById(item.getPlan()).getServiceLevel()).getChargeStandard()));
+            }
+
+          }
+          spendTime /= SystemConstant.MS_OF_DAY;
+          if (temp.containsKey(item.getCompany())) {
+            LawyerMathDetailVo lawyerMathDetailVo = temp.get(item.getCompany());
+            lawyerMathDetailVo.setTotalNumber(lawyerMathDetailVo.getTotalNumber() + 1);
+            lawyerMathDetailVo.setTotalDate(lawyerMathDetailVo.getTotalDate() + spendTime);
+            lawyerMathDetailVo.setTotalCost(lawyerMathDetailVo.getTotalCost().add(cost));
+            temp.put(item.getCompany(), lawyerMathDetailVo);
+          } else {
+            LawyerMathDetailVo lawyerMathDetailVo = null;
+            lawyerMathDetailVo.setName(item.getCompanyName());
+            lawyerMathDetailVo.setAccount(item.getCompany());
+            lawyerMathDetailVo.setTotalNumber(1L);
+            lawyerMathDetailVo.setTotalDate(spendTime);
+            lawyerMathDetailVo.setTotalCost(cost);
+            temp.put(item.getCompany(), lawyerMathDetailVo);
+          }
+        });
+      });
+      return new ArrayList<>(temp.values());
+    } catch (ParseException e) {
+      throw RunException.builder().code(ExceptionCode.DATE_TRANS_WRONG).build();
+    }
   }
 
 }

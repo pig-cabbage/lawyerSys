@@ -5,10 +5,12 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @Builder
-@TableName("system_message")
-public class SystemMessageEntity {
+@TableName("project_message")
+public class ProjectMessageEntity {
   private static final long serialVersionUID = 1L;
 
   /**
@@ -19,7 +21,11 @@ public class SystemMessageEntity {
   /**
    *
    */
-  private String receiver;
+  private Long project;
+  /**
+   *
+   */
+  private Integer receiver;
   /**
    *
    */
@@ -31,10 +37,9 @@ public class SystemMessageEntity {
   /**
    *
    */
-  private String itemId;
+  private Long createTime;
   /**
    *
    */
-  private Long createTime;
-
+  private String itemId;
 }

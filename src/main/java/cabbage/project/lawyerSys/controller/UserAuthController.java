@@ -58,11 +58,10 @@ public class UserAuthController {
   /**
    * 信息
    */
-  @RequestMapping("/auth/info/id")
+  @RequestMapping("/auth/info/{id}")
   public R info(@PathVariable("id") Integer id) {
     UserAuthEntity userAuth = userAuthService.getById(id);
-
-    return R.ok().put("userAuth", userAuth);
+    return R.ok().put("entity", userAuth);
   }
 
   /**

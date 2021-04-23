@@ -19,7 +19,7 @@ import java.util.Map;
  * @date 2021-02-07 20:32:44
  */
 @RestController
-@RequestMapping("/api/project/system/plan")
+@RequestMapping("/api/project/distributePlan")
 public class ProjectPlanController {
   @Autowired
   private ProjectPlanService projectPlanService;
@@ -52,7 +52,7 @@ public class ProjectPlanController {
   public R info(@PathVariable("id") Integer id) {
     ProjectPlanEntity projectPlan = projectPlanService.getById(id);
 
-    return R.ok().put("projectPlan", projectPlan);
+    return R.ok().put("info", projectPlan);
   }
 
   /**

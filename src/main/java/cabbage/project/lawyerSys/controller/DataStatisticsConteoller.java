@@ -5,13 +5,16 @@ import cabbage.project.lawyerSys.service.DataStatisticsService;
 import cabbage.project.lawyerSys.service.ProjectBaseService;
 import cabbage.project.lawyerSys.service.ServiceLevelService;
 import cabbage.project.lawyerSys.vo.CompanyMathVo;
+import cabbage.project.lawyerSys.vo.LawyerMathDetailVo;
 import cabbage.project.lawyerSys.vo.LawyerMathVo;
 import cabbage.project.lawyerSys.vo.ServiceMathVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.ws.rs.Path;
 import java.util.List;
 
 @RestController
@@ -39,4 +42,11 @@ public class DataStatisticsConteoller {
     List<LawyerMathVo> result = dataStatisticsService.lawyerMath(startDate, endDate);
     return R.ok().put("LawyerMath", result);
   }
+
+  @RequestMapping("/lawyer/{account}/detail")
+  public R lawyerMathDetail(@PathVariable("account") String account, @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
+    List<LawyerMathDetailVo> result = dataStatisticsService.lawyerMathDetail(account, startDate, endDate);
+    return R.ok().put("LawyerMathDetail", result);
+  }
+
 }

@@ -42,7 +42,7 @@ public class ProjectAuditController {
   public R info(@PathVariable("id") Integer id) {
     ProjectAuditEntity projectAudit = projectAuditService.getById(id);
 
-    return R.ok().put("projectAudit", projectAudit);
+    return R.ok().put("entity", projectAudit);
   }
 
   /**

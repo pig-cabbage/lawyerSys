@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="cabbage.project.lawyerSys.dao.SystemMessageDao">
+<mapper namespace="cabbage.project.lawyerSys.dao.ProjectMessageDao">
 
     <!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="cabbage.project.lawyerSys.entity.SystemMessageEntity" id="systemMessageMap">
+    <resultMap type="cabbage.project.lawyerSys.entity.ProjectMessageEntity" id="projectMessageMap">
         <result property="id" column="id"/>
+        <result property="project" column="project"/>
         <result property="receiver" column="receiver"/>
         <result property="content" column="content"/>
         <result property="appendContent" column="append_content"/>
-        <result property="itemId" column="item_id"/>
         <result property="createTime" column="create_time"/>
+        <result property="itemId" column="item_id"/>
     </resultMap>
 
 

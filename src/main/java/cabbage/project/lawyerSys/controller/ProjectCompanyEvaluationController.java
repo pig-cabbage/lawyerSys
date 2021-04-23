@@ -53,7 +53,7 @@ public class ProjectCompanyEvaluationController {
   public R info(@PathVariable("id") Integer id) {
     ProjectCompanyEvaluationEntity projectCompanyEvaluation = projectCompanyEvaluationService.getById(id);
 
-    return R.ok().put("projectCompanyEvaluation", projectCompanyEvaluation);
+    return R.ok().put("entity", projectCompanyEvaluation);
   }
 
   /**

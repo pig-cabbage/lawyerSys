@@ -22,7 +22,8 @@ public enum ExceptionCode {
   USER_LAWYER_STATUS_ERROR(20002, "律师用户状态错误"),
   PROCESS_CER_STATUS_ERROR(20003, "处理用户认证申请状态码错误"),
   WRONG_PROJECT_STATUS(30001, "项目状态错误"),
-  USER_OFFLINE(40001, "用户不存在或不在线");
+  USER_OFFLINE(40001, "用户不存在或不在线"),
+  SEND_MESSAGE_FAIL(40002, "发送数据失败");
 
 
   private int code;

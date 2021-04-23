@@ -60,7 +60,7 @@ public class ProjectBaseController {
   /**
    * 提醒律师支付
    */
-  @GetMapping("/{id}/remindPay")
+  @GetMapping("/{id}/system/remindPay")
   public R remindPay(@PathVariable("id") Long id) {
     projectBaseService.remindPay(id);
     return R.ok();
@@ -69,7 +69,7 @@ public class ProjectBaseController {
   /**
    * 支付费用
    */
-  @GetMapping("/{id}/pay")
+  @GetMapping("/{id}/company/pay")
   public R pay(@PathVariable("id") Long id) {
     projectBaseService.pay(id);
     return R.ok();
@@ -78,7 +78,7 @@ public class ProjectBaseController {
   /**
    * 选择律师
    */
-  @PostMapping("/{id}/chooseLawyer")
+  @PostMapping("/{id}/company/chooseLawyer")
   public R chooseLawyer(@PathVariable("id") Long id, @RequestBody ChooseLawyerVo chooseLawyerVo) {
     projectBaseService.chooseLawyer(id, chooseLawyerVo);
     return R.ok();
@@ -87,7 +87,7 @@ public class ProjectBaseController {
   /**
    * 分配律师
    */
-  @PostMapping("/{id}/distributeLawyer")
+  @PostMapping("/{id}/system/distributeLawyer")
   public R distributeLawyer(@PathVariable("id") Long id, @RequestBody DistributeLawyerVo distributeLawyerVo) {
     projectBaseService.distributeLawyer(id, distributeLawyerVo);
     return R.ok();
@@ -96,7 +96,7 @@ public class ProjectBaseController {
   /**
    * 提醒律师决定是否承接项目
    */
-  @GetMapping("/{id}/remindUnderTake")
+  @GetMapping("/{id}/system/remindUnderTake")
   public R remindUnderTake(@PathVariable("id") Long id, @RequestParam("distributeRecordId") Long distributeRecordId) {
     projectBaseService.remindUnderTake(id, distributeRecordId);
     return R.ok();
@@ -105,7 +105,7 @@ public class ProjectBaseController {
   /**
    * 律师用户决定是否承接项目
    */
-  @PostMapping("/{id}/determineUnderTake")
+  @PostMapping("/{id}/lawyer/determineUnderTake")
   public R determineUnderTake(@PathVariable("id") Long id, @RequestBody ProjectLawyerCarryVo projectLawyerCarryVo) {
     projectBaseService.determineUnderTake(id, projectLawyerCarryVo);
     return R.ok();
@@ -114,7 +114,7 @@ public class ProjectBaseController {
   /**
    * 用户更换律师申请
    */
-  @PostMapping("/{id}/changeLawyer")
+  @PostMapping("/{id}/user/changeLawyer")
   public R changeLawyer(@PathVariable("id") Long id, @Validated @RequestBody ProjectUserChangeLawyerEntity projectUserChangeLawyerEntity) {
     projectBaseService.changeLawyer(id, projectUserChangeLawyerEntity);
     return R.ok();
@@ -123,7 +123,7 @@ public class ProjectBaseController {
   /**
    * 系统审核用户更换律师申请
    */
-  @PostMapping("/{id}/changeLawyerAudit")
+  @PostMapping("/{id}/system/changeLawyerAudit")
   public R changeLawyerAudit(@PathVariable("id") Long id, @RequestBody ProjectChangeLawyerAuditEntity projectChangeLawyerAuditEntity) {
     projectBaseService.changeLawyerAudit(id, projectChangeLawyerAuditEntity);
     return R.ok();
@@ -132,7 +132,7 @@ public class ProjectBaseController {
   /**
    * 律师处理企业更换律师申请
    */
-  @PostMapping("/{id}/dealChangeLawyer")
+  @PostMapping("/{id}/lawyer/dealChangeLawyer")
   public R dealChangeLawyer(@PathVariable("id") Long id, @RequestBody ProjectLawyerDealChangeLawyerVo projectLawyerDealChangeLawyerVo) {
     projectBaseService.dealChangeLawyer(id, projectLawyerDealChangeLawyerVo);
     return R.ok();
@@ -141,7 +141,7 @@ public class ProjectBaseController {
   /**
    * 系统处理申诉
    */
-  @PostMapping("/{id}/dealComplaint")
+  @PostMapping("/{id}/system/dealComplaint")
   public R dealComplaint(@PathVariable("id") Long id, @RequestBody ProjectComplaintEntity projectComplaintEntity) {
     projectBaseService.dealComplaint(id, projectComplaintEntity);
     return R.ok();
@@ -150,7 +150,7 @@ public class ProjectBaseController {
   /**
    * 企业对服务方案异议
    */
-  @PostMapping("/{id}/objection")
+  @PostMapping("/{id}/company/objection")
   public R objection(@PathVariable("id") Long id, @RequestBody ProjectCompanyObjectionEntity projectCompanyObjectionEntity) {
     projectBaseService.objection(id, projectCompanyObjectionEntity);
     return R.ok();
@@ -159,7 +159,7 @@ public class ProjectBaseController {
   /**
    * 企业续期项目
    */
-  @PostMapping("/{id}/renewal")
+  @PostMapping("/{id}/company/renewal")
   public R renewal(@PathVariable("id") Long id, @RequestBody ProjectPlanEntity projectPlanEntity) {
     projectBaseService.renewal(id, projectPlanEntity);
     return R.ok();
@@ -168,7 +168,7 @@ public class ProjectBaseController {
   /**
    * 企业评价项目
    */
-  @PostMapping("/{id}/evaluation")
+  @PostMapping("/{id}/company/evaluation")
   public R evaluation(@PathVariable("id") Long id, @RequestBody ProjectCompanyEvaluationEntity projectCompanyEvaluationEntity) {
     projectBaseService.evaluation(id, projectCompanyEvaluationEntity);
     return R.ok();
@@ -177,7 +177,7 @@ public class ProjectBaseController {
   /**
    * 归档项目
    */
-  @PostMapping("/{id}/archive")
+  @PostMapping("/{id}/system/archive")
   public R archive(@PathVariable("id") Long id, @RequestBody ProjectArchiveEntity projectArchiveEntity) {
     projectBaseService.archive(id, projectArchiveEntity);
     return R.ok();
@@ -196,7 +196,7 @@ public class ProjectBaseController {
   /**
    * 获取特定企业用户的历史咨询项目列表
    */
-  @RequestMapping("/company/{id}/list")
+  @RequestMapping("/company/{id}/allList")
   public R history(@PathVariable("id") String id) {
     List<ProjectBaseEntity> list = projectBaseService.history(id);
 
@@ -206,7 +206,7 @@ public class ProjectBaseController {
   /**
    * 获取特定律师用户的新分配项目
    */
-  @RequestMapping("/{lawyerId}/newList")
+  @RequestMapping("/lawyer/{lawyerId}/newList")
   public R newList(@PathVariable("lawyerId") String lawyerId) {
     List<ProjectBaseEntity> list = projectBaseService.newList(lawyerId);
 
@@ -216,7 +216,7 @@ public class ProjectBaseController {
   /**
    * 获取特定律师用户的在办项目
    */
-  @RequestMapping("/{lawyerId}/nowList")
+  @RequestMapping("/lawyer/{lawyerId}/nowList")
   public R nowList(@PathVariable("lawyerId") String lawyerId) {
     List<ProjectBaseEntity> list = projectBaseService.nowList(lawyerId);
 
@@ -226,7 +226,7 @@ public class ProjectBaseController {
   /**
    * 获取特定律师用户的已结束项目
    */
-  @RequestMapping("/{lawyerId}/endList")
+  @RequestMapping("/lawyer/{lawyerId}/endList")
   public R endList(@PathVariable("lawyerId") String lawyerId) {
     List<WorkRecordVo> list = projectBaseService.endList(lawyerId);
 

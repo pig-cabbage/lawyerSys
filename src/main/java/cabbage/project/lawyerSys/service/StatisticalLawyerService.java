@@ -4,9 +4,11 @@ import cabbage.project.lawyerSys.common.utils.PageUtils;
 import cabbage.project.lawyerSys.dto.EndServiceDTO;
 import cabbage.project.lawyerSys.dto.StartServiceDTO;
 import cabbage.project.lawyerSys.entity.StatisticalLawyerEntity;
+import cabbage.project.lawyerSys.vo.LawyerMathDetailVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,5 +25,7 @@ public interface StatisticalLawyerService extends IService<StatisticalLawyerEnti
   void startService(StartServiceDTO startServiceDTO, boolean isFirst);
 
   void endService(EndServiceDTO endServiceDTO, Date date);
+
+  List<LawyerMathDetailVo> getData(String account, String startDates, String endDates);
 }
 

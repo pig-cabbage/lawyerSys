@@ -22,12 +22,14 @@ public interface ProjectUserTodoItemService extends IService<ProjectUserTodoItem
 
   PageUtils queryPage(Map<String, Object> params);
 
-  void addItem(ProjectUserTodoItemEntity projectUserTodoItemEntity, String theOtherId, Long eventId, Date date);
+  Long addItem(ProjectUserTodoItemEntity projectUserTodoItemEntity, String theOtherId, Long eventId, Date date);
 
   void finishItemWithUser(Long id, Long itemKey, Date date);
 
   void finishItemWithSystem(Long id, Long itemKey, Date date);
 
   List<TodoItemVo> search(Map<String, Object> params);
+
+  TodoItemVo getByIdNew(Integer id);
 }
 

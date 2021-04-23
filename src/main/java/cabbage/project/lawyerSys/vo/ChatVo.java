@@ -10,4 +10,5 @@ public class ChatVo {
   private String man;
   private String name;
   private Long project;
+  private MessageVo newestMessage;
 }

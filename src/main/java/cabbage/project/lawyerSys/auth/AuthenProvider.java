@@ -64,9 +64,23 @@ public class AuthenProvider implements AuthenticationProvider {
         if (!form.getRole().equals(account.getRole())) {
           throw new AuthenticationServiceException("登录身份不匹配", RunException.builder().code(ExceptionCode.LOGIN_ROLE_WRONG).build());
         }
-        return new UsernamePasswordAuthenticationToken(account, weixinAuthDTO, Collections.singletonList(new SimpleGrantedAuthority(String.valueOf(account.getRole()))));
+        StringBuilder role = new StringBuilder();
+        if (account.getRole() == 0) {
+          role.append("ROLE_ADMIN");
+        } else {
+          role.append(account.getRole() == 1 ? "ROLE_COMPANY" : "ROLE_LAWYER");
+          if (account.getCertificationStatus() == 2) {
+            role.append("_YES");
+          } else {
+            role.append("_NO");
+          }
+        }
+        return new UsernamePasswordAuthenticationToken(account, weixinAuthDTO, Collections.singletonList(new SimpleGrantedAuthority(role.toString())));
       } else {
-        return new UsernamePasswordAuthenticationToken(userAccountService.addAccount(weixinAuthDTO.getOpenid(), form.getRole()), weixinAuthDTO, null);
+        if (0 == form.getRole()) {
+          throw new AuthenticationServiceException("你不是管理员");
+        }
+        return new UsernamePasswordAuthenticationToken(userAccountService.addAccount(weixinAuthDTO.getOpenid(), form.getRole()), weixinAuthDTO, Collections.singletonList(new SimpleGrantedAuthority((form.getRole() == 1 ? "ROLE_COMPANY" : "ROLE_LAWYER") + "_NO")));
       }
     } catch (IOException e) {
       throw new AuthenticationServiceException("请求微信数据失败", RunException.builder().code(ExceptionCode.GET_WEIXIN_AUTH_FAIL).build());

@@ -10,12 +10,11 @@ import cabbage.project.lawyerSys.dao.StatisticalLawyerDao;
 import cabbage.project.lawyerSys.dto.AutoFinishTodoItemDTO;
 import cabbage.project.lawyerSys.dto.EndServiceDTO;
 import cabbage.project.lawyerSys.dto.StartServiceDTO;
+import cabbage.project.lawyerSys.entity.ProjectMessageEntity;
 import cabbage.project.lawyerSys.entity.StatisticalLawyerEntity;
-import cabbage.project.lawyerSys.service.ProjectChatService;
-import cabbage.project.lawyerSys.service.ServiceLevelService;
-import cabbage.project.lawyerSys.service.ServicePlanService;
-import cabbage.project.lawyerSys.service.StatisticalLawyerService;
+import cabbage.project.lawyerSys.service.*;
 import cabbage.project.lawyerSys.valid.Assert;
+import cabbage.project.lawyerSys.vo.LawyerMathDetailVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -24,7 +23,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 
@@ -39,6 +41,8 @@ public class StatisticalLawyerServiceImpl extends ServiceImpl<StatisticalLawyerD
   private ProjectChatService projectChatService;
   @Autowired
   private Scheduler scheduler;
+  @Autowired
+  private ProjectMessageService projectMessageService;
 
   @Override
   public PageUtils queryPage(Map<String, Object> params) {
@@ -96,6 +100,8 @@ public class StatisticalLawyerServiceImpl extends ServiceImpl<StatisticalLawyerD
       });
     }
     this.save(statisticalLawyerEntity);
+    projectMessageService.save(ProjectMessageEntity.builder().project(startServiceDTO.getProject()).receiver(SystemConstant.ROLE_COM).content("律师的服务将于 " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(statisticalLawyerEntity.getStartTime()) + "开始").createTime(new Date().getTime()).build());
+    projectMessageService.save(ProjectMessageEntity.builder().project(startServiceDTO.getProject()).receiver(SystemConstant.ROLE_LAW).content("您对项目的服务将于 " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(statisticalLawyerEntity.getStartTime()) + "开始").createTime(new Date().getTime()).build());
     //创建定时任务
     try {
       scheduler.deleteJob(new JobKey(String.valueOf(SystemConstant.ADD_CHAT_RECORD), String.valueOf(startServiceDTO.getProject())));
@@ -127,9 +133,12 @@ public class StatisticalLawyerServiceImpl extends ServiceImpl<StatisticalLawyerD
       this.removeById(lawyerEntity);
     } else {
       Date endTime = new Date(date.getTime() + SystemConstant.CHANGE_LAWYER_GOV * SystemConstant.MS_OF_DAY);
+      endTime.setTime(new Date(endTime.getYear(), endTime.getMonth(), endTime.getDate()).getTime());
       lawyerEntity.setEndTime(endTime);
       lawyerEntity.setCost((double) (endTime.getTime() - lawyerEntity.getStartTime().getTime()) / (SystemConstant.MS_OF_DAY * SystemConstant.MONTH_DAY) * endServiceDTO.getChargeStandard().doubleValue());
       this.updateById(lawyerEntity);
+      projectMessageService.save(ProjectMessageEntity.builder().project(endServiceDTO.getProject()).receiver(SystemConstant.ROLE_COM).content("律师的服务将于 " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endTime) + "终止").createTime(date.getTime()).build());
+      projectMessageService.save(ProjectMessageEntity.builder().project(endServiceDTO.getProject()).receiver(SystemConstant.ROLE_LAW).content("您对该项目的服务将于 " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endTime) + "终止").createTime(date.getTime()).build());
       //创建定时任务
       try {
         scheduler.deleteJob(new JobKey(String.valueOf(SystemConstant.DELETE_CHAT_RECORD), String.valueOf(endServiceDTO.getProject())));
@@ -149,6 +158,19 @@ public class StatisticalLawyerServiceImpl extends ServiceImpl<StatisticalLawyerD
 
     }
 
+  }
+
+  @Override
+  public List<LawyerMathDetailVo> getData(String account, String startDates, String endDates) {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+    try {
+      Date startDate = sdf.parse(startDates);
+      Date endState = sdf.parse(startDates);
+      return this.baseMapper.getDate(account, startDate, endState);
+    } catch (ParseException e) {
+      throw RunException.builder().code(ExceptionCode.DATE_TRANS_WRONG).build();
+
+    }
   }
 
 }

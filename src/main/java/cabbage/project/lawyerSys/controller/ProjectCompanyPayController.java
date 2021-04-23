@@ -42,7 +42,7 @@ public class ProjectCompanyPayController {
   public R info(@PathVariable("id") Integer id) {
     ProjectCompanyPayEntity projectCompanyPay = projectCompanyPayService.getById(id);
 
-    return R.ok().put("projectCompanyPay", projectCompanyPay);
+    return R.ok().put("entity", projectCompanyPay);
   }
 
   /**

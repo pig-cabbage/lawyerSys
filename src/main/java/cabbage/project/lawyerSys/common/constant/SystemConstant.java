@@ -3,6 +3,10 @@ package cabbage.project.lawyerSys.common.constant;
 //系统常量
 public class SystemConstant {
 
+  //用户身份代码
+  public static final Integer ROLE_COM = 1;
+  public static final Integer ROLE_LAW = 2;
+
   //Redis相关
   public static final String WEBSOCKET_KEY_PREFIX = "SOCKET_";
 
@@ -20,12 +24,17 @@ public class SystemConstant {
   public static final Long START_PROJECT = 11L;
   public static final Long END_PROJECT = 12L;
   public static final Long RE_CHOOSE_LAWYER_LAWYER_REFUSE = 13L;
+  public static final Long DEAL_PAST_DUE = 14L;
 
   //律师同意更换律师到服务结束的缓冲期
   public static final Long CHANGE_LAWYER_GOV = 3L;
 
-  //承接项目至开始服务缓冲期 默认是3天
-  public static final Long UNDERTAKE_GOV = 3L;
+  //提醒用户续费项目定时任务Id
+  public static final Long REMIND_RENEW = 99L;
+  //在项目到期前多久执行提醒的定时任务
+  public static final Long RENEW_GOV = 7L;
+
+  //处理续费事项的期限
 
   //旧律师结束服务到新律师开始服务的时间间隔 默认是1天
   public static final Long OLD_TO_NEW_LAWYER = 1L;
@@ -34,6 +43,52 @@ public class SystemConstant {
 
   public static final Integer MONTH_DAY = 30;
   public static final Integer MS_OF_DAY = 24 * 60 * 60 * 1000;
+
+  //系统消息常量
+  public static final String PROCESS_CER = "系统已完成对您发起的身份认证申请的审核, 店家查看审核结果。";
+  public static final String COMPANY_AUTH_APPLY = "发送认证申请成功， 请耐心等待系统处理";
+  public static final String LAWYER_AUTH_APPLY = "发送认证申请成功， 请耐心等待系统处理";
+  public static final String REGISTER_SUCCESS = "您发起的咨询已成功被系统登记， 请等待系统审核。";
+  public static final String AUDIT_SUCCESS = "您发起的咨询已审核通过， 系统会尽快根据您的需求确定服务方案";
+  public static final String AUDIT_FAIL = "您发起的咨询审核不通过， 请查看审核意见";
+  public static final String WAIT_TO_PAY = "系统已成功为您分配好服务方案， 请前往待办事项中支付费用";
+  public static final String PAY_REMIND = "请尽快完成支付， 否则系统将终止此次交易！";
+  public static final String PAY_INFO = "支付成功，请前往待办事项指定服务律师";
+  public static final String WAIT_TO_DIS_LAWYER = "系统将尽快为您分配律师";
+  public static final String WAIT_TO_UNDER_TAKE = "系统已为您分配好律师， 请等待律师决定是否承接项目";
+  public static final String LAWYER_DETERMINE_UNDER_TAKE_MES = "系统为您分配一个新的项目，请尽快决定是否承接项目";
+  public static final String UNDER_TAKE_REMIND = "请尽快决定是否承接项目， 否则系统将默认您拒绝承接项目";
+  public static final String REFUSE_UNDER_TAKE = "系统为您分配律师拒绝承接项目， 请前往待办事项重新选择律师";
+  public static final String ACCEPT_UNDER_TAKE = "系统为您分配的律师已接受委托， 律师将按照指定的开始日期开始服务";
+  public static final String CHANGE_LAWYER_AUDIT_FAIL = "您发起的更换律师申请审核不通过， 请点击查看审核意见";
+  public static final String CHANGE_LAWYER_AUDIT_SUCCESS_COMPANY_TO_LAWYER = "你负责的项目的企业方申请更换律师, 请进行处理";
+  public static final String CHANGE_LAWYER_AUDIT_SUCCESS_COMPANY_TO_COMPANY = "您发起的更换律师申请已审核通过， 请等待律师操作";
+  public static final String CHANGE_LAWYER_AUDIT_SUCCESS_LAWYER_TO_LAWYER = "您发起的更换律师申请已审核通过，系统已通知企业方, 在系统为企业重新分配律师之前，请继续为企业提供服务";
+  public static final String CHANGE_LAWYER_AUDIT_SUCCESS_LAWYER_TO_COMPANY = "您发起的咨询项目的律师方申请终止服务， 系统已审核通过， 请前往待办事项重新选择律师";
+  public static final String LAWYER_AGREE_CHANGE_LAWYER = "律师已经同意您的更换律师申请， 请尽快前往待办事项重新选择律师";
+  public static final String LAWYER_COMPLAINT = "律师拒绝了您的更换律师申请并提出申诉， 系统会尽快进行处理";
+  public static final String COMPANY_EVALUATION = "企业已对您的服务作出了评价，点击查看";
+  public static final String RENEWAL = "您负责的项目的企业方续期项目成功， 服务时间会延长";
+  public static final String DEAL_COMPLAINT_REFUSE_LAWYER_TO_COMAPNY = "系统驳回律师的申诉请求，请尽快前往待办事项重新选择律师";
+  public static final String DEAL_COMPLAINT_REFUSE_LAWYER_TO_LAWYER = "系统驳回律师的申诉请求，三天后您对企业的服务将终止";
+  public static final String DEAL_COMPLAINT_REFUSE_COMPANY_TO_COMPANY = "系统驳回企业的更换律师请求，律师会继续为您提供服务";
+  public static final String DEAL_COMPLAINT_REFUSE_COMPANY_TO_LAWYER = "系统驳回企业的更换律师请求, 请继续为企业提供服务";
+  public static final String PAY_PAST_DUE = "您错过了支付期限，请重新发起咨询服务请求";
+  public static final String CHOOSE_LAWYER_PAST_DUE = "您错过了选择律师操作期限， 系统会为您推荐律师";
+  public static final String DETERMINE_UNDER_TAKE_PAST_DUE_TO_LAWYER = "您错过了决定是否承接项目的期限, 系统自动执行拒绝操作";
+  public static final String DETERMINE_UNDER_TAKE_PAST_DUE_TO_COMPANY = "代理律师用户没有在规定时间内作出选择，系统默认律师用户拒绝承接项目";
+  public static final String DETERMINE_AGREE_CHANGE_LAWYER_PAST_DUE_TO_LAWYER = "您没有在规定时间内决定是否同意企业用户的更换律师申请，系统默认执行同意操作";
+  public static final String DETERMINE_AGREE_CHANGE_LAWYER_PAST_DUE_TO_COMPANY = "律师没有在规定时间内处理更换律师申请， 系统默认执行同意操作, 请重新选择律师";
+  public static final String LAWYER_START_SERVICE_TO_LAWYER = "您负责的项目开始了，您现在可以与企业交流";
+  public static final String LAWYER_START_SERVICE_TO_COMPANY = "您发起的项目的律师已开始服务，您现在可以与律师交流";
+  public static final String END_SERVICE_TO_LAWYER = "您对项目的服务已结束， 感谢您的付出！";
+  public static final String END_SERVICE_TO_COMPANY = "律师对您项目的服务已终止，请等待新的律师继续为您提供服务";
+  public static final String START_PROJECT_TO_COMPANY = "您申请的咨询项目已开始";
+  public static final String END_PROJECT_TO_COMPANY = "您申请的项目已到期, 欢迎继续订购我们的服务。";
+  public static final String END_PROJECT_TO_LAWYER = "您负责的项目已到期，感谢您的付出。";
+  public static final String REMIND_RENEW_PROJECT = "项目即将到期，如果您对我们的服务感到满意，可以省去流程直接续费项目。";
+  public static final String RENEW_PROJECT_PAST_DUE_COMPANY = "你没有在规定的时间内决定是否续费项目， 系统默认执行拒绝操作并读项目做出评价。";
+  public static final String RENEW_PROJECT_PAST_DUE_LAWYER = "用户已对您的服务做出评价。";
 
 
   //认证结果消息
@@ -59,75 +114,34 @@ public class SystemConstant {
     }
   }
 
-  public enum SystemMessageEnum {
-    COMPANY_AUTH_APPLY("企业认证申请", "发送认证申请成功， 请耐心等待系统处理", "申请详情", "api/company/auth/info/"),
-    LAWYER_AUTH_APPLY("律师认证申请", "发送认证申请成功， 请耐心等待系统处理", "申请详情", "api/lawyer/auth/info/"),
-    PROCESS_CER("处理认证申请", "系统已完成对您发起的身份认证申请的审核。", "审核结果", "/api/process/user/auth/info/"),
-    REGISTER_SUCCESS("登记成功", "您发起的咨询已成功被系统登记， 请等待系统审核。", "项目详情", "/api/project/info/"),
-    AUDIT_SUCCESS("审核通过", "您发起的咨询已审核通过， 系统会尽快根据您的需求确定服务方案", "审核意见", "/api/project/system/audit/info/"),
-    AUDIT_FAIL("审核不通过", "您发起的咨询审核不通过， 请查看系统审核意见", "审核意见", "/api/project/system/audit/info/"),
-    WAIT_TO_PAY("待支付", "系统已成功为您分配好服务方案， 请前往待办事项中支付费用", "服务方案", "/api/project/system/plan/info/"),
-    PAY_INFO("支付记录", "支付成功，请前往待办事项指定服务律师", "交易记录", "/api/project/pay/info/"),
-    WAIT_TO_DIS_LAWYER("待系统分配律师", "系统将尽快为您分配律师", "选择律师信息", "/api/project/demandLawyer/info/"),
-    PAY_REMIND("再次提醒用户支付", "请尽快完成支付， 否则系统将终止此次交易！", "", ""),
-    WAIT_TO_UNDER_TAKE("等待律师承接项目", "系统已为您分配好律师， 请等待律师决定是否承接项目", "分配信息", "/api/project/distributeLawyer/info/"),
-    LAWYER_DETERMINE_UNDER_TAKE("决定是否承接项目", "系统为您分配一个新的项目，请尽快决定是否承接项目", "查看详情", "/api/project/info/"),
-    UNDER_TAKE_REMIND("再次提醒律师承接项目", "请尽快决定是否承接项目， 否则系统将默认您拒绝承接项目", "", ""),
-    REFUSE_UNDER_TAKE("拒绝承接项目", "系统为您分配律师拒绝承接项目， 请前往待办事项重新选择律师", "拒绝理由", "/api/project/lawyerCarry/info/"),
-    ACCEPT_UNDER_TAKE("接受委托", "系统为您分配的律师已接受委托， 律师将按照指定的开始日期开始服务", "律师信息", "/api/user/lawyer/info/"),
-    CHANGE_LAWYER_APPLY("申请更换律师", "您负责的项目的企业方申请更换律师， 请做出处理", "查看详情", "/api/project/changeLawyer/info/"),
-    CHANGE_LAWYER_AUDIT_FAIL("更换律师申请审核不通过", "您发起的更换律师申请审核不通过， 请点击查看审核意见", "审核意见", "/api/project/changeLawyerAudit/info/"),
-    CHANGE_LAWYER_AUDIT_SUCCESS_COMPANY_TO_LAWYER("企业更换律师申请审核通过（给律师方消息）", "你负责的项目的企业方申请更换律师, 请进行处理", "查看详情", "/api/project/changeLawyerAudit/info/"),
-    CHANGE_LAWYER_AUDIT_SUCCESS_COMPANY_TO_COMPANY("企业更换律师申请审核通过（给企业方消息）", "您发起的更换律师申请已审核通过， 请等待律师操作", "审核意见", "/api/project/changeLawyerAudit/info/"),
-    CHANGE_LAWYER_AUDIT_SUCCESS_LAWYER_TO_LAWYER("律师更换律师申请审核通过（给律师方消息）", "您发起的更换律师申请已审核通过，系统已通知企业方, 在系统为企业重新分配律师之前，请继续为企业提供服务", "查看详情", "/api/project/changeLawyerAudit/info/"),
-    CHANGE_LAWYER_AUDIT_SUCCESS_LAWYER_TO_COMPANY("律师更换律师申请审核通过（给企业方消息）", "您发起的咨询项目的律师方申请终止服务， 系统已审核通过， 请前往待办事项重新选择律师", "查看详情", "/api/project/changeLawyerAudit/info/"),
-    LAWYER_AGREE_CHANGE_LAWYER("律师同意更换律师申请", "律师已经同意您的更换律师申请， 请尽快前往待办事项重新选择律师", "", ""),
-    LAWYER_COMPLAINT("律师提出申诉", "律师拒绝了您的更换律师申请并提出申诉， 系统会尽快进行处理", "查看详情", "/api/project/lawyerComplaint/info/"),
-    COMPANY_EVALUATION("企业作出评价", "企业已对您的服务作出了评价，点击查看", "查看详情", "/api/project/evaluation/info/"),
-    RENEWAL("企业续期", "您负责的项目的企业方续期项目成功， 服务时间会延长", "查看详情", "/api/project/system/plan/info/"),
-    PAY_PAST_DUE("支付过期", "您错过了支付期限，请重新发起咨询服务请求", "", ""),
-    CHOOSE_LAWYER_PAST_DUE("选择律师过期", "您错过了选择律师操作期限， 系统会为您推荐律师", "", ""),
-    DETERMINE_UNDER_TAKE_PAST_DUE_TO_LAWYER("决定是否承接项目过期", "您错过了决定是否承接项目的期限, 系统自动执行拒绝操作", "项目详情", "/api/project/info"),
-    DETERMINE_UNDER_TAKE_PAST_DUE_TO_COMPANY("决定是否承接项目过期", "代理律师用户没有在规定时间内作出选择，系统默认律师用户拒绝承接项目", "律师详情", "/api/user/lawyer/info/"),
-    DETERMINE_AGREE_CHANGE_LAWYER_PAST_DUE_TO_LAWYER("处理企业用户更换律师申请过期", "您没有在规定时间内决定是否同意企业用户的更换律师申请，系统默认执行同意操作", "申请详情", "/api/project/changeLawyerAudit/info/"),
-    DEAL_COMPLAINT_REFUSE_LAWYER_TO_COMAPNY("处理申诉", "系统驳回律师的申诉请求，请尽快前往待办事项重新选择律师", "处理详情", "/api/project/complaint/info/"),
-    DEAL_COMPLAINT_REFUSE_LAWYER_TO_LAWYER("处理申诉", "系统驳回律师的申诉请求，三天后您对企业的服务将终止", "处理详情", "/api/project/complaint/info/"),
-    DEAL_COMPLAINT_REFUSE_COMPANY_TO_COMPANY("处理申诉", "系统驳回企业的更换律师请求，律师会继续为您提供服务", "处理详情", "/api/project/complaint/info/"),
-    DEAL_COMPLAINT_REFUSE_COMPANY_TO_LAWYER("处理申诉", "系统驳回企业的更换律师请求, 请继续为企业提供服务", "处理详情", "/api/project/complaint/info/"),
-    START_PROJECT_TO_COMPANY("项目开始服务", "您申请的咨询项目已开始", "查看详情", "/api/project/info/"),
-    LAWYER_START_SERVICE_TO_LAWYER("律师开始服务", "您负责的项目开始了，您现在可以与企业交流", "项目详情", "/api/project/info/"),
-    LAWYER_START_SERVICE_TO_COMPANY("律师开始服务", "您发起的项目的律师已开始服务，您现在可以与律师交流", "项目详情", "/api/project/info/"),
-    END_SERVICE_TO_LAWYER("律师结束服务", "您对项目的服务已终止！", "", ""),
-    END_SERVICE_TO_COMPANY("律师结束服务", "律师对您项目的服务已终止，请等待新的律师继续为您提供服务", "", ""),
-    END_PROJECT_TO_COMPANY("项目结束", "您申请的项目已到期, 欢迎继续订购我们的服务。", "项目详情", "/api/project/info/"),
-    END_PROJECT_TO_LAWYER("项目结束", "您负责的项目已到期，感谢您的付出。", "项目详情", "/api/project/info/");
+//  public enum SystemMessageEnum {
 
-    private final String brief;
-    private final String detail;
-    private final String keyWord;
-    private final String url;
-
-    SystemMessageEnum(String brief, String detail, String keyWord, String url) {
-      this.brief = brief;
-      this.detail = detail;
-      this.keyWord = keyWord;
-      this.url = url;
-    }
-
-    public String getBrief() {
-      return brief;
-    }
-
-    public String getDetail() {
-      return detail;
-    }
-
-    public String getKeyWord() {
-      return keyWord;
-    }
-
-    public String getUrl() {
-      return url;
-    }
-  }
+//    private final String brief;
+//    private final String detail;
+//    private final String keyWord;
+//    private final String url;
+//
+//    SystemMessageEnum(String brief, String detail, String keyWord, String url) {
+//      this.brief = brief;
+//      this.detail = detail;
+//      this.keyWord = keyWord;
+//      this.url = url;
+//    }
+//
+//    public String getBrief() {
+//      return brief;
+//    }
+//
+//    public String getDetail() {
+//      return detail;
+//    }
+//
+//    public String getKeyWord() {
+//      return keyWord;
+//    }
+//
+//    public String getUrl() {
+//      return url;
+//    }
+//  }
 }

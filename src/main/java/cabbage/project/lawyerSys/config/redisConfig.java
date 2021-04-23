@@ -1,20 +1,25 @@
 package cabbage.project.lawyerSys.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import redis.clients.jedis.Jedis;
 
 @Configuration
 public class redisConfig {
 
+  @Value("${nosql.redis.address}")
+  private String address;
+
   @Bean
   public JedisConnectionFactory redisConnectionFactory() {
-    RedisStandaloneConfiguration config = new RedisStandaloneConfiguration("127.0.0.1", 6379);
+    RedisStandaloneConfiguration config = new RedisStandaloneConfiguration(address, 6379);
+    config.setPassword("root");
     return new JedisConnectionFactory(config);
   }
 

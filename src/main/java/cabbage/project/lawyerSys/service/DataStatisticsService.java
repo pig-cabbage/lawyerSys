@@ -1,6 +1,7 @@
 package cabbage.project.lawyerSys.service;
 
 import cabbage.project.lawyerSys.vo.CompanyMathVo;
+import cabbage.project.lawyerSys.vo.LawyerMathDetailVo;
 import cabbage.project.lawyerSys.vo.LawyerMathVo;
 import cabbage.project.lawyerSys.vo.ServiceMathVo;
 
@@ -12,4 +13,6 @@ public interface DataStatisticsService {
   List<CompanyMathVo> companyMath(String startDate, String endDate);
 
   List<LawyerMathVo> lawyerMath(String startDate, String endDate);
+
+  List<LawyerMathDetailVo> lawyerMathDetail(String account, String startDate, String endDate);
 }

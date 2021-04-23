@@ -7,6 +7,7 @@ import cabbage.project.lawyerSys.common.exception.RunException;
 import cabbage.project.lawyerSys.common.utils.PageUtils;
 import cabbage.project.lawyerSys.common.utils.Query;
 import cabbage.project.lawyerSys.dao.UserAuthDao;
+import cabbage.project.lawyerSys.entity.SystemMessageEntity;
 import cabbage.project.lawyerSys.entity.UserAuthEntity;
 import cabbage.project.lawyerSys.entity.UserCompanyAuthEntity;
 import cabbage.project.lawyerSys.entity.UserLawyerAuthEntity;
@@ -84,7 +85,9 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthDao, UserAuthEntity
     userCompanyAuthEntity.setStatus(1);
     userCompanyAuthEntity.setProcessTime(date);
     userCompanyAuthService.updateById(userCompanyAuthEntity);
-    systemMessageService.addMessage(userCompanyAuthEntity.getAccount(), SystemConstant.SystemMessageEnum.PROCESS_CER, String.valueOf(userAuthEntity.getId()), date);
+    systemMessageService.save(SystemMessageEntity.builder().receiver(userCompanyAuthEntity.getAccount()).content(SystemConstant.PROCESS_CER).itemId("审核结果")
+        .appendContent("{审核结果: " + (authProcessVo.getResult() == 0 ? "审核不通过" : "审核通过") + ", 审核意见: " + authProcessVo.getAdvice() + "}")
+        .createTime(date.getTime()).build());
   }
 
   /**
@@ -120,7 +123,9 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthDao, UserAuthEntity
     userLawyerAuthEntity.setStatus(1);
     userLawyerAuthEntity.setProcessTime(date);
     userLawyerAuthService.updateById(userLawyerAuthEntity);
-    systemMessageService.addMessage(userLawyerAuthEntity.getAccount(), SystemConstant.SystemMessageEnum.PROCESS_CER, String.valueOf(userAuthEntity.getId()), date);
+    systemMessageService.save(SystemMessageEntity.builder().receiver(userLawyerAuthEntity.getAccount()).content(SystemConstant.PROCESS_CER).itemId("审核结果")
+        .appendContent("{审核结果: " + (authProcessVo.getResult() == 0 ? "审核不通过" : "审核通过") + ", 审核意见: " + authProcessVo.getAdvice() + "}")
+        .createTime(date.getTime()).build());
   }
 
 }

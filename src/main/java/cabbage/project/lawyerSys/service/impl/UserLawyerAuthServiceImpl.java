@@ -6,13 +6,10 @@ import cabbage.project.lawyerSys.common.exception.RunException;
 import cabbage.project.lawyerSys.common.utils.PageUtils;
 import cabbage.project.lawyerSys.common.utils.Query;
 import cabbage.project.lawyerSys.dao.UserLawyerAuthDao;
+import cabbage.project.lawyerSys.entity.SystemMessageEntity;
 import cabbage.project.lawyerSys.entity.UserAccountEntity;
-import cabbage.project.lawyerSys.entity.UserCompanyAuthEntity;
 import cabbage.project.lawyerSys.entity.UserLawyerAuthEntity;
-import cabbage.project.lawyerSys.service.SystemMessageService;
-import cabbage.project.lawyerSys.service.UserAccountService;
-import cabbage.project.lawyerSys.service.UserLawyerAuthService;
-import cabbage.project.lawyerSys.service.UserLawyerService;
+import cabbage.project.lawyerSys.service.*;
 import cabbage.project.lawyerSys.valid.Assert;
 import cabbage.project.lawyerSys.vo.LawyerAuthVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -66,7 +63,8 @@ public class UserLawyerAuthServiceImpl extends ServiceImpl<UserLawyerAuthDao, Us
       this.save(userLawyerAuthEntity);
       userAccountEntity.setCertificationStatus(1);
       userAccountService.updateById(userAccountEntity);
-      systemMessageService.addMessage(userAccountEntity.getId(), SystemConstant.SystemMessageEnum.LAWYER_AUTH_APPLY, String.valueOf(userLawyerAuthEntity.getId()), date);
+      systemMessageService.save(SystemMessageEntity.builder().receiver(lawyerAuthVo.getAccount()).content(SystemConstant.LAWYER_AUTH_APPLY)
+          .createTime(date.getTime()).build());
     } else {
       throw RunException.builder().code(ExceptionCode.USER_COMPANY_STATUS_ERROR).build();
     }

@@ -24,8 +24,8 @@ alibaba:
 
 weixin:
   url: https://api.weixin.qq.com/sns/jscode2session
-  app-id: wx59b2e4a47f6d4136
-  app-secret: 30c1092b8a3746e5f83d6e6982a3eb86
+  app-id: wx84533478c61a9d62
+  app-secret: 35bd8af5893b21baff590134ba6c5819
 
 
 
@@ -34,23 +34,16 @@ weixin:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/lawyer_db?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/lawyer_db?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: root
     password: root
   profiles: dev
 server:
   port: 8080
+nosql:
+  redis:
+    address: 127.0.0.1
 
----
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/lawyer_db_1?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
-    username: root
-    password: root
-  profiles: dev1
-server:
-  port: 8080
 ---
 spring:
   datasource:
@@ -58,6 +51,32 @@ spring:
     url: jdbc:mysql://129.204.20.87:3307/lawyer_db?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: root
+  profiles: dev1
+server:
+  port: 8111
+  ssl:
+    key-store: classpath:lawyersys.handsomelu.club.jks
+    key-store-password: 44g3q9p4naww93
+    key-store-type: JKS
+    key-alias: lawyersys.handsomelu.club
+nosql:
+  redis:
+    address: 110.64.88.177
+---
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://129.204.20.87:3306/lawyer_db?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: lxpkLXPK8953807@
   profiles: prod
 server:
   port: 8111
+  ssl:
+    key-store: classpath:lawyersys.handsomelu.club.jks
+    key-store-password: ui3t5suy05sqxj6
+    key-store-type: JKS
+    key-alias: lawyersys.handsomelu.club
+nosql:
+  redis:
+    address: 129.204.20.87

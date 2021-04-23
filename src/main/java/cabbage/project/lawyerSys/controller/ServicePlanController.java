@@ -78,16 +78,6 @@ public class ServicePlanController {
   }
 
   /**
-   * 保存
-   */
-  @RequestMapping("/save")
-  public R save(@RequestBody ServicePlanEntity servicePlan) {
-    servicePlanService.save(servicePlan);
-
-    return R.ok();
-  }
-
-  /**
    * 修改
    */
   @RequestMapping("/update")

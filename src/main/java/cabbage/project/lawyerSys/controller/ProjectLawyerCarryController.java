@@ -19,7 +19,7 @@ import java.util.Map;
  * @date 2021-02-07 20:32:44
  */
 @RestController
-@RequestMapping("lawyersys/projectlawyercarry")
+@RequestMapping("api/project/lawyerCarry")
 public class ProjectLawyerCarryController {
   @Autowired
   private ProjectLawyerCarryService projectLawyerCarryService;
@@ -42,7 +42,7 @@ public class ProjectLawyerCarryController {
   public R info(@PathVariable("id") Integer id) {
     ProjectLawyerCarryEntity projectLawyerCarry = projectLawyerCarryService.getById(id);
 
-    return R.ok().put("projectLawyerCarry", projectLawyerCarry);
+    return R.ok().put("entity", projectLawyerCarry);
   }
 
   /**

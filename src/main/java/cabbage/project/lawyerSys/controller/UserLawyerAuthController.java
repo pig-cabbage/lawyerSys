@@ -57,44 +57,4 @@ public class UserLawyerAuthController {
   }
 
 
-    /**
-     * 信息
-     */
-    @RequestMapping("/info/{id}")
-    public R info(@PathVariable("id") Integer id) {
-        UserLawyerAuthEntity userLawyerAuth = userLawyerAuthService.getById(id);
-
-        return R.ok().put("userLawyerAuth", userLawyerAuth);
-    }
-
-    /**
-     * 保存
-     */
-    @RequestMapping("/save")
-    public R save(@RequestBody UserLawyerAuthEntity userLawyerAuth) {
-        userLawyerAuthService.save(userLawyerAuth);
-
-        return R.ok();
-    }
-
-    /**
-     * 修改
-     */
-    @RequestMapping("/update")
-    public R update(@RequestBody UserLawyerAuthEntity userLawyerAuth) {
-        userLawyerAuthService.updateById(userLawyerAuth);
-
-        return R.ok();
-    }
-
-    /**
-     * 删除
-     */
-    @RequestMapping("/delete")
-    public R delete(@RequestBody Integer[] ids) {
-        userLawyerAuthService.removeByIds(Arrays.asList(ids));
-
-        return R.ok();
-    }
-
 }

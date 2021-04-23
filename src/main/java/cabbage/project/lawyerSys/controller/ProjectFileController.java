@@ -38,16 +38,6 @@ public class ProjectFileController {
 
 
   /**
-   * 信息
-   */
-  @RequestMapping("/info/{id}")
-  public R info(@PathVariable("id") Integer id) {
-    ProjectFileEntity projectFile = projectFileService.getById(id);
-
-    return R.ok().put("projectFile", projectFile);
-  }
-
-  /**
    * 保存
    */
   @RequestMapping("/save")
@@ -56,24 +46,5 @@ public class ProjectFileController {
     return R.ok().put("entity", projectFile);
   }
 
-  /**
-   * 修改
-   */
-  @RequestMapping("/update")
-  public R update(@RequestBody ProjectFileEntity projectFile) {
-    projectFileService.updateById(projectFile);
-
-    return R.ok();
-  }
-
-  /**
-   * 删除
-   */
-  @RequestMapping("/delete")
-  public R delete(@RequestBody Integer[] ids) {
-    projectFileService.removeByIds(Arrays.asList(ids));
-
-    return R.ok();
-  }
 
 }

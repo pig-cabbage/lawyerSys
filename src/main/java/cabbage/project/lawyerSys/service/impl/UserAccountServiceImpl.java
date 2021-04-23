@@ -57,7 +57,7 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountDao, UserAcco
     accountEntity.setCertificationStatus(0);
     accountEntity.setCreateTime(new Date());
     accountEntity.setUnReadMessage(0);
-    this.save(accountEntity);
+    this.baseMapper.insertWithId(accountEntity);
     return accountEntity;
   }
 

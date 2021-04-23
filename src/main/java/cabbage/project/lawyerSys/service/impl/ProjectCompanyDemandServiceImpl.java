@@ -10,10 +10,10 @@ import cabbage.project.lawyerSys.common.utils.Query;
 import cabbage.project.lawyerSys.dao.ProjectCompanyDemandDao;
 import cabbage.project.lawyerSys.entity.ProjectBaseEntity;
 import cabbage.project.lawyerSys.entity.ProjectCompanyDemandEntity;
-import cabbage.project.lawyerSys.entity.SystemMessageEntity;
+import cabbage.project.lawyerSys.entity.ProjectMessageEntity;
 import cabbage.project.lawyerSys.service.ProjectBaseService;
 import cabbage.project.lawyerSys.service.ProjectCompanyDemandService;
-import cabbage.project.lawyerSys.service.SystemMessageService;
+import cabbage.project.lawyerSys.service.ProjectMessageService;
 import cabbage.project.lawyerSys.valid.Assert;
 import cabbage.project.lawyerSys.vo.ProjectDemandVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -34,7 +34,7 @@ public class ProjectCompanyDemandServiceImpl extends ServiceImpl<ProjectCompanyD
   @Autowired
   private ProjectBaseService projectBaseService;
   @Autowired
-  private SystemMessageService systemMessageService;
+  private ProjectMessageService projectMessageService;
 
   @Override
   public PageUtils queryPage(Map<String, Object> params) {
@@ -75,7 +75,7 @@ public class ProjectCompanyDemandServiceImpl extends ServiceImpl<ProjectCompanyD
         .projectName(vo.getProjectName())
         .build();
     projectBaseService.save(project);
-    systemMessageService.addMessage(projectCompanyDemandEntity.getCompanyAccount(), SystemConstant.SystemMessageEnum.REGISTER_SUCCESS, String.valueOf(project.getId()), date);
+    projectMessageService.save(ProjectMessageEntity.builder().project(project.getId()).receiver(SystemConstant.ROLE_COM).content(SystemConstant.REGISTER_SUCCESS).createTime(date.getTime()).build());
   }
 
 }
