@@ -7,6 +7,8 @@ import cabbage.project.lawyerSys.dto.WeixinAuthDTO;
 import cabbage.project.lawyerSys.entity.UserAccountEntity;
 import cabbage.project.lawyerSys.form.SysLoginForm;
 import cabbage.project.lawyerSys.service.UserAccountService;
+import cabbage.project.lawyerSys.service.UserCompanyService;
+import cabbage.project.lawyerSys.service.UserLawyerService;
 import cabbage.project.lawyerSys.valid.Assert;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
@@ -41,6 +43,10 @@ public class AuthenProvider implements AuthenticationProvider {
 
   @Autowired
   private UserAccountService userAccountService;
+  @Autowired
+  private UserLawyerService userLawyerService;
+  @Autowired
+  private UserCompanyService userCompanyService;
 
 
   @Override
@@ -72,7 +78,25 @@ public class AuthenProvider implements AuthenticationProvider {
           if (account.getCertificationStatus() == 2) {
             role.append("_YES");
           } else {
-            role.append("_NO");
+            if (account.getCertificationStatus() == 0) {
+              role.append("_NO");
+            } else {
+              if (role.toString().equals("ROLE_COMPANY")) {
+                if (userCompanyService.getByAccount(account.getId()) != null) {
+                  role.append("_YES");
+                } else {
+                  role.append("_NO");
+                }
+              } else {
+                if (userLawyerService.getByAccount(account.getId()) != null) {
+                  role.append("_YES");
+                } else {
+                  role.append("_NO");
+                }
+              }
+            }
+
+
           }
         }
         return new UsernamePasswordAuthenticationToken(account, weixinAuthDTO, Collections.singletonList(new SimpleGrantedAuthority(role.toString())));

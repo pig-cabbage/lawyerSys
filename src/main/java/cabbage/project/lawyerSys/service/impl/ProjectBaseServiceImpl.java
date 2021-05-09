@@ -147,7 +147,7 @@ public class ProjectBaseServiceImpl extends ServiceImpl<ProjectBaseDao, ProjectB
     BeanUtils.copyProperties(projectPlan, projectPlanEntity);
     projectPlanEntity.setProject(id);
     projectPlanEntity.setCreateTime(date);
-    projectPlanEntity.setCost(servicePlanService.calculateCost(projectPlanEntity.getPlan(), -(projectPlanEntity.getEndTime().getTime() - projectPlanEntity.getStartTime().getTime()) / (30 * 24 * 60 * 60 * 1000)));
+    projectPlanEntity.setCost(servicePlanService.calculateCost(projectPlanEntity.getPlan(), projectPlan.getStartTime(), projectPlan.getEndTime()));
     projectPlanService.save(projectPlanEntity);
     updateStatus(project, ProjectConstant.ProjectStatusEnum.WAIT_TO_PAY);
     ProjectUserTodoItemEntity userTodoItemEntity = ProjectUserTodoItemEntity.builder().project(id).user(project.getCompany()).projectName(project.getProjectName()).item(SystemConstant.PAY_ITEM_KEY).createTime(date).build();

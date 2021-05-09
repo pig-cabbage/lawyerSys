@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -72,10 +73,16 @@ public class ServicePlanServiceImpl extends ServiceImpl<ServicePlanDao, ServiceP
   }
 
   @Override
-  public BigDecimal calculateCost(Long id, Long months) {
+  public BigDecimal calculateCost(Long id, Date startDate, Date endDate) {
     ServicePlanEntity servicePlanEntity = this.getById(id);
     ServiceLevelEntity serviceLevelEntity = serviceLevelService.getById(servicePlanEntity.getServiceLevel());
     Assert.isNotNull(serviceLevelEntity);
+    Calendar start = Calendar.getInstance();
+    start.setTime(startDate);
+    Calendar end = Calendar.getInstance();
+    end.setTime(endDate);
+    int months = 12 * (end.get(Calendar.YEAR) - start.get(Calendar.YEAR))
+        + (end.get(Calendar.MONTH) - start.get(Calendar.MONTH));
     return serviceLevelEntity.getChargeStandard().multiply(new BigDecimal(months));
   }
 

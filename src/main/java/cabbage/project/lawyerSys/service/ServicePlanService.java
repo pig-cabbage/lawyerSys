@@ -28,7 +28,7 @@ public interface ServicePlanService extends IService<ServicePlanEntity> {
 
   void fileUpload(Long id, ServiceFileTemplateVo serviceFileTemplateVo);
 
-  BigDecimal calculateCost(Long id, Long months);
+  BigDecimal calculateCost(Long id, Date startDate, Date endDate);
 
   List<ServicePlanEntity> search(Long level, Map<String, Object> params);
 

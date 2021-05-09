@@ -63,7 +63,18 @@ public class DataStatisticsServiceimpl implements DataStatisticsService {
             baseEntityList.forEach(item -> {
               long spendTime = ((Math.min(endDate.getTime(), item.getEndTime().getTime())) - item.getStartTime().getTime()) / SystemConstant.MS_OF_DAY;
               planDate.addAndGet(spendTime);
-              planCost[0] = planCost[0].add(new BigDecimal(spendTime).divide(new BigDecimal(SystemConstant.MONTH_DAY), 5, RoundingMode.HALF_DOWN).multiply(level.getChargeStandard()));
+              if (item.getEndTime().getTime() < endDate.getTime()) {
+                planCost[0] = planCost[0].add(item.getCost());
+              } else {
+                Calendar end = Calendar.getInstance();
+                end.setTime(endDate);
+                Calendar start = Calendar.getInstance();
+                start.setTime(item.getStartTime());
+                double month = (end.get(Calendar.YEAR) - start.get(Calendar.YEAR)) * 12 + end.get(Calendar.MONTH) - start.get(Calendar.MONTH);
+                month += (end.get(Calendar.DATE) - start.get(Calendar.DATE)) / new Double(SystemConstant.MONTH_DAY);
+                planCost[0] = planCost[0].add(new BigDecimal(month).multiply(level.getChargeStandard()));
+              }
+
             });
           });
           levelNumber.addAndGet(planNumber.get());
