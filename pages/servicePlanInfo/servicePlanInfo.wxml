@@ -22,11 +22,6 @@
               <mp-cell link hover value="文件模板" url="../serviceFile/serviceFile?id={{ids[0]}}&detail={{detail}}"></mp-cell> 
         </mp-cells>
     </view>
-    <view class="delete_bd" wx:if="{{detail}}">
-      <button type="warn" bindtap="deleteService">
-          删除
-      </button>
-    </view>
     <modal title="修改服务名称" hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
       <input placeholder="{{oldValue}}" bindinput="inputNewValue"></input>
       </modal>

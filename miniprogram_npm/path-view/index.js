@@ -357,18 +357,27 @@ Component({
                 url: res.data.url,
                 success : function(res){     
                   if(res.statusCode == 200){
-                    wx.saveFile({
-                      tempFilePath: res.tempFilePath,
-                      success(res){
-                        that.setData({
-                          downLoadFile : res.savedFilePath
-                        })
-                        wx.showToast({
+                    wx.openDocument({
+                      filePath: res.tempFilePath,
+                      success(){
+                            wx.showToast({
                           title: '下载成功',
                           icon : "success"
                         })
                       }
                     })
+                    // wx.saveFile({
+                    //   tempFilePath: res.tempFilePath,
+                    //   success(res){
+                    //     that.setData({
+                    //       downLoadFile : res.savedFilePath
+                    //     })
+                    //     wx.showToast({
+                    //       title: '下载成功',
+                    //       icon : "success"
+                    //     })
+                    //   }
+                    // })
                   }else{
                     wx.showModal({
                       title : "提示",

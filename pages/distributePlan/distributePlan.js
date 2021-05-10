@@ -15,8 +15,10 @@ Page({
     pickerLevelValue : 0,
     pickerPlanValue : 0,
     planId : 0,
-    startTime : "2010-1-1",
-    endTime : "2010-1-1"
+    startTime : "2010-01-01",
+    endTime : "2010-01-01",
+    serviceTime : 1,
+    startDate : null,
   },
 
   /**
@@ -30,10 +32,14 @@ Page({
       temp1[i].children = [];
       temp1[i].childrenName = [];
     }
+    var date = new Date();
+    date.setDate(date.getDate() + 7);
+    var month = date.getMonth() + 1;
     this.setData({
       id : options.id,
       levelList : temp,
-      levelEntityList : temp1
+      levelEntityList : temp1,
+      startDate : date.getFullYear() + "-" + month + "-" + date.getDate()
     })
   },
 
@@ -56,6 +62,107 @@ Page({
     this.setData({
       modalHidden : false
     })
+  },
+  formInputChange : function(e){
+    var that = this;
+    that.setData({
+      serviceTime : e.detail.value,
+      endTime : that.calculateEndDate(that.data.startTime, e.detail.value)
+    })
+  },
+  calculateEndDate: function(startDate, months){
+    var that = this;
+    var y = parseInt(months / 12);
+    var m = months % 12;
+    var start = new Date(startDate);
+    var oldY = start.getFullYear();
+    var oldM = start.getMonth() + 1;
+    var oldD = start.getDate();
+    var newY = oldY + y;
+    var newM = oldM + m;
+    var newD = 0;
+    if(oldM == 2){
+      if(oldY % 4 == 0 && oldY % 100 != 0){
+        if(oldD == 29){
+          if(newM == 2){
+            if(newY % 4 == 0 && newY % 100 != 0){
+              newD = 29;
+            }else{
+              newD = 28;
+            }
+          }else{
+            if(that.isBigMonth(newM)){
+              newD = 31;
+            }else{
+              newD = 30;
+            }
+          }
+        }else{
+          newD = oldD;
+        }
+      }else{
+        if(oldD == 28){
+          if(newM == 2){
+            if(newY % 4 == 0 && newY % 100 != 0){
+              newD = 29;
+            }else{
+              newD = 28;
+            }
+          }else{
+            if(that.isBigMonth(newM)){
+              newD = 31;
+            }else{
+              newD = 30;
+            }
+          }
+        }else{
+          newD = oldD;
+        }
+      }
+    }else{
+      if(that.isBigMonth(oldM)){
+        if(oldD == 31){
+          if(newM == 2){
+            if(newY % 4 == 0 && newY % 100 != 0){
+              newD = 29;
+            }else{
+              newD = 28;
+            }
+          }else{
+            if(that.isBigMonth(newM)){
+              newD = 31;
+            }else{
+              newD = 30;
+            }
+          }
+        }else{
+          newD = oldD;
+        }
+      }else{
+        if(oldD == 30){
+          if(newM == 2){
+            if(newY % 4 == 0 && newY % 100 != 0){
+              newD = 29;
+            }else{
+              newD = 28;
+            }
+          }else{
+            if(that.isBigMonth(newM)){
+              newD = 31;
+            }else{
+              newD = 30;
+            }
+          }
+        }else{
+          newD = oldD;
+        }
+      }
+    }
+    return newY + "-" + (Array(2).join('0') + newM).slice(-2) + "-" + (Array(2).join('0') + newD).slice(-2);
+  },
+  isBigMonth(month){
+    var list = [1,3,5,7,8,10,12];
+    return list.indexOf(month) != -1;
   },
   initData : function(){
     var that = this;
@@ -152,8 +259,10 @@ Page({
     })
   },
   bindStartTimeChange :function(e){
-    this.setData({
-      startTime : e.detail.value
+    var that = this;
+    that.setData({
+      startTime : e.detail.value,
+      endTime : that.calculateEndDate(e.detail.value, that.data.serviceTime)
     })
   },
   bindEndTimeChange : function(e){

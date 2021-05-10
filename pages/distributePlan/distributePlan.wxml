@@ -8,7 +8,7 @@
             <mp-cell>
             <view class="weui-flex">
         <view class="weui-flex__item"><view class="placeholder">开始时间</view></view>
-        <view class="weui-flex__item"><picker mode="date" fields="month" value="{{startTime}}" start="1970-09-01" end="2100-09-01" bindchange="bindStartTimeChange">
+        <view class="weui-flex__item"><picker mode="date" value="{{startTime}}" start="{{startDate}}" end="2100-09-01" bindchange="bindStartTimeChange">
     <view class="picker">{{startTime}}
     </view>
   </picker> </view>
@@ -16,11 +16,8 @@
   </mp-cell>
   <mp-cell>
             <view class="weui-flex">
-        <view class="weui-flex__item"><view class="placeholder">结束时间</view></view>
-        <view class="weui-flex__item"><picker mode="date" fields="month" value="{{endTime}}" start="1970-09-01" end="2100-09-01" bindchange="bindEndTimeChange">
-    <view class="picker">{{endTime}}
-    </view>
-  </picker> </view>
+        <view class="weui-flex__item"><view class="placeholder">服务时长（单位/月）</view></view>
+        <view class="weui-flex__item"><input bindinput="formInputChange"  class="weui-input" value="{{serviceTime}}" type="number"></input></view>
     </view>
   </mp-cell>
         </mp-cells>

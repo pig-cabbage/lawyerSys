@@ -119,6 +119,7 @@ Page({
             })
           })
         }else{
+          console.log(res)
           wx.showModal({
             title : "提示",
             content : "操作失败，请重试",
@@ -189,7 +190,20 @@ Page({
           that.setData({
             distributeId : res.data.entity.id
           })
-
+        }else{
+          console.log(res)
+          wx.showModal({
+            title : "提示",
+            content: "获取数据失败，请重试",
+            showCancel : false,
+            success(res){
+              if(res.confirm){
+                wx.navigateBack({
+                  delta: 1,
+                })
+              }
+            }
+          })
         }
       }
     })

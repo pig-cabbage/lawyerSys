@@ -102,7 +102,7 @@ Page({
   distributeLawyer : function(){
     var that = this;
     wx.request({
-      url: app.globalData.baseUrl + '/api/user/lawyer/list',
+      url: app.globalData.baseUrl + '/api/user/lawyer/search',
       method : 'GET',
       header : {
         'cookie' : wx.getStorageSync("sessionid")
@@ -119,6 +119,12 @@ Page({
           that.setData({
             lawyerNameList : temp,
             modalHidden : false
+          })
+        }else{
+          wx.showModal({
+            title : "提示",
+            content : "获取数据失败",
+            showCancel : false
           })
         }
       }
