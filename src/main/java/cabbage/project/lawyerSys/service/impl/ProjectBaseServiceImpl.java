@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -191,7 +192,8 @@ public class ProjectBaseServiceImpl extends ServiceImpl<ProjectBaseDao, ProjectB
         .createTime(date).build();
     projectCompanyPayService.save(projectCompanyPayEntity);
     project.setPlan(projectPlanEntity.getPlan());
-    project.setStartTime(projectPlanEntity.getStartTime());
+//    project.setStartTime(projectPlanEntity.getStartTime());
+    project.setStartTime(new Date(2021, Calendar.MAY, 9));
     project.setEndTime(projectPlanEntity.getEndTime());
     project.setCost(projectPlanEntity.getCost());
     project.setStatus(ProjectConstant.ProjectStatusEnum.WAIT_TO_CHOOSE_LAWYER.getCode());
@@ -200,9 +202,14 @@ public class ProjectBaseServiceImpl extends ServiceImpl<ProjectBaseDao, ProjectB
     Long itemId = projectUserTodoItemService.addItem(userTodoItemEntity, null, projectCompanyPayEntity.getId(), date);
     projectMessageService.save(ProjectMessageEntity.builder().project(id).receiver(SystemConstant.ROLE_COM).content(SystemConstant.PAY_INFO).createTime(date.getTime()).appendContent("代办事项").itemId(String.valueOf(itemId)).build());
     //项目开始的定时任务
-    this.startProject(project);
+//    this.startProject(project);
+//    updateStatus(project, ProjectConstant.ProjectStatusEnum.SERVICING);
+    projectMessageService.save(ProjectMessageEntity.builder().project(id).receiver(SystemConstant.ROLE_COM).content(SystemConstant.START_PROJECT_TO_COMPANY).createTime(date.getTime()).build());
     //提醒续费的定时任务
-    this.remindReNew(project, date);
+//    this.remindReNew(project, date);
+    ProjectUserTodoItemEntity userTodoItemEntity1 = ProjectUserTodoItemEntity.builder().project(id).user(project.getCompany()).projectName(project.getProjectName()).item(SystemConstant.RENEW_PROJECT).createTime(date).build();
+    projectUserTodoItemService.addItem(userTodoItemEntity1, "", null, date);
+    projectMessageService.save(ProjectMessageEntity.builder().project(id).receiver(SystemConstant.ROLE_COM).content(SystemConstant.REMIND_RENEW_PROJECT).appendContent("代办事项").itemId(String.valueOf(userTodoItemEntity.getId())).createTime(date.getTime()).build());
     //项目结束的定时任务
     this.endProject(project);
     projectUserTodoItemService.finishItemWithUser(id, SystemConstant.PAY_ITEM_KEY, date);
