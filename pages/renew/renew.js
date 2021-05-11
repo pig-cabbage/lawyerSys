@@ -35,7 +35,7 @@ Page({
   initData : function(){
     var that = this;
     wx.request({
-      url: app.globalData.baseUrl + "/api/project/system/plan/" + that.data.projectId + '/closestRecord',
+      url: app.globalData.baseUrl + "/api/project/distributePlan/" + that.data.projectId + '/closestRecord',
       method : 'GET',
       header : {
         'cookie' : wx.getStorageSync("sessionid")
