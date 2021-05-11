@@ -25,6 +25,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -145,15 +147,15 @@ public class StatisticalLawyerServiceImpl extends ServiceImpl<StatisticalLawyerD
     } else {
 //      Date endTime = new Date(date.getTime() + SystemConstant.CHANGE_LAWYER_GOV * SystemConstant.MS_OF_DAY);
 //      endTime.setTime(new Date(endTime.getYear(), endTime.getMonth(), endTime.getDate()).getTime());
-      Date endTime = date;
-      lawyerEntity.setEndTime(endTime);
-      lawyerEntity.setCost((double) (endTime.getTime() - lawyerEntity.getStartTime().getTime()) / (SystemConstant.MS_OF_DAY * SystemConstant.MONTH_DAY) * endServiceDTO.getChargeStandard().doubleValue());
+      lawyerEntity.setEndTime(date);
+      Double cost = ((double) (date.getTime() - lawyerEntity.getStartTime().getTime())) / (SystemConstant.MS_OF_DAY * SystemConstant.MONTH_DAY) * endServiceDTO.getChargeStandard().doubleValue();
+      lawyerEntity.setCost(new BigDecimal(cost).setScale(2, RoundingMode.HALF_UP).doubleValue());
       this.updateById(lawyerEntity);
-      projectMessageService.save(ProjectMessageEntity.builder().project(endServiceDTO.getProject()).receiver(SystemConstant.ROLE_COM).content("律师的服务将于 " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endTime) + "终止").createTime(date.getTime()).build());
-      projectMessageService.save(ProjectMessageEntity.builder().project(endServiceDTO.getProject()).receiver(SystemConstant.ROLE_LAW).content("您对该项目的服务将于 " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endTime) + "终止").createTime(date.getTime()).build());
+      projectMessageService.save(ProjectMessageEntity.builder().project(endServiceDTO.getProject()).receiver(SystemConstant.ROLE_COM).content("律师的服务将于 " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date) + "终止").createTime(date.getTime()).build());
+      projectMessageService.save(ProjectMessageEntity.builder().project(endServiceDTO.getProject()).receiver(SystemConstant.ROLE_LAW).content("您对该项目的服务将于 " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date) + "终止").createTime(date.getTime()).build());
       //创建定时任务
       projectChatService.remove(new QueryWrapper<ProjectChatEntity>().eq("project", endServiceDTO.getProject()).eq("lawyer", endServiceDTO.getLawyer()));
-      systemMessageService.save(SystemMessageEntity.builder().receiver(endServiceDTO.getLawyer()).content("您对项目：" + projectBaseService.getById(endServiceDTO.getLawyer()).getProjectName() + " 已结束。").createTime(date.getTime()).build());
+      systemMessageService.save(SystemMessageEntity.builder().receiver(endServiceDTO.getLawyer()).content("您对项目：" + projectBaseService.getById(endServiceDTO.getProject()).getProjectName() + " 已结束。").createTime(date.getTime()).build());
       projectMessageService.save(ProjectMessageEntity.builder().project(endServiceDTO.getProject()).receiver(SystemConstant.ROLE_COM).content(SystemConstant.END_SERVICE_TO_COMPANY).createTime(date.getTime()).build());
 //      try {
 //        scheduler.deleteJob(new JobKey(String.valueOf(SystemConstant.DELETE_CHAT_RECORD), String.valueOf(endServiceDTO.getProject())));

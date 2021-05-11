@@ -398,7 +398,7 @@ public class ProjectBaseServiceImpl extends ServiceImpl<ProjectBaseDao, ProjectB
         Long itemId = projectUserTodoItemService.addItem(userTodoItemEntity, project.getNowLawyer(), projectChangeLawyerAuditEntity.getId(), date);
         projectMessageService.save(ProjectMessageEntity.builder().project(id).receiver(SystemConstant.ROLE_COM).content(SystemConstant.CHANGE_LAWYER_AUDIT_SUCCESS_LAWYER_TO_COMPANY).appendContent("审核意见：" + projectChangeLawyerAuditEntity.getAdvice()).itemId(String.valueOf(itemId)).createTime(date.getTime()).build());
         updateStatus(project, ProjectConstant.ProjectStatusEnum.RE_CHOOSE_LAWYER);
-        EndServiceDTO endServiceDTO = EndServiceDTO.builder().project(id).lawyer(project.getNowLawyer()).company(project.getCompany()).date(date).build();
+        EndServiceDTO endServiceDTO = EndServiceDTO.builder().project(id).lawyer(project.getNowLawyer()).company(project.getCompany()).chargeStandard(serviceLevelService.getById(servicePlanService.getById(project.getPlan()).getServiceLevel()).getChargeStandard()).date(date).build();
         statisticalLawyerService.endService(endServiceDTO, date);
       }
     }
@@ -481,7 +481,7 @@ public class ProjectBaseServiceImpl extends ServiceImpl<ProjectBaseDao, ProjectB
     Assert.isNotNull(projectCompanyEvaluationEntity);
     ProjectBaseEntity project = this.getById(id);
     Assert.isNotNull(project);
-    Assert.isTrueStatus(project, ProjectConstant.ProjectStatusEnum.SERVICING, ProjectConstant.ProjectStatusEnum.END_WAIT_TO_EVALUATION);
+//    Assert.isTrueStatus(project, ProjectConstant.ProjectStatusEnum.SERVICING, ProjectConstant.ProjectStatusEnum.END_WAIT_TO_EVALUATION);
     Date date = new Date();
     projectCompanyEvaluationEntity.setProject(id);
     projectCompanyEvaluationEntity.setCreateTime(date);
@@ -507,7 +507,7 @@ public class ProjectBaseServiceImpl extends ServiceImpl<ProjectBaseDao, ProjectB
     Assert.isNotNull(id);
     ProjectBaseEntity project = this.getById(id);
     Assert.isNotNull(project);
-    Assert.isTrueStatus(project, ProjectConstant.ProjectStatusEnum.SERVICING);
+//    Assert.isTrueStatus(project, ProjectConstant.ProjectStatusEnum.SERVICING);
     Date date = new Date();
     project.setEndTime(projectPlanEntity.getEndTime());
     project.setCost(project.getCost().add(projectPlanEntity.getCost()));

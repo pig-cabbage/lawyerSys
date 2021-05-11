@@ -41,8 +41,8 @@ public class SystemConstant {
 
   public static final Integer MAX_CHAR_RECORD_REDIS = 30;
 
-  public static final Integer MONTH_DAY = 30;
-  public static final Integer MS_OF_DAY = 24 * 60 * 60 * 1000;
+  public static final Long MONTH_DAY = 30L;
+  public static final Long MS_OF_DAY = 86400000L;
 
   //系统消息常量
   public static final String PROCESS_CER = "系统已完成对您发起的身份认证申请的审核, 店家查看审核结果。";
