@@ -132,7 +132,7 @@ Page({
   modalConfirm3 : function(){
     var that = this;
     wx.request({
-      url: app.globalData.baseUrl + "/api/project/" + that.data.project + "/determineUnderTake",
+      url: app.globalData.baseUrl + "/api/project/" + that.data.project + "/lawyer/determineUnderTake",
       method : "POST",
       header : {
         'cookie' : wx.getStorageSync("sessionid")
@@ -338,7 +338,7 @@ Page({
       })
     }else{
       wx.request({
-        url: app.globalData.baseUrl + "/api/project/" + that.data.project + "/dealChangeLawyer",
+        url: app.globalData.baseUrl + "/api/project/" + that.data.project + "/lawyer/dealChangeLawyer",
         method : "POST",
         header : {
           'cookie' : wx.getStorageSync("sessionid")
