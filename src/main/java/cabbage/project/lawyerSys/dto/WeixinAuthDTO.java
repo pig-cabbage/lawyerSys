@@ -8,5 +8,5 @@ public class WeixinAuthDTO {
   private String session_key;
   private String unionid;
   private Integer errcode;
-  private Integer errmsg;
+  private String errmsg;
 }

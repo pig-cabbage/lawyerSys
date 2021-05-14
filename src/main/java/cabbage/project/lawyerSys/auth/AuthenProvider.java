@@ -65,6 +65,11 @@ public class AuthenProvider implements AuthenticationProvider {
       HttpEntity entity = httpResponse.getEntity();
       String s = EntityUtils.toString(entity);//转换成字符串
       WeixinAuthDTO weixinAuthDTO = JSONObject.parseObject(s, WeixinAuthDTO.class);
+      Assert.isNotNull(weixinAuthDTO.getErrcode(), errCode -> {
+        if (40029 == errCode || 45011 == errCode) {
+          throw new AuthenticationServiceException("请求微信数据失败", RunException.builder().code(ExceptionCode.GET_WEIXIN_AUTH_FAIL).build());
+        }
+      });
       UserAccountEntity account = userAccountService.getById(weixinAuthDTO.getOpenid());
       if (account != null) {
         if (!form.getRole().equals(account.getRole())) {

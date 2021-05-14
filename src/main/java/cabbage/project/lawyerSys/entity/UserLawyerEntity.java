@@ -37,12 +37,10 @@ public class UserLawyerEntity implements Serializable {
   /**
    *
    */
-  @ListValue(vals = {0, 1})
   private Integer sex;
   /**
    *
    */
-  @ListValue(vals = {0, 1, 2, 3})
   private Integer degree;
   /**
    *

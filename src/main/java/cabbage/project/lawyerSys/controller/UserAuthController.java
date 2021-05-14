@@ -44,15 +44,7 @@ public class UserAuthController {
   }
 
 
-  /**
-   * 列表
-   */
-  @RequestMapping("/list")
-  public R list(@RequestParam Map<String, Object> params) {
-    PageUtils page = userAuthService.queryPage(params);
 
-    return R.ok().put("page", page);
-  }
 
 
   /**
@@ -64,34 +56,5 @@ public class UserAuthController {
     return R.ok().put("entity", userAuth);
   }
 
-  /**
-   * 保存
-   */
-  @RequestMapping("/save")
-  public R save(@RequestBody UserAuthEntity userAuth) {
-    userAuthService.save(userAuth);
-
-    return R.ok();
-  }
-
-  /**
-   * 修改
-   */
-  @RequestMapping("/update")
-  public R update(@RequestBody UserAuthEntity userAuth) {
-    userAuthService.updateById(userAuth);
-
-    return R.ok();
-  }
-
-  /**
-   * 删除
-   */
-  @RequestMapping("/delete")
-  public R delete(@RequestBody Integer[] ids) {
-    userAuthService.removeByIds(Arrays.asList(ids));
-
-    return R.ok();
-  }
 
 }

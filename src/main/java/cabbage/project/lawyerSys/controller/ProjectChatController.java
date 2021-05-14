@@ -31,7 +31,7 @@ public class ProjectChatController {
   }
 
   @RequestMapping("/{session}/more")
-  public R latestRecord(@PathVariable("session") String sessionId, @RequestParam Map<String, Object> params) {
+  public R moreRecord(@PathVariable("session") String sessionId, @RequestParam Map<String, Object> params) {
     PageUtils page = projectChatRecordService.queryPage(sessionId, params);
     return R.ok().put("page", page);
   }

@@ -41,11 +41,11 @@ public class ServicePlanController {
    * 上传文件模板
    * 127.0.0.1:8080/api/service/plan/{id}/fileUpload
    */
-  @RequestMapping("/{id}/fileUpload")
-  public R fileUpload(@PathVariable("id") Long id, @RequestBody ServiceFileTemplateVo serviceFileTemplateVo) {
-    servicePlanService.fileUpload(id, serviceFileTemplateVo);
-    return R.ok();
-  }
+//  @RequestMapping("/{id}/fileUpload")
+//  public R fileUpload(@PathVariable("id") Long id, @RequestBody ServiceFileTemplateVo serviceFileTemplateVo) {
+//    servicePlanService.fileUpload(id, serviceFileTemplateVo);
+//    return R.ok();
+//  }
 
   /**
    * 列表

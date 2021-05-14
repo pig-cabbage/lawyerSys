@@ -51,7 +51,7 @@ spring:
     url: jdbc:mysql://129.204.20.87:3307/lawyer_db?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: root
-  profiles: dev1
+  profiles: prod_before
 server:
   port: 8111
   ssl:

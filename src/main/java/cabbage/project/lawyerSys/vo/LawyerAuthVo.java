@@ -1,5 +1,6 @@
 package cabbage.project.lawyerSys.vo;
 
+import cabbage.project.lawyerSys.common.valid.ListValue;
 import lombok.Data;
 
 /**
@@ -18,7 +19,9 @@ public class LawyerAuthVo {
   private String account;
   private String name;
   private String phoneNumber;
+  @ListValue(vals = {0, 1})
   private Integer sex;
+  @ListValue(vals = {0, 1, 2, 3})
   private Integer degree;
   private Integer workTime;
   private String lawyerLicense;
